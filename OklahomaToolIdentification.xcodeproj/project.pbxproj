@@ -3,17 +3,17 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C1E601C2B4FF8810025DA76 /* ToolIdentification in Frameworks */ = {isa = PBXBuildFile; productRef = 9C1E601B2B4FF8810025DA76 /* ToolIdentification */; };
 		9C4EB3402B4E82BC000FFDFC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4EB33F2B4E82BC000FFDFC /* AppDelegate.swift */; };
 		9C4EB3422B4E82BC000FFDFC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4EB3412B4E82BC000FFDFC /* SceneDelegate.swift */; };
 		9C4EB3442B4E82BC000FFDFC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4EB3432B4E82BC000FFDFC /* ViewController.swift */; };
 		9C4EB3472B4E82BC000FFDFC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C4EB3452B4E82BC000FFDFC /* Main.storyboard */; };
 		9C4EB3492B4E82C0000FFDFC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C4EB3482B4E82C0000FFDFC /* Assets.xcassets */; };
 		9C4EB34C2B4E82C0000FFDFC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C4EB34A2B4E82C0000FFDFC /* LaunchScreen.storyboard */; };
-		9CB0E6002B4FC94B00BBFD47 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB0E5FF2B4FC94B00BBFD47 /* HomeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,7 +26,6 @@
 		9C4EB34B2B4E82C0000FFDFC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9C4EB34D2B4E82C0000FFDFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C4EB3542B4E83AE000FFDFC /* ToolIdentification */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ToolIdentification; sourceTree = "<group>"; };
-		9CB0E5FF2B4FC94B00BBFD47 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C1E601C2B4FF8810025DA76 /* ToolIdentification in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,7 +60,6 @@
 		9C4EB33E2B4E82BC000FFDFC /* OklahomaToolIdentification */ = {
 			isa = PBXGroup;
 			children = (
-				9CB0E5FF2B4FC94B00BBFD47 /* HomeView.swift */,
 				9C4EB33F2B4E82BC000FFDFC /* AppDelegate.swift */,
 				9C4EB3412B4E82BC000FFDFC /* SceneDelegate.swift */,
 				9C4EB3432B4E82BC000FFDFC /* ViewController.swift */,
@@ -88,6 +87,9 @@
 			dependencies = (
 			);
 			name = OklahomaToolIdentification;
+			packageProductDependencies = (
+				9C1E601B2B4FF8810025DA76 /* ToolIdentification */,
+			);
 			productName = OklahomaToolIdentification;
 			productReference = 9C4EB33C2B4E82BC000FFDFC /* OklahomaToolIdentification.app */;
 			productType = "com.apple.product-type.application";
@@ -116,6 +118,9 @@
 				Base,
 			);
 			mainGroup = 9C4EB3332B4E82BC000FFDFC;
+			packageReferences = (
+				9C1E601A2B4FF8810025DA76 /* XCLocalSwiftPackageReference "ToolIdentification" */,
+			);
 			productRefGroup = 9C4EB33D2B4E82BC000FFDFC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -144,7 +149,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C4EB3442B4E82BC000FFDFC /* ViewController.swift in Sources */,
-				9CB0E6002B4FC94B00BBFD47 /* HomeView.swift in Sources */,
 				9C4EB3402B4E82BC000FFDFC /* AppDelegate.swift in Sources */,
 				9C4EB3422B4E82BC000FFDFC /* SceneDelegate.swift in Sources */,
 			);
@@ -371,6 +375,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		9C1E601A2B4FF8810025DA76 /* XCLocalSwiftPackageReference "ToolIdentification" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ToolIdentification;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9C1E601B2B4FF8810025DA76 /* ToolIdentification */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ToolIdentification;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9C4EB3342B4E82BC000FFDFC /* Project object */;
 }
