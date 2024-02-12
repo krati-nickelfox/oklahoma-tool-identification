@@ -9,14 +9,23 @@ import Foundation
 
 public enum QuizError: Error {
     case invalidXML
+    case invalidJSON
     case databaseError(Error)
 }
 
+public enum FileType {
+    case XML
+    case JSON
+}
+
 public struct QuizConfiguration {
-    let xmlFilePath: URL
+    let fileName: String
+    let fileType: FileType
     
-    public init(xmlFilePath: URL) {
-        self.xmlFilePath = xmlFilePath
+    public init(fileName: String,
+                fileType: FileType) {
+        self.fileName = fileName
+        self.fileType = fileType
     }
 }
 

@@ -84,10 +84,10 @@ public struct HomeView: View {
                         Button(action: {
                             
                         }, label: {
-                            Text("Reset Progress Reset Progress")
+                            Text("Reset Progress")
                                 .fontWeight(.bold)
                                 .foregroundStyle(.black)
-                                .frame(height: 0.06 * ScreenSize.height)
+                                .frame(width: 0.5 * ScreenSize.width, height: 0.06 * ScreenSize.height)
                                 .padding(.horizontal, 20)
                                 .background(.yellow)
                                 .cornerRadius(10)

@@ -14,8 +14,12 @@ public class QuizManager: NSObject, XMLParserDelegate {
     /// The configuration for the quiz
     private let configuration: QuizConfiguration
     
-    private var xmlFilePath: URL {
-        self.configuration.xmlFilePath
+    private var fileName: String {
+        self.configuration.fileName
+    }
+    
+    private var fileType: FileType {
+        self.configuration.fileType
     }
     
     init(configuration: QuizConfiguration) {
@@ -23,11 +27,18 @@ public class QuizManager: NSObject, XMLParserDelegate {
     }
     
     public func initializeQuiz() {
-        self.parseXML()
+        if self.fileType == .XML {
+            self.parseXML()
+        } else {
+            self.parseJSON()
+        }
     }
     
+    /// Parses xml file from the given path
     private func parseXML() {
-        guard let parser = XMLParser(contentsOf: self.xmlFilePath) else {
+        guard let xmlFilePath = Bundle.main.url(forResource: self.fileName,
+                                                withExtension: "xml"),
+              let parser = XMLParser(contentsOf: xmlFilePath) else {
             print(QuizError.invalidXML)
             return
         }
@@ -35,12 +46,29 @@ public class QuizManager: NSObject, XMLParserDelegate {
         parser.parse()
     }
     
+    private func parseJSON() {
+        guard let url = Bundle.main.url(forResource: self.fileName, withExtension: "json"),
+              let data = try? Data(contentsOf: url) else {
+            print(QuizError.invalidJSON)
+            return
+        }
+        do {
+            let json = try JSONSerialization.jsonObject(with: data, options: [])
+            print("------JSON parsing started------")
+            if let chapters = json as? [[String: Any]] {
+                print(chapters)
+            }
+        } catch {
+            print(QuizError.invalidJSON)
+        }
+    }
+    
 }
 
 // MARK: - XMLParserDelegate
 extension QuizManager {
     public func parserDidStartDocument(_ parser: XMLParser) {
-        print("------parsing started------")
+        print("------XML parsing started------")
     }
     
     public func parser(_ parser: XMLParser,

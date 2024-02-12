@@ -16,8 +16,14 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         self.initializePackage()
     }
-
+    
     func initializePackage() {
+        // Confiigure package
+        let configuration = QuizConfiguration(fileName: "Questions", fileType: .JSON)
+        ToolIdentification.configure(with: configuration)
+        ToolIdentification.quizManager?.initializeQuiz()
+        
+        // Add home view from the package
         let swiftUIView = HomeView()
         let vc = UIHostingController(rootView: swiftUIView)
         vc.view.frame = self.view.bounds

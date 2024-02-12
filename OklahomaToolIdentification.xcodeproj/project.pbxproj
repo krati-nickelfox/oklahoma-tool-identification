@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9C1E601C2B4FF8810025DA76 /* ToolIdentification in Frameworks */ = {isa = PBXBuildFile; productRef = 9C1E601B2B4FF8810025DA76 /* ToolIdentification */; };
 		9C1E601F2B50572E0025DA76 /* questions.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9C1E601E2B50572E0025DA76 /* questions.xml */; };
+		9C404CF52B7A1576003A90CE /* Questions.json in Resources */ = {isa = PBXBuildFile; fileRef = 9C404CF42B7A1575003A90CE /* Questions.json */; };
 		9C4EB3402B4E82BC000FFDFC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4EB33F2B4E82BC000FFDFC /* AppDelegate.swift */; };
 		9C4EB3422B4E82BC000FFDFC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4EB3412B4E82BC000FFDFC /* SceneDelegate.swift */; };
 		9C4EB3442B4E82BC000FFDFC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4EB3432B4E82BC000FFDFC /* ViewController.swift */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		9C1E601E2B50572E0025DA76 /* questions.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = questions.xml; sourceTree = "<group>"; };
+		9C404CF42B7A1575003A90CE /* Questions.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Questions.json; sourceTree = "<group>"; };
 		9C4EB33C2B4E82BC000FFDFC /* OklahomaToolIdentification.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OklahomaToolIdentification.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C4EB33F2B4E82BC000FFDFC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9C4EB3412B4E82BC000FFDFC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -45,6 +47,7 @@
 		9C1E601D2B5057010025DA76 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9C404CF42B7A1575003A90CE /* Questions.json */,
 				9C1E601E2B50572E0025DA76 /* questions.xml */,
 			);
 			path = Resources;
@@ -147,6 +150,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C4EB34C2B4E82C0000FFDFC /* LaunchScreen.storyboard in Resources */,
+				9C404CF52B7A1576003A90CE /* Questions.json in Resources */,
 				9C4EB3492B4E82C0000FFDFC /* Assets.xcassets in Resources */,
 				9C4EB3472B4E82BC000FFDFC /* Main.storyboard in Resources */,
 				9C1E601F2B50572E0025DA76 /* questions.xml in Resources */,
