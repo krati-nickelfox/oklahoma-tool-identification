@@ -54,7 +54,7 @@ public class QuizManager: NSObject, XMLParserDelegate {
             return
         }
         do {
-            let json = try JSONSerialization.jsonObject(with: data, options: [])
+            _ = try JSONSerialization.jsonObject(with: data, options: [])
             print("------JSON PARSING STARTED------\n")
             
             if let categoriesData = try? JSONDecoder().decode([Question].self, from: data) {
