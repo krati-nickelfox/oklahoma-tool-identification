@@ -6,99 +6,182 @@
 
 import SwiftUI
 
-struct ScreenSize {
-    static let width = UIScreen.main.bounds.size.width
-    static let height = UIScreen.main.bounds.size.height
+public enum NavigationType {
+    case practiceExam
+    case studyDeck
+    case reports
 }
 
 public struct HomeView: View {
     
-    let primaryGradientColor = Color(red: 0.137,
-                                     green: 0.121,
-                                     blue: 0.125)
-    public init() {}
+    let backgroundImageName: String
+    let appLogoName: String
     
+    public init(
+        backgroundImageName: String,
+        appLogoName: String
+    ) {
+        self.backgroundImageName = backgroundImageName
+        self.appLogoName = appLogoName
+    }
+    
+    // MARK: Body
     public var body: some View {
         ZStack {
-            /// Background Image view
-            Image("HomeIcon") // Fixme: Required to be configured
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-            
-            LinearGradient(colors: [primaryGradientColor.opacity(0.82),
-                                    primaryGradientColor.opacity(0.74),
-                                    primaryGradientColor.opacity(0.68),
-                                    primaryGradientColor.opacity(0.48),
-                                    primaryGradientColor.opacity(0.41),
-                                    primaryGradientColor.opacity(0)],
-                           startPoint: .top,
-                           endPoint: .bottom)
-            
-            VStack {
-                VStack(spacing: 65) {
-                    /// App specific logo icon with edition details
-                    Image("IFSTAIcon") // Fixme: Required to be configured
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 0.5 * ScreenSize.width)
-                    
-                    VStack(spacing: 20) {
-                        Text("Identify")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .foregroundStyle(.white)
-                            .frame(height: 50)
-                        
-                        Capsule()
-                            .frame(width: 55, height: 7)
-                            .foregroundStyle(.white)
-                    }
-                }
-                
+            /// Dynamic background image
+            backgroundImageView
+            blackGradientView
+            /// To manage the content over the image
+            VStack(alignment: .center, spacing: 37) {
+                topAppLogoView
+                identifyTitleView
                 Spacer()
-                
-                VStack(spacing: 65) {
-                    VStack(spacing: 28) {
-                        Text("Container Identification")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .foregroundStyle(.white)
-                        
-                        Text("Remaining Questions :  157/ 157")
-                            .fontWeight(.regular)
-                            .foregroundStyle(.white)
-                    }
-                    
-                    VStack(spacing: 30) {
-                        Button(action: {
-                            
-                        }, label: {
-                            Text("Let’s Begin")
-                                .fontWeight(.bold)
-                                .foregroundStyle(.black)
-                                .frame(width: 0.5 * ScreenSize.width, height: 0.06 * ScreenSize.height)
-                                .background(.yellow)
-                                .cornerRadius(10)
-                        })
-                        
-                        Button(action: {
-                            
-                        }, label: {
-                            Text("Reset Progress")
-                                .fontWeight(.bold)
-                                .foregroundStyle(.black)
-                                .frame(width: 0.5 * ScreenSize.width, height: 0.06 * ScreenSize.height)
-                                .padding(.horizontal, 20)
-                                .background(.yellow)
-                                .cornerRadius(10)
-                        })
-                    }
-                }
-                
+                centerTileVew
                 Spacer()
             }
-            .padding(.top, 0.20 * ScreenSize.width)
         }
-        .ignoresSafeArea()
+        .background(.black)
+    }
+    
+    // MARK: Background Image
+    var backgroundImageView: some View {
+        Image(self.backgroundImageName)
+            .resizable()
+            .frame(maxHeight: .infinity)
+            .edgesIgnoringSafeArea(.bottom)
+    }
+    
+    // MARK: Black Gradient
+    var blackGradientView: some View {
+        VStack {
+            LinearGradient(
+                colors: [
+                    .black,
+                    .clear
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .frame(height: UIScreen.main.bounds.height/1.2)
+            
+            Spacer()
+        }
+    }
+    
+    // MARK: App Logo
+    var topAppLogoView: some View {
+        Image(self.appLogoName)
+            .padding(.top, 30)
+    }
+    
+    // MARK: Title
+    var identifyTitleView: some View {
+        VStack(spacing: 12) {
+            Text("Identify")
+                .font(.largeTitle)
+                .bold()
+                .foregroundColor(.white)
+            
+            RoundedRectangle(cornerRadius: 4)
+                .frame(
+                    width: 35,
+                    height: 4
+                )
+                .foregroundColor(.white)
+        }
+    }
+    
+    // MARK: Center Tiles
+    // Start Practice, Study Deck and Reports
+    var centerTileVew: some View {
+        GeometryReader { geometry in
+            VStack(spacing: 16) {
+                // Start Practice
+                Button { } label: {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(
+                                .gray,
+                                lineWidth: 2
+                            )
+                            .background(.black.opacity(0.11))
+                            .frame(height: 120)
+                            .padding(
+                                .horizontal,
+                                24
+                            )
+                        
+                        VStack(spacing: 8, content: {
+                            Image("practice-exam")
+                                .frame(
+                                    width: 24,
+                                    height: 24
+                                )
+                            
+                            Text("Start Practice")
+                                .foregroundColor(.white)
+                        })
+                    }
+                }
+                .buttonStyle(PlainButtonStyle())
+                
+                HStack(spacing: 11) {
+                    // Study Deck
+                    Button { } label: {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(
+                                    .gray,
+                                    lineWidth: 2
+                                )
+                                .background(.black.opacity(0.11))
+                                .frame(height: 120)
+                            
+                            VStack(spacing: 8, content: {
+                                Image("study-deck")
+                                    .frame(
+                                        width: 24,
+                                        height: 24
+                                    )
+                                
+                                Text("Review My Study Deck")
+                                    .foregroundColor(.white)
+                                    .multilineTextAlignment(.center)
+                            })
+                        }
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    // View Reports
+                    Button { } label: {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(
+                                    .gray,
+                                    lineWidth: 2
+                                )
+                                .background(.black.opacity(0.11))
+                                .frame(height: 120)
+                            
+                            VStack(spacing: 8, content: {
+                                Image("reports")
+                                    .frame(
+                                        width: 24,
+                                        height: 24
+                                    )
+                                
+                                Text("View Reports")
+                                    .foregroundColor(.white)
+                                    .multilineTextAlignment(.center)
+                            })
+                        }
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
+                .padding(.horizontal, 24)
+                .frame(maxWidth: geometry.size.width)
+            }
+            .frame(maxWidth: geometry.size.width)
+        }
     }
 }
