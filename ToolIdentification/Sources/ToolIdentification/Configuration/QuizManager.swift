@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 public class QuizManager: NSObject, XMLParserDelegate {
     
@@ -54,21 +55,48 @@ public class QuizManager: NSObject, XMLParserDelegate {
         }
         do {
             let json = try JSONSerialization.jsonObject(with: data, options: [])
-            print("------JSON parsing started------")
-            if let chapters = json as? [[String: Any]] {
-                print(chapters)
+            print("------JSON PARSING STARTED------\n")
+            
+            if let categoriesData = try? JSONDecoder().decode([Question].self, from: data) {
+                
+                // Initialize Realm
+                let realm = try Realm()
+                
+                // Write categories to Realm database
+                try realm.write {
+                    realm.add(categoriesData)
+                }
+                print("------SAVED DATA TO REALM------\n")
+
+                #if DEBUG
+                // Access questions in Realm
+                let questions = realm.objects(Question.self)
+                print("------FETCHING DATA BACK FROM REALM------\n")
+
+                for question in questions {
+                    
+                    print("Category: \(question.categoryName)")
+                    print("Subcategory: \(question.subcategoryName)")
+                    
+                    print("Question: \(question.descriptionText)")
+                    print("Options:")
+                    for option in question.options {
+                        print(" - \(option.title)")
+                    }
+                    print("Correct Option: \(question.correctOption)")
+                }
+                #endif
             }
         } catch {
-            print(QuizError.invalidJSON)
+            print(error.localizedDescription)
         }
     }
-    
 }
 
 // MARK: - XMLParserDelegate
 extension QuizManager {
     public func parserDidStartDocument(_ parser: XMLParser) {
-        print("------XML parsing started------")
+        print("------XML parsing started------\n")
     }
     
     public func parser(_ parser: XMLParser,

@@ -6,7 +6,10 @@
     "imageId": "q1",
     "description": "A hazardous material is any substance or material that poses an unreasonable risk to health, safety, property, and/or the environment:",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "1"
   },
   {
@@ -16,7 +19,10 @@
     "imageId": "q2",
     "description": "What term may include weaponized chemical, biological, radiological, nuclear, or explosives (CBRNE)?",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "2"
   },
   {
@@ -26,7 +32,10 @@
     "imageId": "q3",
     "description": "",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "0"
   },
   {
@@ -36,7 +45,10 @@
     "imageId": "q4",
     "description": "Issues that can complicate the response to hazmat incidents include:",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "3"
   },
   {
@@ -46,7 +58,10 @@
     "imageId": "q5",
     "description": "Because hazmat spills, releases, and incidents are common, several different U.S. government agencies:",
     "imageCourtesy": "IFSTA",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "0"
   },
   {
@@ -56,7 +71,10 @@
     "imageId": "q6",
     "description": "",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "3"
   },
   {
@@ -66,7 +84,10 @@
     "imageId": "q7",
     "description": "What is a key component to preventing injuries at a hazmat incident?",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "3"
   },
   {
@@ -76,7 +97,10 @@
     "imageId": "q8",
     "description": "In which harm mechanism are responders exposed to extremes of hot or cold temperatures?",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "0"
   },
   {
@@ -86,7 +110,10 @@
     "imageId": "q9",
     "description": "",
     "imageCourtesy": "IFSTA",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "0"
   },
   {
@@ -96,7 +123,10 @@
     "imageId": "q10",
     "description": "A negative effect from the harm mechanism of exposure to chemicals or toxic materials is:",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "3"
   },
   {
@@ -106,7 +136,10 @@
     "imageId": "q11",
     "description": "Which mechanism of harm is associated with the hazards of flying debris from explosions, trips and falls on uneven ground, and hearing loss caused by exposure to excessive noise?",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "2"
   },
   {
@@ -116,7 +149,10 @@
     "imageId": "q12",
     "description": "Which exposure route is the most common in hazmat incidents and requires that responders don respiratory protection while on the scene?",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "2"
   },
   {
@@ -126,7 +162,10 @@
     "imageId": "q13",
     "description": "",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "2"
   },
   {
@@ -136,7 +175,10 @@
     "imageId": "q14",
     "description": "To prevent the accidental ingestion of hazardous materials, it is important to:",
     "imageCourtesy": "IFSTA",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "0"
   },
   {
@@ -146,7 +188,10 @@
     "imageId": "q15",
     "description": "Which route of exposure requires that crewmembers be protected from contaminated or potentially contaminated objects easily capable of cutting or puncturing their skin?",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "0"
   },
   {
@@ -156,7 +201,10 @@
     "imageId": "q16",
     "description": "If an apparatus driver/operator steps in diesel fuel and diesel droplets or vapors come into contact with their shoes or clothing, they have been _____ by the diesel fuel.",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "2"
   },
   {
@@ -166,7 +214,10 @@
     "imageId": "q17",
     "description": "What is it called when a contaminant is inadvertently moved from one location to another?",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "3"
   },
   {
@@ -176,7 +227,10 @@
     "imageId": "q18",
     "description": "",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "3"
   },
   {
@@ -186,7 +240,10 @@
     "imageId": "q19",
     "description": "Acute exposure to a hazardous material indicates that a responder has been exposed to the material:",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "0"
   },
   {
@@ -196,7 +253,10 @@
     "imageId": "q20",
     "description": "Responders who are exposed to a hazardous material at recurring intervals for a long period of time have experienced a(an) _____ exposure.",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "2"
   },
   {
@@ -206,7 +266,10 @@
     "imageId": "q21",
     "description": "",
     "imageCourtesy": "IFSTA",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "2"
   },
   {
@@ -216,7 +279,10 @@
     "imageId": "q22",
     "description": "The role of first responders in hazmat incidents is partially established by laws that set forth response limitations and:",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "2"
   },
   {
@@ -226,7 +292,10 @@
     "imageId": "q23",
     "description": "",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "3"
   },
   {
@@ -236,7 +305,10 @@
     "imageId": "q24",
     "description": "Awareness Level Personnel are individuals who, in the course of their normal duties,:",
     "imageCourtesy": "IFSTA",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",    
     "correctOption": "2"
   },
   {
@@ -246,7 +318,10 @@
     "imageId": "q25",
     "description": "What responsibility are Awareness Level Personnel expected to assume when faced with an incident involving hazardous materials?",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "0"
   },
   {
@@ -256,7 +331,10 @@
     "imageId": "q26",
     "description": "When responding to an incident involving hazardous materials, a responsibility of Awareness Level Personnel is to:",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "3"
   },
   {
@@ -266,7 +344,10 @@
     "imageId": "q27",
     "description": "",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "3"
   },
   {
@@ -276,7 +357,10 @@
     "imageId": "q28",
     "description": "During which step in the APIE-T process would Awareness Level Personnel consider clues such as container shape and transportation or facility markings?",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "1"
   },
   {
@@ -286,7 +370,10 @@
     "imageId": "q29",
     "description": "",
     "imageCourtesy": "IFSTA",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "0"
   },
   {
@@ -296,7 +383,10 @@
     "imageId": "q30",
     "description": "A regulation is a document that details procedures for implementing, complying, and enforcing the law, and the document:",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "0"
   },
   {
@@ -306,7 +396,10 @@
     "imageId": "q31",
     "description": "A set of systematically grouped laws, regulations, or standards that are usually set forth and enforced by a government agency for the protection of public safety are referred to as:",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "0"
   },
   {
@@ -316,7 +409,10 @@
     "imageId": "q32",
     "description": "",
     "imageCourtesy": "IFSTA",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "2"
   },
   {
@@ -326,7 +422,10 @@
     "imageId": "q33",
     "description": "Standards are applied at national, state, regional, and even international levels and are:",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "1"
   },
   {
@@ -336,7 +435,10 @@
     "imageId": "q34",
     "description": "For hazmat requirements, individual states:",
     "imageCourtesy": "IFSTA",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "0"
   },
   {
@@ -346,7 +448,10 @@
     "imageId": "q35",
     "description": "Local Emergency Planning Committees (LEPCs) are responsible for:",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "2"
   },
   {
@@ -356,7 +461,10 @@
     "imageId": "q36",
     "description": "If the scope of an emergency is more extensive than can be managed by local response agencies, the Emergency Operations Center (EOC) can then request assistance from:",
     "imageCourtesy": "html",
-    "options": "option a, option b, option c, option d",
+    "optionA": "option a",
+    "optionB": "option b",
+    "optionC": "option c",
+    "optionD": "option d",
     "correctOption": "0"
   }
 ]
