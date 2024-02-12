@@ -78,8 +78,7 @@ public struct HomeView: View {
     var identifyTitleView: some View {
         VStack(spacing: 12) {
             Text("Identify")
-                .font(.largeTitle)
-                .bold()
+                .font(.custom("Helvetica Neue Medium", size: 36))
                 .foregroundColor(.white)
             
             RoundedRectangle(cornerRadius: 4)
@@ -119,6 +118,8 @@ public struct HomeView: View {
                                 )
                             
                             Text("Start Practice")
+                            // FIXME: Font to be updated below with Lato
+                                .font(.custom("Helvetica Neue Medium", size: 16))
                                 .foregroundColor(.white)
                         })
                     }
@@ -145,6 +146,8 @@ public struct HomeView: View {
                                     )
                                 
                                 Text("Review My Study Deck")
+                                // FIXME: Font to be updated below with Lato
+                                    .font(.custom("Helvetica Neue Medium", size: 16))
                                     .foregroundColor(.white)
                                     .multilineTextAlignment(.center)
                             })
@@ -171,6 +174,8 @@ public struct HomeView: View {
                                     )
                                 
                                 Text("View Reports")
+                                // FIXME: Font to be updated below with Lato
+                                    .font(.custom("Helvetica Neue Medium", size: 16))
                                     .foregroundColor(.white)
                                     .multilineTextAlignment(.center)
                             })

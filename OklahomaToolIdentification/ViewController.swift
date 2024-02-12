@@ -35,7 +35,6 @@ class ViewController: UIViewController {
         self.view.subviews.forEach({ $0.removeFromSuperview() })
         self.view.addSubview(vc.view)
         vc.didMove(toParent: self)
-
     }
 
 }
