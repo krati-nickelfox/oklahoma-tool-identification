@@ -18,8 +18,11 @@ class ViewController: UIViewController {
     }
     
     func initializePackage() {
-        // Confiigure package
-        let configuration = QuizConfiguration(fileName: "Questions", fileType: .JSON)
+        // Package Configuration
+        // Feed actual Realm schema version
+        let configuration = QuizConfiguration(fileName: "Questions",
+                                              fileType: .JSON,
+                                              schemaVersion: 1)
         ToolIdentification.configure(with: configuration)
         ToolIdentification.quizManager?.initializeQuiz()
         

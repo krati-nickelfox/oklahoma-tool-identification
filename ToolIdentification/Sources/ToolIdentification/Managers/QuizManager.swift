@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import RealmSwift
 
 public class QuizManager: NSObject, XMLParserDelegate {
     
@@ -23,8 +22,16 @@ public class QuizManager: NSObject, XMLParserDelegate {
         self.configuration.fileType
     }
     
+    var schemaVersion: Int {
+        self.configuration.schemaVersion
+    }
+    
     init(configuration: QuizConfiguration) {
         self.configuration = configuration
+        // set Realm schema version
+        RealmManager.shared.schemaVersion = configuration.schemaVersion
+        // check for Realm Migration
+        RealmManager.shared.checkForMigration()
     }
     
     public func initializeQuiz() {
@@ -57,10 +64,8 @@ public class QuizManager: NSObject, XMLParserDelegate {
             _ = try JSONSerialization.jsonObject(with: data, options: [])
             print("------JSON PARSING STARTED------\n")
             
-            if let categoriesData = try? JSONDecoder().decode([Question].self, from: data) {
-                
-                // Initialize Realm
-                let realm = try Realm()
+            if let categoriesData = try? JSONDecoder().decode([Question].self, from: data),
+               let realm = RealmManager.realm {
                 
                 // Write categories to Realm database
                 try realm.write {
