@@ -32,6 +32,8 @@ public struct HomeView: View {
         ZStack {
             /// Dynamic background image
             backgroundImageView
+                .overlay(Color.black.opacity(showMenuView ? 0.4 : 0) // Black shadow overlay with opacity
+                        .edgesIgnoringSafeArea(.all))
             blackGradientView
             /// To manage the content over the image
             VStack(alignment: .center, spacing: 37) {
