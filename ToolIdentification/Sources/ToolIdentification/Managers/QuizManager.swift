@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 public class QuizManager: NSObject, XMLParserDelegate {
     
@@ -89,6 +90,7 @@ public class QuizManager: NSObject, XMLParserDelegate {
                         print(" - \(option.title)")
                     }
                     print("Correct Option: \(question.correctOption)")
+                    print("Added to Study Deck: \(question.isAddedToStudyDeck)")
                 }
                 #endif
             }

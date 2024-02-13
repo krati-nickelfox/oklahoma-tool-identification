@@ -14,6 +14,8 @@ public enum NavigationType {
 
 public struct HomeView: View {
     
+    @State var showMenuView: Bool = false
+    
     let backgroundImageName: String
     let appLogoName: String
     
@@ -38,6 +40,9 @@ public struct HomeView: View {
                 Spacer()
                 centerTileVew
                 Spacer()
+                if self.showMenuView {
+                    menuOptionsView
+                }
             }
         }
         .background(.black)
@@ -70,8 +75,26 @@ public struct HomeView: View {
     
     // MARK: App Logo
     var topAppLogoView: some View {
-        Image(self.appLogoName)
-            .padding(.top, 30)
+        ZStack {
+            HStack {
+                Spacer()
+                Image(self.appLogoName)
+                    .padding(.top, 30)
+                Spacer()
+            }
+            
+            HStack {
+                Spacer()
+                Button(action: {
+                    self.showMenuView = true
+                }, label: {
+                    Image("menu")
+                        .resizable()
+                        .frame(width: 5, height: 20)
+                })
+                .padding(.trailing, 24)
+            }
+        }
     }
     
     // MARK: Title
@@ -194,5 +217,37 @@ public struct HomeView: View {
             }
             .frame(maxWidth: geometry.size.width)
         }
+    }
+    
+    var menuOptionsView: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 8)
+            
+            HStack {
+                VStack(spacing: 32) {
+                    Button(action: {
+                        self.showMenuView = false
+                    }, label: {
+                        Text("Clear Study Deck")
+                            .foregroundColor(.white)
+                            .font(.custom("Lato-Bold", size: 16))
+                    })
+                    
+                    Button(action: {
+                        self.showMenuView = false
+                    }, label: {
+                        Text("Clear Test Results")
+                            .foregroundColor(.white)
+                            .font(.custom("Lato-Bold", size: 16))
+                    })
+                }
+                
+                Spacer()
+            }
+            .padding(.horizontal, 20)
+        }
+        .foregroundColor(Color(red: 52/255, green: 52/255, blue: 52/255))
+        .frame(height: 120)
+        .padding(.horizontal, 10)
     }
 }

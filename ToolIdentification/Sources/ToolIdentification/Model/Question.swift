@@ -20,10 +20,6 @@ class Question: Object, Decodable {
     @Persisted var isAddedToStudyDeck: Bool
     @Persisted var options: List<Option> = List<Option>()
     
-    override class func primaryKey() -> String? {
-        return "id"
-    }
-    
     enum CodingKeys: String, CodingKey {
         case id
         case imageId
