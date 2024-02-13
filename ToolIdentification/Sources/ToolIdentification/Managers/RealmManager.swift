@@ -40,4 +40,14 @@ struct RealmManager {
             print("Migration_Error:", error)
         }
     }
+    
+    static func fetchStudyDeckQuestions() -> Results<Question>? {
+        guard let realm = RealmManager.realm else {
+            return nil
+        }
+        let predicate = NSPredicate(format: "isAddedToStudyDeck == true")
+        let questions = realm.objects(Question.self).filter(predicate)
+        
+        return questions
+    }
 }

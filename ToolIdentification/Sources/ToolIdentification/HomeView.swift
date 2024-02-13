@@ -128,7 +128,13 @@ public struct HomeView: View {
                 
                 HStack(spacing: 11) {
                     // Study Deck
-                    Button { } label: {
+                    Button {
+                        if let studyDeckQuestions = RealmManager.fetchStudyDeckQuestions(), !studyDeckQuestions.isEmpty {
+                            print("Navigating to Study Deck View")
+                        } else {
+                            print("No questions found in study deck")
+                        }
+                    } label: {
                         ZStack {
                             RoundedRectangle(cornerRadius: 12)
                                 .stroke(
@@ -146,7 +152,7 @@ public struct HomeView: View {
                                     )
                                 
                                 Text("Review My Study Deck")
-                                // FIXME: Font to be updated below with Lato
+                                    // FIXME: Font to be updated below with Lato
                                     .font(.custom("Helvetica Neue Medium", size: 16))
                                     .foregroundColor(.white)
                                     .multilineTextAlignment(.center)
