@@ -6,25 +6,28 @@
 
 import SwiftUI
 
-public enum NavigationType {
-    case practiceExam
-    case studyDeck
-    case reports
-}
-
 public struct HomeView: View {
     
     @State var showMenuView: Bool = false
     
     let backgroundImageName: String
     let appLogoName: String
+    let practiceExamIcon: String
+    let studyDeckIcon: String
+    let reportsIcon: String
     
     public init(
         backgroundImageName: String,
-        appLogoName: String
+        appLogoName: String,
+        practiceExamIcon: String,
+        studyDeckIcon: String,
+        reportsIcon: String
     ) {
         self.backgroundImageName = backgroundImageName
         self.appLogoName = appLogoName
+        self.practiceExamIcon = practiceExamIcon
+        self.studyDeckIcon = studyDeckIcon
+        self.reportsIcon = reportsIcon
     }
     
     // MARK: Body
@@ -140,7 +143,7 @@ public struct HomeView: View {
                             )
                         
                         VStack(spacing: 8, content: {
-                            Image("practice-exam")
+                            Image(self.practiceExamIcon)
                                 .frame(
                                     width: 24,
                                     height: 24
@@ -174,7 +177,7 @@ public struct HomeView: View {
                                 .frame(height: 120)
                             
                             VStack(spacing: 8, content: {
-                                Image("study-deck")
+                                Image(self.studyDeckIcon)
                                     .frame(
                                         width: 24,
                                         height: 24
@@ -209,7 +212,7 @@ public struct HomeView: View {
                                 .frame(height: 120)
                             
                             VStack(spacing: 8, content: {
-                                Image("reports")
+                                Image(self.reportsIcon)
                                     .frame(
                                         width: 24,
                                         height: 24
@@ -247,7 +250,7 @@ public struct HomeView: View {
                             .foregroundColor(.white)
                             .font(.custom("Lato-Bold", size: 16))
                     })
-                    
+                    // Clear Reports
                     Button(action: {
                         RealmManager.clearReports()
                         self.showMenuView = false
