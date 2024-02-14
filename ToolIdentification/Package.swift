@@ -25,6 +25,10 @@ let package = Package(
             name: "ToolIdentification",
             dependencies: [
                 .product(name: "RealmSwift", package: "Realm")
+            ],
+            path: "Sources",
+            resources: [
+                .process("Resources/Media.xcassets")
             ]),
         .testTarget(
             name: "ToolIdentificationTests",

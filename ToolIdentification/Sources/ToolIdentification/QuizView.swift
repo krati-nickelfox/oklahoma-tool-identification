@@ -9,8 +9,36 @@ import SwiftUI
 
 public struct QuizView: View {
         
+    enum Optionstate {
+        case none
+        case correct
+        case incorrect
+        
+        var color: Color {
+            switch self {
+            case .none:
+                Color(red: 0.26, green: 0.26, blue: 0.25)
+            case .correct:
+                Color(red: 0.37, green: 0.81, blue: 0.49)
+            case .incorrect:
+                Color(red: 0.86, green: 0.39, blue: 0.31)
+            }
+        }
+        
+        var image: String {
+            switch self {
+            case .correct: "TickMarkIcon"
+            case .incorrect: "CrossMarkIcon"
+            case .none: ""
+            }
+        }
+    }
+    
     public init() {}
     
+    @State var optionState: Optionstate = .incorrect
+    @State var isAddedToStudyDeck = false
+
     public var body: some View {
         ZStack(alignment: .bottom) {
             /// Background
@@ -97,21 +125,76 @@ public struct QuizView: View {
                         Text("What is the label's name displayed in the top right corner of the fire extinguisher in the provided image?")
                             .multilineTextAlignment(.leading)
                             .foregroundStyle(.white)
-                            .padding(.bottom, 32)
+                            .padding(.bottom, 16)
                         
+                        Button(action: {
+                            
+                        }, label: {
+                            Color.init(red: 0.96,
+                                       green: 0.75,
+                                       blue: 0.015)
+                            .clipShape(.rect(cornerRadius: 4))
+                            .frame(width: UIScreen.main.bounds.width * 0.35)
+                            .frame(height: 28)
+                            .overlay(
+                                HStack(spacing: 6) {
+                                    Rectangle()
+                                        .fill(self.isAddedToStudyDeck
+                                              ? .white
+                                              : .clear)
+                                        .frame(width: 15, height: 15)
+                                        .border(.white)
+                                        .overlay {
+                                            if self.isAddedToStudyDeck {
+                                                Image("TickMarkIcon", bundle: .module)
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fit)
+                                                    .frame(width: 15, height: 15)
+                                            }
+                                        }
+                                    Text(self.isAddedToStudyDeck
+                                         ? "Added to Study Deck"
+                                         : "Add to Study Deck")
+                                        .foregroundColor(.white)
+                                        .font(.caption)
+                                }
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 4)
+                            )
+                        })
+                        .padding(.bottom, 20)
+                               
                         /// Options list
                         VStack(spacing: 20) {
                             ForEach(0..<4) { index in
                                 RoundedRectangle(cornerRadius: 12)
-                                    .fill(Color(red: 0.26, green: 0.26, blue: 0.25))
+                                    .fill(self.optionState.color)
                                     .frame(minHeight: 48)
                                     .overlay {
-                                        Text("Option \(index), Option \(index), Option \(index), Option \(index), Option \(index)")
-                                            .foregroundStyle(.white)
-                                            .multilineTextAlignment(.leading)
-                                            .lineLimit(2)
-                                            .padding(.vertical, 16)
-                                            .padding(.horizontal, 20)
+                                        HStack(spacing: 10) {
+                                            Text("Option \(index)")
+                                                .multilineTextAlignment(.leading)
+                                                .lineLimit(2)
+                                            
+                                            //
+                                            if self.optionState != .none {
+                                                Spacer()
+                                                
+                                                Circle()
+                                                    .fill(self.optionState.color.opacity(0.4))
+                                                    .frame(width: 24, height: 24)
+                                                    .overlay {
+                                                        Image(self.optionState.image, bundle: .module)
+                                                                .resizable()
+                                                                .aspectRatio(contentMode: .fit)
+                                                                .padding(5)
+                                                    }
+                                            }
+                                        }
+                                        .frame(alignment: .leading)
+                                        .foregroundStyle(.white)
+                                        .padding(.vertical, 16)
+                                        .padding(.horizontal, 20)
                                     }
                                     .overlay {
                                         RoundedRectangle(cornerRadius: 12)
@@ -124,6 +207,9 @@ public struct QuizView: View {
                                     }
                                     .padding(.horizontal, 1)
                                     .shadow(color: .white.opacity(0.08), radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/, x: 0, y: 4)
+                                    .onTapGesture {
+                                        self.optionState = .correct
+                                    }
 
                             }
                         }
