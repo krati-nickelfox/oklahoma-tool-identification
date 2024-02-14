@@ -11,14 +11,16 @@ struct HeaderView: View {
     let title: String
     let leftButtonAction: (() -> Void)?
     let rightButtonAction: (() -> Void)?
+    let leftIconName: String?
+    let rightIconName: String?
     
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
-            if let leftButtonAction = leftButtonAction {
+            if let leftIconName = leftIconName, let leftButtonAction = leftButtonAction {
                 Button(action: {
                     leftButtonAction()
                 }, label: {
-                    Image(systemName: "chevron.left")
+                    Image(leftIconName)
                         .foregroundColor(.white)
                 })
                 .frame(width: 24, height: 24)
@@ -31,11 +33,11 @@ struct HeaderView: View {
             
             Spacer()
             
-            if let rightButtonAction = rightButtonAction {
+            if let rightIconName = rightIconName, let rightButtonAction = rightButtonAction {
                 Button(action: {
                     rightButtonAction()
                 }, label: {
-                    Image("exit-icon")
+                    Image(rightIconName)
                         .foregroundColor(.white)
                 })
                 .frame(width: 24, height: 24)
