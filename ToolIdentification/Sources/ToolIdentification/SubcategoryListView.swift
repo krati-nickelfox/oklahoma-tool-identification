@@ -20,13 +20,18 @@ public struct SubcategoryListView: View {
         ZStack {
             VStack(spacing: 20) {
                 topHeaderView
-                listHeaderView
-                subcategoriesView
+                ScrollView(showsIndicators: false) {
+                    listHeaderView
+                    subcategoriesView
+                }
                 Spacer()
             }
         }
         .background(Color(red: 35/255, green: 31/255, blue: 32/255))
         .ignoresSafeArea()
+        .onAppear {
+            self.viewModel.fetchAllSubcategories()
+        }
     }
     
     // MARK: Header
@@ -63,8 +68,7 @@ public struct SubcategoryListView: View {
     // MARK: Subcategories listing
     var subcategoriesView: some View {
         VStack(alignment: .leading, spacing: 18) {
-            ScrollView {
-                ForEach(0..<10) { num in
+                ForEach(self.viewModel.subcategoryNames.indices, id: \.self) { index in
                     VStack(spacing: 12) {
                         HStack(alignment: .center, spacing: 12) {
                             
@@ -72,23 +76,23 @@ public struct SubcategoryListView: View {
                                 .resizable()
                                 .frame(width: 48, height: 48)
                             
-                            Text("Subcategory\(num+1)")
+                            Text(self.viewModel.subcategoryNames[index])
                                 .foregroundColor(.white)
                                 .font(.headline)
                             
                             Spacer()
                             
                             if !self.isCheckmarkNotVisible {
-                                Image(self.viewModel.selectedChapters.contains(num) ? "checkmark-filled" : "checkmark-unfilled")
+                                Image(self.viewModel.selectedChapters.contains(index) ? "checkmark-filled" : "checkmark-unfilled")
                             }
                         }
                         .onTapGesture {
                             // Toggle the selection state of the chapter
                             self.isCheckmarkNotVisible = false
-                            if self.viewModel.selectedChapters.contains(num) {
-                                self.viewModel.selectedChapters.remove(num)
+                            if self.viewModel.selectedChapters.contains(index) {
+                                self.viewModel.selectedChapters.remove(index)
                             } else {
-                                self.viewModel.selectedChapters.insert(num)
+                                self.viewModel.selectedChapters.insert(index)
                             }
                         }
                         
@@ -98,7 +102,6 @@ public struct SubcategoryListView: View {
                     }
                     .padding(.horizontal, 20)
                 }
-            }
         }
     }
 }

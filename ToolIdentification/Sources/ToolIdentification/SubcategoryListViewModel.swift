@@ -10,6 +10,7 @@ import Foundation
 class SubcategoryListViewModel: ObservableObject {
     
     @Published var selectedChapters: Set<Int> = []
+    @Published var subcategoryNames: [String] = []
     
     init() { }
     
@@ -19,5 +20,12 @@ class SubcategoryListViewModel: ObservableObject {
         } else {
             selectedChapters.insert(chapter)
         }
+    }
+    
+    func fetchAllSubcategories() {
+        if let subcategories = RealmManager.fetchAllSubcategoryNames() {
+            self.subcategoryNames = subcategories
+        }
+        print("Subcategories are: ", self.subcategoryNames)
     }
 }

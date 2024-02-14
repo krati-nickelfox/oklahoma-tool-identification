@@ -56,9 +56,7 @@ struct RealmManager {
         guard let realm = realm else {
             return
         }
-        
         let studyDeckQuestions = realm.objects(Question.self).filter("isAddedToStudyDeck == true")
-        
         if !studyDeckQuestions.isEmpty {
             for practiceQuestion in studyDeckQuestions {
                 do {
@@ -79,9 +77,7 @@ struct RealmManager {
             print("Realm is not initialized.")
             return
         }
-        
         let attemptedQuestions = realm.objects(Question.self).filter("isAttempted == true")
-        
         do {
             try realm.write {
                 for question in attemptedQuestions {
@@ -92,5 +88,18 @@ struct RealmManager {
         } catch {
             print("Error clearing reports: \(error.localizedDescription)")
         }
+    }
+    
+    static func fetchAllSubcategoryNames() -> [String]? {
+        guard let realm = realm else {
+            print("Realm is not initialized.")
+            return nil
+        }
+        var subcategoryNames: [String] = []
+        let subcategories = realm.objects(Question.self).map { $0 }
+        for subcategory in subcategories {
+            subcategoryNames.append(subcategory.subcategoryName)
+        }
+        return subcategoryNames
     }
 }

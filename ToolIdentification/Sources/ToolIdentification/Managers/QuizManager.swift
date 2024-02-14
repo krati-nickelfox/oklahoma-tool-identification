@@ -80,7 +80,6 @@ public class QuizManager: NSObject, XMLParserDelegate {
                 print("------FETCHING DATA BACK FROM REALM------\n")
 
                 for question in questions {
-                    
                     print("Category: \(question.categoryName)")
                     print("Subcategory: \(question.subcategoryName)")
                     

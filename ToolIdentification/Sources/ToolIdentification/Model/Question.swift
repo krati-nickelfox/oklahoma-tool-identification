@@ -7,7 +7,7 @@
 
 import RealmSwift
 
-class Question: Object, Decodable {
+class Question: Object, Decodable, Identifiable {
     @Persisted var categoryName: String
     @Persisted var subcategoryName: String
     @Persisted var id: String
@@ -24,6 +24,7 @@ class Question: Object, Decodable {
     enum CodingKeys: String, CodingKey {
         case id
         case imageId
+        case subcategoryName
         case descriptionText = "description"
         case imageCourtesy
         case optionA
@@ -37,6 +38,7 @@ class Question: Object, Decodable {
         self.init()
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(String.self, forKey: .id)
+        subcategoryName = try container.decode(String.self, forKey: .subcategoryName)
         imageId = try container.decode(String.self, forKey: .imageId)
         descriptionText = try container.decode(String.self, forKey: .descriptionText)
         imageCourtesy = try container.decode(String.self, forKey: .imageCourtesy)
