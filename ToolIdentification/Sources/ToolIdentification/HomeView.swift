@@ -238,7 +238,9 @@ public struct HomeView: View {
             
             HStack {
                 VStack(spacing: 32) {
+                    // Clear Study Deck
                     Button(action: {
+                        RealmManager.clearStudyDeck()
                         self.showMenuView = false
                     }, label: {
                         Text("Clear Study Deck")
@@ -247,6 +249,7 @@ public struct HomeView: View {
                     })
                     
                     Button(action: {
+                        RealmManager.clearReports()
                         self.showMenuView = false
                     }, label: {
                         Text("Clear Test Results")

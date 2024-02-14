@@ -1,6 +1,6 @@
 //
 //  RealmManager.swift
-//  
+//
 //
 //  Created by Krati Mittal on 12/02/24.
 //
@@ -12,9 +12,9 @@ struct RealmManager {
     
     static var shared = RealmManager()
     var schemaVersion = 1
-
+    
     private init() {}
-
+    
     static var realm: Realm? {
         do {
             return try Realm()
@@ -50,5 +50,47 @@ struct RealmManager {
         guard let realm = RealmManager.realm else { return nil }
         let identifyCategories = realm.objects(Question.self).filter("isAttempted == true")
         return identifyCategories
+    }
+    
+    static func clearStudyDeck() {
+        guard let realm = realm else {
+            return
+        }
+        
+        let studyDeckQuestions = realm.objects(Question.self).filter("isAddedToStudyDeck == true")
+        
+        if !studyDeckQuestions.isEmpty {
+            for practiceQuestion in studyDeckQuestions {
+                do {
+                    try realm.write {
+                        practiceQuestion.isAddedToStudyDeck = false
+                    }
+                } catch {
+                    print("Realm Error while clearing study Deck")
+                }
+            }
+        } else {
+            print("No questions found in the study deck.")
+        }
+    }
+    
+    static func clearReports() {
+        guard let realm = RealmManager.realm else {
+            print("Realm is not initialized.")
+            return
+        }
+        
+        let attemptedQuestions = realm.objects(Question.self).filter("isAttempted == true")
+        
+        do {
+            try realm.write {
+                for question in attemptedQuestions {
+                    question.isAttempted = false
+                }
+            }
+            print("Reports cleared successfully.")
+        } catch {
+            print("Error clearing reports: \(error.localizedDescription)")
+        }
     }
 }
