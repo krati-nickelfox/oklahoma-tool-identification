@@ -16,6 +16,10 @@ public struct HomeView: View {
     let studyDeckIcon: String
     let reportsIcon: String
     
+    @State private var isShowingCategorySheet = false
+    @State private var selectedCategory: String = ""
+    let categories = ["Placards", "Containers", "Both"]
+    
     public init(
         backgroundImageName: String,
         appLogoName: String,
@@ -55,6 +59,19 @@ public struct HomeView: View {
             }
         }
         .background(.black)
+        .alert("Select Category", isPresented: self.$isShowingCategorySheet) {
+            Button("Placards", action: {
+                self.selectedCategory = "Placards"
+            })
+            Button("Containers", action: {
+                self.selectedCategory = "Containers"
+            })
+            Button("Both", action: {
+                self.selectedCategory = "Both"
+            })
+            Button("Cancel", action: {})
+                .foregroundColor(.red)
+        }
     }
     
     // MARK: Background Image
@@ -128,7 +145,9 @@ public struct HomeView: View {
         GeometryReader { geometry in
             VStack(spacing: 16) {
                 // Start Practice
-                Button { } label: {
+                Button { 
+                    self.isShowingCategorySheet = true
+                } label: {
                     ZStack {
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(
@@ -268,5 +287,19 @@ public struct HomeView: View {
         .foregroundColor(Color(red: 52/255, green: 52/255, blue: 52/255))
         .frame(height: 120)
         .padding(.horizontal, 10)
+    }
+    
+    var categoryView: some View {
+        VStack {
+            Text("Selected Category: \(selectedCategory)")
+                .padding()
+            
+            Button(action: {
+                self.isShowingCategorySheet.toggle()
+            }) {
+                Text("Select Category")
+            }
+            .padding()
+        }
     }
 }
