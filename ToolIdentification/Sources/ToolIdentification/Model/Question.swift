@@ -16,6 +16,7 @@ class Question: Object, Decodable {
     @Persisted var imageCourtesy: String = "IFSTA"
     @Persisted var correctOption: String = "0"
     @Persisted var isCorrect: Bool
+    @Persisted var isAttempted: Bool
     @Persisted var isSkipped: Bool
     @Persisted var isAddedToStudyDeck: Bool
     @Persisted var options: List<Option> = List<Option>()

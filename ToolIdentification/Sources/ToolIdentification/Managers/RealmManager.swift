@@ -41,13 +41,14 @@ struct RealmManager {
         }
     }
     
-    static func fetchStudyDeckQuestions() -> Results<Question>? {
-        guard let realm = RealmManager.realm else {
-            return nil
-        }
-        let predicate = NSPredicate(format: "isAddedToStudyDeck == true")
-        let questions = realm.objects(Question.self).filter(predicate)
-        
-        return questions
+    static func questionsAddedToStudyDeck() -> Results<Question>? {
+        let studyDeskChapters = realm?.objects(Question.self).filter("isAddedToStudyDeck == true")
+        return studyDeskChapters
+    }
+    
+    static func reportsAvailableForCategories() -> Results<Question>? {
+        guard let realm = RealmManager.realm else { return nil }
+        let identifyCategories = realm.objects(Question.self).filter("isAttempted == true")
+        return identifyCategories
     }
 }

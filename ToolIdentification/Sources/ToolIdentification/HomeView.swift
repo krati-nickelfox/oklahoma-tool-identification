@@ -34,6 +34,9 @@ public struct HomeView: View {
             backgroundImageView
                 .overlay(Color.black.opacity(showMenuView ? 0.4 : 0) // Black shadow overlay with opacity
                         .edgesIgnoringSafeArea(.all))
+                .onTapGesture {
+                    self.showMenuView = false
+                }
             blackGradientView
             /// To manage the content over the image
             VStack(alignment: .center, spacing: 37) {
@@ -44,6 +47,7 @@ public struct HomeView: View {
                 Spacer()
                 if self.showMenuView {
                     menuOptionsView
+                        .padding(.bottom, 40)
                 }
             }
         }
@@ -88,7 +92,7 @@ public struct HomeView: View {
             HStack {
                 Spacer()
                 Button(action: {
-                    self.showMenuView = true
+                    self.showMenuView.toggle()
                 }, label: {
                     Image("menu")
                         .resizable()
@@ -154,7 +158,7 @@ public struct HomeView: View {
                 HStack(spacing: 11) {
                     // Study Deck
                     Button {
-                        if let studyDeckQuestions = RealmManager.fetchStudyDeckQuestions(), !studyDeckQuestions.isEmpty {
+                        if let studyDeckQuestions = RealmManager.questionsAddedToStudyDeck(), !studyDeckQuestions.isEmpty {
                             print("Navigating to Study Deck View")
                         } else {
                             print("No questions found in study deck")
@@ -187,7 +191,14 @@ public struct HomeView: View {
                     .buttonStyle(PlainButtonStyle())
                     
                     // View Reports
-                    Button { } label: {
+                    Button {
+                        if let reportsAvailable = RealmManager.reportsAvailableForCategories(),
+                           !reportsAvailable.isEmpty {
+                            print("Reports Available!!")
+                        } else {
+                            print("Reports Not Available!!")
+                        }
+                    } label: {
                         ZStack {
                             RoundedRectangle(cornerRadius: 12)
                                 .stroke(
