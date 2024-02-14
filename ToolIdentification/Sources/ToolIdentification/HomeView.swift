@@ -18,7 +18,6 @@ public struct HomeView: View {
     
     @State private var isShowingCategorySheet = false
     @State private var selectedCategory: String = ""
-    let categories = ["Placards", "Containers", "Both"]
     
     public init(
         backgroundImageName: String,
