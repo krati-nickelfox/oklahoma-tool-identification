@@ -19,6 +19,8 @@ public struct HomeView: View {
     let reportsIcon: String
     
     @State private var isShowingCategorySheet = false
+    @State private var activateLink: Bool = false
+    @State private var showCategoriesAlert: Bool = false
     @State private var selectedCategory: String = ""
     
     public init(
@@ -74,21 +76,15 @@ public struct HomeView: View {
                         Text(category)
                     }
                 }
-                /// To show and select all categories in case of count  > 2
-                if self.viewModel.categoryNames.count > 2 {
+                /// When the categories are more than 1
+                if self.viewModel.categoryNames.count > 1 {
                     Button(action: {
-                        self.viewModel.selectedCategoryList = self.viewModel.categoryNames
+                        self.viewModel.selectAllCategories()
                     }) {
-                        Text("All")
-                    }
-                } else if self.viewModel.categoryNames.count == 2 { /// To show and select all categories in case of count  == 2
-                    Button(action: {
-                        self.viewModel.selectedCategoryList = self.viewModel.categoryNames
-                    }) {
-                        Text("Both")
+                        Text(self.viewModel.categoryNames.count > 2 ? "All" : "Both")
                     }
                 }
-                
+                // To toggle isShowingCategorySheet to false
                 Button(action: {
                     self.isShowingCategorySheet = false
                 }) {
@@ -279,6 +275,7 @@ public struct HomeView: View {
         }
     }
     
+    // MARK: Menu options view - Clear study deck/test reports
     var menuOptionsView: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 8)

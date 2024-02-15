@@ -20,4 +20,8 @@ class HomeViewModel: ObservableObject {
             self.categoryNames = categoryNames
         }
     }
+    
+    func selectAllCategories() {
+        self.selectedCategoryList = self.categoryNames
+    }
 }
