@@ -38,6 +38,13 @@ public struct SubcategoryListView: View {
                 }
                 Spacer()
             }
+            if self.viewModel.selectedChapters.count > 0 {
+                VStack {
+                    Spacer()
+                    nextButtonView
+                }
+                .padding(.bottom, 60)
+            }
         }
         .background(Color(red: 35/255, green: 31/255, blue: 32/255))
         .ignoresSafeArea()
@@ -114,5 +121,22 @@ public struct SubcategoryListView: View {
                     .padding(.horizontal, 20)
                 }
         }
+    }
+    
+    var nextButtonView: some View {
+        Button {
+            //
+        } label: {
+            ZStack {
+                RoundedRectangle(cornerRadius: 12)
+                    .frame(width: 148, height: 48)
+                    .foregroundColor(.yellow)
+                
+                Text("Next")
+                    .foregroundColor(.black)
+                    .bold()
+            }
+        }
+
     }
 }
