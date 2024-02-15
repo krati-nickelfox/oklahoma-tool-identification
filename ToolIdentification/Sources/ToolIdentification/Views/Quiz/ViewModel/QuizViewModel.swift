@@ -89,6 +89,10 @@ class QuizViewModel: ObservableObject {
 
 // MARK: Active Question details
 extension QuizViewModel {
+    var isQuizLoaded: Bool {
+        self.activeQuestion != nil
+    }
+    
     var totalQuestionCount: Int {
         self.questions.count
     }
