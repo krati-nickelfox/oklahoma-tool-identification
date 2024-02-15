@@ -54,6 +54,10 @@ public struct HomeView: View {
                     Spacer()
                     centerTileVew
                     Spacer()
+                }
+                .disabled(showMenuView)
+                VStack {
+                    Spacer()
                     if self.showMenuView {
                         menuOptionsView
                             .padding(.bottom, 40)
@@ -109,6 +113,9 @@ public struct HomeView: View {
                             .foregroundColor(.red)
                     }
                 }
+            }
+            .onTapGesture {
+                self.showMenuView = false
             }
         }
         .navigationBarHidden(true)
