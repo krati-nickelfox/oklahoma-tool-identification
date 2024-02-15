@@ -15,6 +15,9 @@ public class QuizManager: NSObject, XMLParserDelegate {
     /// The configuration for the quiz
     private let configuration: QuizConfiguration
     
+    var selectedCategory: String?
+    var selectedSubcategoryList: [String]?
+
     private var fileName: String {
         self.configuration.fileName
     }
@@ -127,5 +130,51 @@ extension QuizManager {
     
     public func parserDidEndDocument(_ parser: XMLParser) {
         print("------parsing ended------")
+    }
+}
+
+//
+extension QuizManager {
+    func fetchAllQuestions() -> [Question] {
+        var questions = [Question]()
+        if let realm = RealmManager.realm {
+            // Access questions in Realm
+            questions = Array(realm.objects(Question.self))
+        }
+        return questions
+    }
+    
+    func resetAttemptedQuizState() {
+        if let realm = RealmManager.realm {
+            let questions = Array(realm.objects(Question.self))
+            
+            do {
+                try realm.write {
+                    questions.forEach { question in
+                        question.isAttempted = false
+                        question.isSkipped = false
+                    }
+                }
+            } catch {
+                
+            }
+        }
+    }
+    
+    func writeAttemptedQuestion(_ question: Question, 
+                                isAttempted: Bool,
+                                isCorrect: Bool,
+                                isSkipped: Bool) {
+        if let realm = RealmManager.realm {
+            do {
+                try realm.write {
+                    question.isAttempted = isAttempted
+                    question.isCorrect = isCorrect
+                    question.isSkipped = isSkipped
+                }
+            } catch {
+                
+            }
+        }
     }
 }
