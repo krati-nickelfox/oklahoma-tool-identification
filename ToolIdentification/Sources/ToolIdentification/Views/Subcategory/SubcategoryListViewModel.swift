@@ -44,6 +44,6 @@ public class SubcategoryListViewModel: ObservableObject {
     }
     
     func didTapNextButton() {
-        ToolIdentification.quizManager?.selectedSubcategoryList = self.subcategoryNames
+        ToolIdentification.quizManager?.selectedSubcategoryList = self.selectedSubcategories
     }
 }

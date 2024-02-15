@@ -121,13 +121,16 @@ public struct SubcategoryListView: View {
                             Spacer()
                             
                             if !self.isCheckmarkNotVisible {
-                                Image(self.viewModel.selectedSubcategories.contains(self.viewModel.subcategoryNames[index]) ? "checkmark-filled" : "checkmark-unfilled")
+                                Image(self.viewModel.selectedSubcategories.contains(self.viewModel.subcategoryNames[index])
+                                      ? "checkmark-filled"
+                                      : "checkmark-unfilled",
+                                      bundle: .module)
                             }
                         }
                         .onTapGesture {
                             // Toggle the selection state of the chapter
                             self.isCheckmarkNotVisible = false
-                            self.viewModel.toggleSelection(for: index)
+                            self.viewModel.toggleSelection(for: self.viewModel.subcategoryNames[index])
                         }
                         
                         Rectangle()
@@ -136,6 +139,7 @@ public struct SubcategoryListView: View {
                     }
                     .padding(.horizontal, 20)
                 }
+            }
         }
     }
 }
