@@ -19,9 +19,7 @@ public struct HomeView: View {
     let reportsIcon: String
     
     @State private var isShowingCategorySheet = false
-    @State private var activateLink: Bool = false
-    @State private var showCategoriesAlert: Bool = false
-    @State private var selectedCategory: String = ""
+    @State private var isNavigationActive = false
     
     public init(
         backgroundImageName: String,
@@ -39,60 +37,77 @@ public struct HomeView: View {
     
     // MARK: Body
     public var body: some View {
-        ZStack {
-            /// Dynamic background image
-            backgroundImageView
-                .overlay(Color.black.opacity(showMenuView ? 0.4 : 0) // Black shadow overlay with opacity
+        NavigationView {
+            ZStack {
+                /// Dynamic background image
+                backgroundImageView
+                    .overlay(Color.black.opacity(showMenuView ? 0.4 : 0) // Black shadow overlay with opacity
                         .edgesIgnoringSafeArea(.all))
-                .onTapGesture {
-                    self.showMenuView = false
+                    .onTapGesture {
+                        self.showMenuView = false
+                    }
+                blackGradientView
+                /// To manage the content over the image
+                VStack(alignment: .center, spacing: 37) {
+                    topAppLogoView
+                    identifyTitleView
+                    Spacer()
+                    centerTileVew
+                    Spacer()
+                    if self.showMenuView {
+                        menuOptionsView
+                            .padding(.bottom, 40)
+                    }
                 }
-            blackGradientView
-            /// To manage the content over the image
-            VStack(alignment: .center, spacing: 37) {
-                topAppLogoView
-                identifyTitleView
-                Spacer()
-                centerTileVew
-                Spacer()
-                if self.showMenuView {
-                    menuOptionsView
-                        .padding(.bottom, 40)
+                /// To manage navigation to subcategory list view using navigation link as below
+                NavigationLink(
+                    destination: SubcategoryListView()
+                        .navigationBarBackButtonHidden(true),
+                    isActive: .constant(!self.viewModel.selectedCategoryList.isEmpty)
+                ) {
+                    EmptyView()
+                }
+                .hidden()
+            }
+            .background(.black)
+            .onAppear {
+                self.viewModel.fetchCategories()
+                self.viewModel.selectedCategoryList = []
+                self.isNavigationActive = false
+            }
+            /// Show category alert on selection of Start Practice
+            .alert("Select Category", isPresented: self.$isShowingCategorySheet) {
+                VStack {
+                    ForEach(self.viewModel.categoryNames, id: \.self) { category in
+                        Button(action: {
+                            self.viewModel.selectedCategoryList = [category]
+                            self.isShowingCategorySheet = false
+                            self.isNavigationActive = true
+                        }) {
+                            Text(category)
+                        }
+                    }
+                    /// When the categories are more than 1
+                    if self.viewModel.categoryNames.count > 1 {
+                        Button(action: {
+                            self.viewModel.selectAllCategories()
+                            self.isShowingCategorySheet = false
+                            self.isNavigationActive = true
+                        }) {
+                            Text(self.viewModel.categoryNames.count > 2 ? "All" : "Both")
+                        }
+                    }
+                    // To toggle isShowingCategorySheet to false
+                    Button(action: {
+                        self.isShowingCategorySheet = false
+                    }) {
+                        Text("Cancel")
+                            .foregroundColor(.red)
+                    }
                 }
             }
         }
-        .background(.black)
-        .onAppear {
-            self.viewModel.fetchCategories()
-        }
-        /// Show category alert on selection of Start Practice
-        // FIXME: To manage redirection after button from alert has been selected
-        .alert("Select Category", isPresented: self.$isShowingCategorySheet) {
-            VStack {
-                ForEach(self.viewModel.categoryNames, id: \.self) { category in
-                    Button(action: {
-                        self.viewModel.selectedCategoryList = [category]
-                    }) {
-                        Text(category)
-                    }
-                }
-                /// When the categories are more than 1
-                if self.viewModel.categoryNames.count > 1 {
-                    Button(action: {
-                        self.viewModel.selectAllCategories()
-                    }) {
-                        Text(self.viewModel.categoryNames.count > 2 ? "All" : "Both")
-                    }
-                }
-                // To toggle isShowingCategorySheet to false
-                Button(action: {
-                    self.isShowingCategorySheet = false
-                }) {
-                    Text("Cancel")
-                        .foregroundColor(.red)
-                }
-            }
-        }
+        .navigationBarHidden(true)
     }
     
     // MARK: Background Image
@@ -166,7 +181,8 @@ public struct HomeView: View {
         GeometryReader { geometry in
             VStack(spacing: 16) {
                 // Start Practice
-                Button { 
+                /// Navigation being managed in the body using NavigationLink - Line no. 63
+                Button {
                     self.isShowingCategorySheet = true
                 } label: {
                     ZStack {
@@ -195,6 +211,7 @@ public struct HomeView: View {
                                 .foregroundColor(.white)
                         })
                     }
+
                 }
                 .buttonStyle(PlainButtonStyle())
                 
