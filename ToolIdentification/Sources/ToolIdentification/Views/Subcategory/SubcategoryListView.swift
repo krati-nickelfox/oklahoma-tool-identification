@@ -18,7 +18,7 @@ public struct SubcategoryListView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var selectModuleText: String {
-        if self.viewModel.selectedChapters.count == self.viewModel.subcategoryNames.count && self.viewModel.selectedChapters.count > 0 {
+        if self.viewModel.selectedSubcategories.count == self.viewModel.subcategoryNames.count && self.viewModel.selectedSubcategories.count > 0 {
             return "Unselect All"
         } else {
             return self.isCheckmarkNotVisible ? "Select Module(s)" : "Select All"
@@ -44,7 +44,7 @@ public struct SubcategoryListView: View {
                     }
                 }
                 
-                if self.viewModel.selectedChapters.count > 0 {
+                if self.viewModel.selectedSubcategories.count > 0 {
                     VStack {
                         Spacer()
                         
@@ -84,7 +84,7 @@ public struct SubcategoryListView: View {
                 .foregroundColor(.white)
                 .font(.caption)
             
-            Text("\(self.viewModel.selectedChapters.count) Selected")
+            Text("\(self.viewModel.selectedSubcategories.count) Selected")
                 .foregroundColor(.white)
                 .bold()
             
@@ -102,7 +102,11 @@ public struct SubcategoryListView: View {
     // MARK: Subcategories listing
     var subcategoriesView: some View {
         VStack(alignment: .leading, spacing: 18) {
-                ForEach(self.viewModel.subcategoryNames.indices, id: \.self) { index in
+            ForEach(self.viewModel.subcategoryNames.indices, id: \.self) { index in
+                Button {
+                    self.isCheckmarkNotVisible = false
+                    self.viewModel.toggleSelection(for: self.viewModel.subcategoryNames[index])
+                } label: {
                     VStack(spacing: 12) {
                         HStack(alignment: .center, spacing: 12) {
                             
@@ -117,10 +121,7 @@ public struct SubcategoryListView: View {
                             Spacer()
                             
                             if !self.isCheckmarkNotVisible {
-                                Image(self.viewModel.selectedChapters.contains(index)
-                                      ? "checkmark-filled"
-                                      : "checkmark-unfilled",
-                                      bundle: .module)
+                                Image(self.viewModel.selectedSubcategories.contains(self.viewModel.subcategoryNames[index]) ? "checkmark-filled" : "checkmark-unfilled")
                             }
                         }
                         .onTapGesture {

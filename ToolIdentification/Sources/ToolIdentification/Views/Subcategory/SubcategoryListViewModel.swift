@@ -9,7 +9,7 @@ import Foundation
 
 public class SubcategoryListViewModel: ObservableObject {
     
-    @Published var selectedChapters: Set<Int> = []
+    @Published var selectedSubcategories: [String] = []
     @Published var subcategoryNames: [String] = []
     @Published var selectedCategories: [String]
     
@@ -17,20 +17,22 @@ public class SubcategoryListViewModel: ObservableObject {
         self.selectedCategories = selectedCategories
     }
     
-    func toggleSelection(for chapter: Int) {
-        if self.selectedChapters.contains(chapter) {
-            self.selectedChapters.remove(chapter)
+    func toggleSelection(for subcategoryName: String) {
+        if let index = self.selectedSubcategories.firstIndex(of: subcategoryName) {
+            self.selectedSubcategories.remove(at: index)
         } else {
-            self.selectedChapters.insert(chapter)
+            self.selectedSubcategories.append(subcategoryName)
         }
+        print("Toggle on Selection:::", self.selectedSubcategories)
     }
     
     func toggleSelectAll() {
-        if self.selectedChapters.count == self.subcategoryNames.count {
-            self.selectedChapters.removeAll()
+        if self.selectedSubcategories.count == self.subcategoryNames.count {
+            self.selectedSubcategories.removeAll()
         } else {
-            self.selectedChapters = Set(0..<self.subcategoryNames.count)
+            self.selectedSubcategories = self.subcategoryNames
         }
+        print("Toggle All:::", self.selectedSubcategories)
     }
     
     // Fetching subcategories for the selected category on home
