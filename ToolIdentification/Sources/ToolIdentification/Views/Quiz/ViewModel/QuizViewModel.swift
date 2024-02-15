@@ -24,13 +24,16 @@ class QuizViewModel: ObservableObject {
         //
         self.manager.resetAttemptedQuizState()
 
-//        if let selectedSubcategoryList = self.manager.selectedSubcategoryList {
-            // save questions
-            let allQuestions = self.manager.fetchAllQuestions()
-        self.questions = allQuestions
-            .filter({ $0.subcategoryName.lowercased() == "Placards-1".lowercased() })
-            .shuffled()
-//        }
+        let allQuestions = self.manager.fetchAllQuestions()
+        
+        if let selectedSubcategoryList = self.manager.selectedSubcategoryList {
+            selectedSubcategoryList.forEach { subcategory in
+                self.questions.append(contentsOf: allQuestions
+                    .filter({
+                        $0.subcategoryName.lowercased() == subcategory.lowercased()
+                    }).shuffled())
+            }
+        }
         if !self.questions.isEmpty {
             self.refreshActiveQuestion()
         }

@@ -40,4 +40,8 @@ public class SubcategoryListViewModel: ObservableObject {
         }
         print("Subcategories are: ", self.subcategoryNames)
     }
+    
+    func didTapNextButton() {
+        ToolIdentification.quizManager?.selectedSubcategoryList = self.subcategoryNames
+    }
 }

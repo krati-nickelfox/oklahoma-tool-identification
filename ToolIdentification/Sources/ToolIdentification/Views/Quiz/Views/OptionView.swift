@@ -20,12 +20,13 @@ struct OptionView: View {
                     Text(option.title)
                         .multilineTextAlignment(.leading)
                         .lineLimit(2)
-                    
+                        .foregroundStyle(.white)
+
                     Spacer()
 
                     if self.optionState != .none {
                         Circle()
-                            .fill(self.optionState.color.opacity(0.4))
+                            .fill(.white.opacity(0.3))
                             .frame(width: 24, height: 24)
                             .overlay {
                                 Image(self.optionState.image,
@@ -37,19 +38,22 @@ struct OptionView: View {
                     }
                 }
                 .frame(alignment: .leading)
-                .foregroundStyle(.white)
                 .padding(.vertical, 16)
                 .padding(.horizontal, 20)
             }
             .overlay {
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(LinearGradient(
-                        gradient: Gradient(colors: [.white, .gray.opacity(0.6)]),
-                        startPoint: .top,
-                        endPoint: .bottom
-                    ), lineWidth: 0.75)
+                self.borderView
             }
             .padding(.horizontal, 1)
             .shadow(color: .white.opacity(0.08), radius: 10, x: 0, y: 4)
+    }
+    
+    private var borderView: some View {
+        RoundedRectangle(cornerRadius: 12)
+            .stroke(LinearGradient(
+                gradient: Gradient(colors: [.white, .gray.opacity(0.6)]),
+                startPoint: .top,
+                endPoint: .bottom),
+                    lineWidth: 0.75)
     }
 }

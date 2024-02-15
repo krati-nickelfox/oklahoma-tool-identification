@@ -12,6 +12,8 @@ public struct SubcategoryListView: View {
     @ObservedObject var viewModel: SubcategoryListViewModel
     /// Below variable is to not show the checkmarks before the first interaction
     @State var isCheckmarkNotVisible = true
+    ///
+    @State var presentQuizView = false
     /// Environment Variable
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
@@ -29,35 +31,37 @@ public struct SubcategoryListView: View {
     
     // MARK: Body
     public var body: some View {
-        ZStack {
-            VStack(spacing: 20) {
-                self.topHeaderView
-                
-                ScrollView(showsIndicators: false) {
-                    self.listHeaderView
-                    self.subcategoriesView
-                }
-            }
-            
-            if self.viewModel.selectedChapters.count > 0 {
-                VStack {
-                    Spacer()
+        NavigationLink(isActive: self.$presentQuizView) {
+            QuizView()
+        } label: {
+            ZStack {
+                VStack(spacing: 20) {
+                    self.topHeaderView
                     
-                    NavigationLink {
-                        QuizView()
-                    } label: {
-                        PrimaryGradientButton(title: "Next") {}
-                            .disabled(true) // disabled button for the navigation link to work
+                    ScrollView(showsIndicators: false) {
+                        self.listHeaderView
+                        self.subcategoriesView
                     }
-
                 }
-                .padding(.bottom, 60)
+                
+                if self.viewModel.selectedChapters.count > 0 {
+                    VStack {
+                        Spacer()
+                        
+                        PrimaryGradientButton(title: "Next") {
+                            self.viewModel.didTapNextButton()
+                            self.presentQuizView = true
+                        }
+
+                    }
+                    .padding(.bottom, 60)
+                }
             }
-        }
-        .background(Color(red: 35/255, green: 31/255, blue: 32/255))
-        .ignoresSafeArea()
-        .onAppear {
-            self.viewModel.fetchAllSubcategories()
+            .background(Color(red: 35/255, green: 31/255, blue: 32/255))
+            .ignoresSafeArea()
+            .onAppear {
+                self.viewModel.fetchAllSubcategories()
+            }
         }
     }
     
