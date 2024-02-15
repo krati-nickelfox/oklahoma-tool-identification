@@ -97,7 +97,6 @@ public struct SubcategoryListView: View {
                 } label: {
                     VStack(spacing: 12) {
                         HStack(alignment: .center, spacing: 12) {
-                            
                             Image("practice-exam-icon")
                                 .resizable()
                                 .frame(width: 48, height: 48)
@@ -117,8 +116,11 @@ public struct SubcategoryListView: View {
                             .frame(height: 1)
                             .foregroundColor(Color(red: 82/255, green: 82/255, blue: 82/255))
                     }
+                    .padding(.horizontal, 20)
+                    .frame(maxWidth: .infinity)
+                    .contentShape(Rectangle())
                 }
-                .padding(.horizontal, 20)
+                .buttonStyle(PlainButtonStyle())
             }
         }
     }
