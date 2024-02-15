@@ -90,7 +90,11 @@ public struct SubcategoryListView: View {
     // MARK: Subcategories listing
     var subcategoriesView: some View {
         VStack(alignment: .leading, spacing: 18) {
-                ForEach(self.viewModel.subcategoryNames.indices, id: \.self) { index in
+            ForEach(self.viewModel.subcategoryNames.indices, id: \.self) { index in
+                Button {
+                    self.isCheckmarkNotVisible = false
+                    self.viewModel.toggleSelection(for: index)
+                } label: {
                     VStack(spacing: 12) {
                         HStack(alignment: .center, spacing: 12) {
                             
@@ -108,18 +112,15 @@ public struct SubcategoryListView: View {
                                 Image(self.viewModel.selectedChapters.contains(index) ? "checkmark-filled" : "checkmark-unfilled")
                             }
                         }
-                        .onTapGesture {
-                            // Toggle the selection state of the chapter
-                            self.isCheckmarkNotVisible = false
-                            self.viewModel.toggleSelection(for: index)
-                        }
                         
                         Rectangle()
                             .frame(height: 1)
                             .foregroundColor(Color(red: 82/255, green: 82/255, blue: 82/255))
                     }
-                    .padding(.horizontal, 20)
                 }
+                .buttonStyle(PlainButtonStyle())
+                .padding(.horizontal, 20)
+            }
         }
     }
     
@@ -137,6 +138,6 @@ public struct SubcategoryListView: View {
                     .bold()
             }
         }
-
+        
     }
 }
