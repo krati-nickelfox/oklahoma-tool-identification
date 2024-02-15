@@ -8,37 +8,16 @@
 import SwiftUI
 
 public struct QuizView: View {
-        
-    enum Optionstate {
-        case none
-        case correct
-        case incorrect
-        
-        var color: Color {
-            switch self {
-            case .none:
-                Color(red: 0.26, green: 0.26, blue: 0.25)
-            case .correct:
-                Color(red: 0.37, green: 0.81, blue: 0.49)
-            case .incorrect:
-                Color(red: 0.86, green: 0.39, blue: 0.31)
-            }
+    
+    public init?() {
+        guard let manager = ToolIdentification.quizManager else {
+            return nil
         }
-        
-        var image: String {
-            switch self {
-            case .correct: "TickMarkIcon"
-            case .incorrect: "CrossMarkIcon"
-            case .none: ""
-            }
-        }
+        self.viewModel = QuizViewModel(manager: manager)
     }
-    
-    public init() {}
-    
-    @State var optionState: Optionstate = .incorrect
-    @State var isAddedToStudyDeck = false
 
+    @ObservedObject var viewModel: QuizViewModel
+    
     public var body: some View {
         ZStack(alignment: .bottom) {
             /// Background
@@ -70,12 +49,12 @@ public struct QuizView: View {
                 .padding(.bottom, 24)
                 
                 HStack {
-                    Text("Question 1 of 65")
+                    Text("Question \(self.viewModel.currentQuestionNumber) of \(self.viewModel.totalQuestionCount)")
                         .foregroundStyle(Color(red: 0.96, green: 0.75, blue: 0.015))
 
                     Spacer()
                     
-                    Text("C.1 - sc.3 - q.2")
+                    Text(self.viewModel.activeQuestionId)
                         .foregroundStyle(Color(red: 0.63, green: 0.63, blue: 0.63))
                 }
                 .padding(.bottom, 12)
@@ -99,7 +78,7 @@ public struct QuizView: View {
                                             .frame(width: 22, height: 18)
                                             .foregroundStyle(.gray)
                                         
-                                        Text("IFSTA")
+                                        Text(self.viewModel.activeQuestionImageCurtsy)
                                             .foregroundStyle(.white)
                                     }
                                 }
@@ -122,13 +101,13 @@ public struct QuizView: View {
                         .shadow(color: .white.opacity(0.08), radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/, x: 0, y: 4)
                         
                         /// Tool Description
-                        Text("What is the label's name displayed in the top right corner of the fire extinguisher in the provided image?")
+                        Text(self.viewModel.activeQuestionDescription)
                             .multilineTextAlignment(.leading)
                             .foregroundStyle(.white)
                             .padding(.bottom, 16)
                         
                         Button(action: {
-                            self.isAddedToStudyDeck.toggle()
+                            // self.isAddedToStudyDeck.toggle()
                         }, label: {
                             Color.init(red: 0.96,
                                        green: 0.75,
@@ -143,49 +122,51 @@ public struct QuizView: View {
                                         .frame(width: 15, height: 15)
                                         .border(.white)
                                         .overlay {
-                                            if self.isAddedToStudyDeck {
+                                            if self.viewModel.isAddedToStudyDeck {
                                                 Image("BoxTickMarkIcon", bundle: .module)
                                                     .resizable()
                                                     .aspectRatio(contentMode: .fit)
                                                     .frame(width: 15, height: 15)
                                             }
                                         }
-                                    Text(self.isAddedToStudyDeck
+                                    Text(self.viewModel.isAddedToStudyDeck
                                          ? "Added to Study Deck"
                                          : "Add to Study Deck")
-                                        .foregroundColor(.white)
-                                        .font(.caption)
+                                    .foregroundColor(.white)
+                                    .font(.caption)
                                 }
                                     .padding(.horizontal, 12)
                                     .padding(.vertical, 4)
                             )
                         })
                         .padding(.bottom, 20)
-                               
+                        
                         /// Options list
                         VStack(spacing: 20) {
-                            ForEach(0..<4) { index in
+                            ForEach(0..<self.viewModel.activeQuestionOptionList.count,
+                                    id: \.self) { index in
+                                let (option, optionState) = self.viewModel.activeQuestionOptionList[index]
+                                
                                 RoundedRectangle(cornerRadius: 12)
-                                    .fill(self.optionState.color)
+                                    .fill(optionState.color)
                                     .frame(minHeight: 48)
                                     .overlay {
                                         HStack(spacing: 10) {
-                                            Text("Option \(index)")
+                                            Text(option.title)
                                                 .multilineTextAlignment(.leading)
                                                 .lineLimit(2)
                                             
-                                            //
-                                            if self.optionState != .none {
-                                                Spacer()
-                                                
+                                            Spacer()
+
+                                            if optionState != .none {
                                                 Circle()
-                                                    .fill(self.optionState.color.opacity(0.4))
+                                                    .fill(optionState.color.opacity(0.4))
                                                     .frame(width: 24, height: 24)
                                                     .overlay {
-                                                        Image(self.optionState.image, bundle: .module)
-                                                                .resizable()
-                                                                .aspectRatio(contentMode: .fit)
-                                                                .padding(5)
+                                                        Image(optionState.image, bundle: .module)
+                                                            .resizable()
+                                                            .aspectRatio(contentMode: .fit)
+                                                            .padding(5)
                                                     }
                                             }
                                         }
@@ -197,20 +178,19 @@ public struct QuizView: View {
                                     .overlay {
                                         RoundedRectangle(cornerRadius: 12)
                                             .stroke(LinearGradient(
-                                                gradient: Gradient(colors: [.white,
-                                                                            .gray.opacity(0.6)]),
+                                                gradient: Gradient(colors: [.white, .gray.opacity(0.6)]),
                                                 startPoint: .top,
                                                 endPoint: .bottom
                                             ), lineWidth: 0.75)
                                     }
                                     .padding(.horizontal, 1)
-                                    .shadow(color: .white.opacity(0.08), radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/, x: 0, y: 4)
+                                    .shadow(color: .white.opacity(0.08), radius: 10, x: 0, y: 4)
                                     .onTapGesture {
-                                        self.optionState = .correct
+                                        self.viewModel.didSelectOption(index)
                                     }
-
                             }
                         }
+
                     }
                     Spacer(minLength: 48)
                 }
@@ -218,9 +198,9 @@ public struct QuizView: View {
             .padding(.horizontal, 20)
             .padding(.bottom, 16)
 
-            ///
+            /// Next Button
             Button(action: {
-                
+                self.viewModel.didTapNext()
             }, label: {
                 LinearGradient(
                     gradient: Gradient(colors: [Color.init(red: 1,
@@ -237,11 +217,18 @@ public struct QuizView: View {
                 .frame(width: UIScreen.main.bounds.width * 0.4,
                        height: 48)
                 .overlay(
-                    Text("Next")
+                    Text(self.viewModel.isAttempted
+                         ? "Next"
+                         : "Skip")
                         .foregroundColor(.black)
                 )
                 .shadow(color: /*@START_MENU_TOKEN@*/.black/*@END_MENU_TOKEN@*/.opacity(0.58), radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/, x: 0, y: 4)
             })
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+                self.viewModel.fetchQuestions()
+            }
         }
     }
 }
