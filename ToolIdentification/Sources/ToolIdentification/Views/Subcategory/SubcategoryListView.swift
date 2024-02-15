@@ -12,6 +12,8 @@ public struct SubcategoryListView: View {
     @ObservedObject var viewModel = SubcategoryListViewModel()
     /// Below variable is to not show the checkmarks before the first interaction
     @State var isCheckmarkNotVisible = true
+    /// Environment Variable
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     public init() { }
     
@@ -37,7 +39,9 @@ public struct SubcategoryListView: View {
     // MARK: Header
     var topHeaderView: some View {
         HeaderView(title: "Placards",
-                   leftButtonAction: {},
+                   leftButtonAction: {
+            presentationMode.wrappedValue.dismiss()
+        },
                    rightButtonAction: nil,
                    leftIconName: "back-icon",
                    rightIconName: nil)
