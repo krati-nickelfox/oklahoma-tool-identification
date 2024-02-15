@@ -118,7 +118,6 @@ public struct SubcategoryListView: View {
                             .foregroundColor(Color(red: 82/255, green: 82/255, blue: 82/255))
                     }
                 }
-                .buttonStyle(PlainButtonStyle())
                 .padding(.horizontal, 20)
             }
         }
