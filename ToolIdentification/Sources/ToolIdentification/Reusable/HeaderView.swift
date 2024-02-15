@@ -21,7 +21,7 @@ struct HeaderView: View {
                 Button(action: {
                     leftButtonAction()
                 }, label: {
-                    Image(leftIconName)
+                    Image(leftIconName, bundle: .module)
                         .foregroundColor(.white)
                 })
                 .frame(width: 24, height: 24)
@@ -39,7 +39,7 @@ struct HeaderView: View {
                 Button(action: {
                     rightButtonAction()
                 }, label: {
-                    Image(rightIconName)
+                    Image(rightIconName, bundle: .module)
                         .foregroundColor(.white)
                 })
                 .frame(width: 24, height: 24)

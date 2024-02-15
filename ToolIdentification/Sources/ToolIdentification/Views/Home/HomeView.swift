@@ -116,7 +116,7 @@ public struct HomeView: View {
     
     // MARK: Background Image
     var backgroundImageView: some View {
-        Image(self.backgroundImageName)
+        Image(self.backgroundImageName, bundle: .module)
             .resizable()
             .frame(maxHeight: .infinity)
             .edgesIgnoringSafeArea(.bottom)
@@ -144,7 +144,7 @@ public struct HomeView: View {
         ZStack {
             HStack {
                 Spacer()
-                Image(self.appLogoName)
+                Image(self.appLogoName, bundle: .module)
                     .padding(.top, 30)
                 Spacer()
             }
@@ -154,7 +154,7 @@ public struct HomeView: View {
                 Button(action: {
                     self.showMenuView.toggle()
                 }, label: {
-                    Image("menu")
+                    Image("menu", bundle: .module)
                         .resizable()
                         .frame(width: 5, height: 20)
                 })
@@ -203,7 +203,7 @@ public struct HomeView: View {
                             )
                         
                         VStack(spacing: 8, content: {
-                            Image(self.practiceExamIcon)
+                            Image(self.practiceExamIcon, bundle: .module)
                                 .frame(
                                     width: 24,
                                     height: 24
@@ -238,7 +238,7 @@ public struct HomeView: View {
                                 .frame(height: 120)
                             
                             VStack(spacing: 8, content: {
-                                Image(self.studyDeckIcon)
+                                Image(self.studyDeckIcon, bundle: .module)
                                     .frame(
                                         width: 24,
                                         height: 24
@@ -273,7 +273,7 @@ public struct HomeView: View {
                                 .frame(height: 120)
                             
                             VStack(spacing: 8, content: {
-                                Image(self.reportsIcon)
+                                Image(self.reportsIcon, bundle: .module)
                                     .frame(
                                         width: 24,
                                         height: 24

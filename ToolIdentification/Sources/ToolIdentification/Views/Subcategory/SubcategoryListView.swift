@@ -102,7 +102,7 @@ public struct SubcategoryListView: View {
                     VStack(spacing: 12) {
                         HStack(alignment: .center, spacing: 12) {
                             
-                            Image("practice-exam-icon")
+                            Image("practice-exam-icon", bundle: .module)
                                 .resizable()
                                 .frame(width: 48, height: 48)
                             
@@ -113,7 +113,10 @@ public struct SubcategoryListView: View {
                             Spacer()
                             
                             if !self.isCheckmarkNotVisible {
-                                Image(self.viewModel.selectedChapters.contains(index) ? "checkmark-filled" : "checkmark-unfilled")
+                                Image(self.viewModel.selectedChapters.contains(index)
+                                      ? "checkmark-filled"
+                                      : "checkmark-unfilled",
+                                      bundle: .module)
                             }
                         }
                         .onTapGesture {
