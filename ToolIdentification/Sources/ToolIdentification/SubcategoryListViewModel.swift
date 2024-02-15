@@ -18,10 +18,18 @@ public class SubcategoryListViewModel: ObservableObject {
     }
     
     func toggleSelection(for chapter: Int) {
-        if selectedChapters.contains(chapter) {
-            selectedChapters.remove(chapter)
+        if self.selectedChapters.contains(chapter) {
+            self.selectedChapters.remove(chapter)
         } else {
-            selectedChapters.insert(chapter)
+            self.selectedChapters.insert(chapter)
+        }
+    }
+    
+    func toggleSelectAll() {
+        if self.selectedChapters.count == self.subcategoryNames.count {
+            self.selectedChapters.removeAll()
+        } else {
+            self.selectedChapters = Set(0..<self.subcategoryNames.count)
         }
     }
     

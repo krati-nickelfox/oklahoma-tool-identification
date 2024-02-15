@@ -15,6 +15,14 @@ public struct SubcategoryListView: View {
     /// Environment Variable
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
+    var selectModuleText: String {
+        if self.viewModel.selectedChapters.count == self.viewModel.subcategoryNames.count && self.viewModel.selectedChapters.count > 0 {
+            return "Unselect All"
+        } else {
+            return self.isCheckmarkNotVisible ? "Select Module(s)" : "Select All"
+        }
+    }
+    
     public init(viewModel: SubcategoryListViewModel) {
         self.viewModel = viewModel
     }
@@ -61,17 +69,11 @@ public struct SubcategoryListView: View {
                 .foregroundColor(.white)
                 .bold()
             
-            Text(self.isCheckmarkNotVisible ? "Select Module(s)" : "Select All")
+            Text(self.selectModuleText)
                 .foregroundColor(.yellow)
                 .font(.caption)
                 .onTapGesture {
-                    if !self.isCheckmarkNotVisible {
-                        for index in 0..<self.viewModel.subcategoryNames.count {
-                            self.viewModel.toggleSelection(for: index)
-                        }
-                    } else {
-                        self.viewModel.selectedChapters.removeAll()
-                    }
+                    self.viewModel.toggleSelectAll()
                     self.isCheckmarkNotVisible = false
                 }
         }
