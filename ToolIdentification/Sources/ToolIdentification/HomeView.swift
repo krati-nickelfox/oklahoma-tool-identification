@@ -61,8 +61,12 @@ public struct HomeView: View {
                 }
                 /// To manage navigation to subcategory list view using navigation link as below
                 NavigationLink(
-                    destination: SubcategoryListView()
-                        .navigationBarBackButtonHidden(true),
+                    destination: SubcategoryListView(
+                        viewModel: SubcategoryListViewModel(
+                            selectedCategories: self.viewModel.selectedCategoryList
+                        )
+                    )
+                    .navigationBarBackButtonHidden(true),
                     isActive: .constant(!self.viewModel.selectedCategoryList.isEmpty)
                 ) {
                     EmptyView()

@@ -94,13 +94,12 @@ struct RealmManager {
     }
     
     // FIXME: Fetching all subcategories for now, irrespective of categoryName
-    static func fetchAllSubcategoryNames() -> [String]? {
+    static func fetchSubcategoryNames(forCategories categories: [String]) -> [String]? {
         guard let realm = realm else {
-            print("Realm is not initialized.")
             return nil
         }
         var subcategoryNames: [String] = []
-        let subcategories = realm.objects(Question.self).map { $0 }
+        let subcategories = realm.objects(Question.self).filter("categoryName IN %@", categories)
         for subcategory in subcategories {
             subcategoryNames.append(subcategory.subcategoryName)
         }
