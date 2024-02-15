@@ -16,7 +16,8 @@ struct HeaderView: View {
     
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
-            if let leftIconName = leftIconName, let leftButtonAction = leftButtonAction {
+            if let leftIconName = leftIconName, 
+                let leftButtonAction = leftButtonAction {
                 Button(action: {
                     leftButtonAction()
                 }, label: {
@@ -33,7 +34,8 @@ struct HeaderView: View {
             
             Spacer()
             
-            if let rightIconName = rightIconName, let rightButtonAction = rightButtonAction {
+            if let rightIconName = rightIconName, 
+                let rightButtonAction = rightButtonAction {
                 Button(action: {
                     rightButtonAction()
                 }, label: {

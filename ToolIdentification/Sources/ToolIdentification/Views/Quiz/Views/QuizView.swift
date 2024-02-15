@@ -9,6 +9,10 @@ import SwiftUI
 
 public struct QuizView: View {
     
+    @ObservedObject var viewModel: QuizViewModel
+    /// Environment Variable
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
     public init?() {
         guard let manager = ToolIdentification.quizManager else {
             return nil
@@ -16,8 +20,6 @@ public struct QuizView: View {
         self.viewModel = QuizViewModel(manager: manager)
     }
 
-    @ObservedObject var viewModel: QuizViewModel
-    
     public var body: some View {
         ZStack(alignment: .bottom) {
             /// Background
@@ -26,27 +28,8 @@ public struct QuizView: View {
 
             VStack {
                 /// Header View
-                HStack {
-                    Button(action: {
-                        
-                    }, label: {
-                        Text("Back")
-                            .foregroundStyle(.white)
-                    })
-                    
-                    Text("Tool Identification")
-                        .foregroundStyle(.white)
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        
-                    }, label: {
-                        Text("Exit")
-                            .foregroundStyle(.white)
-                    })
-                }
-                .padding(.bottom, 24)
+                self.topHeaderView
+                    .padding(.bottom, 24)
                 
                 HStack {
                     Text("Question \(self.viewModel.currentQuestionNumber) of \(self.viewModel.totalQuestionCount)")
@@ -58,6 +41,7 @@ public struct QuizView: View {
                         .foregroundStyle(Color(red: 0.63, green: 0.63, blue: 0.63))
                 }
                 .padding(.bottom, 12)
+                .padding(.horizontal, 20)
                 .frame(height: 17)
                 
                 ScrollView(showsIndicators: false) {
@@ -194,43 +178,41 @@ public struct QuizView: View {
                     }
                     Spacer(minLength: 48)
                 }
+                .padding(.horizontal, 20)
             }
-            .padding(.horizontal, 20)
             .padding(.bottom, 16)
+            .ignoresSafeArea(edges: .bottom)
 
             /// Next Button
-            Button(action: {
+            let buttonTitle = self.viewModel.isAttempted
+            ? "Next"
+            : "Skip"
+            
+            PrimaryGradientButton(title: buttonTitle) {
                 self.viewModel.didTapNext()
-            }, label: {
-                LinearGradient(
-                    gradient: Gradient(colors: [Color.init(red: 1,
-                                                           green: 0.854,
-                                                           blue: 0.36),
-                                                Color.init(red: 0.96,
-                                                           green: 0.75,
-                                                           blue: 0.015)
-                    ]),
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .clipShape(.rect(cornerRadius: 12))
-                .frame(width: UIScreen.main.bounds.width * 0.4,
-                       height: 48)
-                .overlay(
-                    Text(self.viewModel.isAttempted
-                         ? "Next"
-                         : "Skip")
-                        .foregroundColor(.black)
-                )
-                .shadow(color: /*@START_MENU_TOKEN@*/.black/*@END_MENU_TOKEN@*/.opacity(0.58), radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/, x: 0, y: 4)
-            })
+            }
         }
+        .navigationBarHidden(true)
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
                 self.viewModel.fetchQuestions()
             }
         }
     }
+    
+    // MARK: Header View
+    var topHeaderView: some View {
+        HeaderView(title: "Tool Identification",
+                   leftButtonAction: {
+            presentationMode.wrappedValue.dismiss()
+        },
+                   rightButtonAction: {
+            presentationMode.wrappedValue.dismiss()
+        },
+                   leftIconName: "back-icon",
+                   rightIconName: "ExitIcon")
+    }
+
 }
 
 #Preview {

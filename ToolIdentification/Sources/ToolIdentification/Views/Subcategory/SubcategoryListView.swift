@@ -31,17 +31,25 @@ public struct SubcategoryListView: View {
     public var body: some View {
         ZStack {
             VStack(spacing: 20) {
-                topHeaderView
+                self.topHeaderView
+                
                 ScrollView(showsIndicators: false) {
-                    listHeaderView
-                    subcategoriesView
+                    self.listHeaderView
+                    self.subcategoriesView
                 }
-                Spacer()
             }
+            
             if self.viewModel.selectedChapters.count > 0 {
                 VStack {
                     Spacer()
-                    nextButtonView
+                    
+                    NavigationLink {
+                        QuizView()
+                    } label: {
+                        PrimaryGradientButton(title: "Next") {}
+                            .disabled(true) // disabled button for the navigation link to work
+                    }
+
                 }
                 .padding(.bottom, 60)
             }
@@ -121,22 +129,5 @@ public struct SubcategoryListView: View {
                     .padding(.horizontal, 20)
                 }
         }
-    }
-    
-    var nextButtonView: some View {
-        Button {
-            //
-        } label: {
-            ZStack {
-                RoundedRectangle(cornerRadius: 12)
-                    .frame(width: 148, height: 48)
-                    .foregroundColor(.yellow)
-                
-                Text("Next")
-                    .foregroundColor(.black)
-                    .bold()
-            }
-        }
-
     }
 }
