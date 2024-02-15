@@ -7,12 +7,15 @@
 
 import Foundation
 
-class SubcategoryListViewModel: ObservableObject {
+public class SubcategoryListViewModel: ObservableObject {
     
     @Published var selectedChapters: Set<Int> = []
     @Published var subcategoryNames: [String] = []
+    @Published var selectedCategories: [String]
     
-    init() { }
+    init(selectedCategories: [String]) {
+        self.selectedCategories = selectedCategories
+    }
     
     func toggleSelection(for chapter: Int) {
         if selectedChapters.contains(chapter) {
@@ -22,8 +25,9 @@ class SubcategoryListViewModel: ObservableObject {
         }
     }
     
+    // Fetching subcategories for the selected category on home
     func fetchAllSubcategories() {
-        if let subcategories = RealmManager.fetchAllSubcategoryNames() {
+        if let subcategories = RealmManager.fetchSubcategoryNames(forCategories: self.selectedCategories) {
             self.subcategoryNames = subcategories
         }
         print("Subcategories are: ", self.subcategoryNames)

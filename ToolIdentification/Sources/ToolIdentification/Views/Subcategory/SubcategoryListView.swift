@@ -9,13 +9,15 @@ import SwiftUI
 
 public struct SubcategoryListView: View {
     
-    @ObservedObject var viewModel = SubcategoryListViewModel()
+    @ObservedObject var viewModel: SubcategoryListViewModel
     /// Below variable is to not show the checkmarks before the first interaction
     @State var isCheckmarkNotVisible = true
     /// Environment Variable
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    public init() { }
+    public init(viewModel: SubcategoryListViewModel) {
+        self.viewModel = viewModel
+    }
     
     // MARK: Body
     public var body: some View {
@@ -38,7 +40,7 @@ public struct SubcategoryListView: View {
     
     // MARK: Header
     var topHeaderView: some View {
-        HeaderView(title: "Placards",
+        HeaderView(title: self.viewModel.selectedCategories.joined(separator: "/ "),
                    leftButtonAction: {
             presentationMode.wrappedValue.dismiss()
         },
@@ -51,7 +53,7 @@ public struct SubcategoryListView: View {
     // MARK: List Header
     var listHeaderView: some View {
         HStack(spacing: 24) {
-            Text("52 sub-categories")
+            Text("\(self.viewModel.subcategoryNames.count) sub-categories")
                 .foregroundColor(.white)
                 .font(.caption)
             
@@ -59,10 +61,17 @@ public struct SubcategoryListView: View {
                 .foregroundColor(.white)
                 .bold()
             
-            Text("Select Module(s)")
+            Text(self.isCheckmarkNotVisible ? "Select Module(s)" : "Select All")
                 .foregroundColor(.yellow)
                 .font(.caption)
                 .onTapGesture {
+                    if !self.isCheckmarkNotVisible {
+                        for index in 0..<self.viewModel.subcategoryNames.count {
+                            self.viewModel.toggleSelection(for: index)
+                        }
+                    } else {
+                        self.viewModel.selectedChapters.removeAll()
+                    }
                     self.isCheckmarkNotVisible = false
                 }
         }
@@ -93,11 +102,7 @@ public struct SubcategoryListView: View {
                         .onTapGesture {
                             // Toggle the selection state of the chapter
                             self.isCheckmarkNotVisible = false
-                            if self.viewModel.selectedChapters.contains(index) {
-                                self.viewModel.selectedChapters.remove(index)
-                            } else {
-                                self.viewModel.selectedChapters.insert(index)
-                            }
+                            self.viewModel.toggleSelection(for: index)
                         }
                         
                         Rectangle()
