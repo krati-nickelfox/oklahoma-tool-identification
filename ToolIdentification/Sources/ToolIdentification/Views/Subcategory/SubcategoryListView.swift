@@ -139,6 +139,7 @@ public struct SubcategoryListView: View {
                     .bold()
             }
         }
+        .buttonStyle(PlainButtonStyle())
         
     }
 }
