@@ -10,6 +10,8 @@ public struct HomeView: View {
     
     @State var showMenuView: Bool = false
     
+    @ObservedObject var viewModel = HomeViewModel()
+    
     let backgroundImageName: String
     let appLogoName: String
     let practiceExamIcon: String
@@ -58,18 +60,42 @@ public struct HomeView: View {
             }
         }
         .background(.black)
+        .onAppear {
+            self.viewModel.fetchCategories()
+        }
+        /// Show category alert on selection of Start Practice
+        // FIXME: To manage redirection after button from alert has been selected
         .alert("Select Category", isPresented: self.$isShowingCategorySheet) {
-            Button("Placards", action: {
-                self.selectedCategory = "Placards"
-            })
-            Button("Containers", action: {
-                self.selectedCategory = "Containers"
-            })
-            Button("Both", action: {
-                self.selectedCategory = "Both"
-            })
-            Button("Cancel", action: {})
-                .foregroundColor(.red)
+            VStack {
+                ForEach(self.viewModel.categoryNames, id: \.self) { category in
+                    Button(action: {
+                        self.viewModel.selectedCategoryList = [category]
+                    }) {
+                        Text(category)
+                    }
+                }
+                /// To show and select all categories in case of count  > 2
+                if self.viewModel.categoryNames.count > 2 {
+                    Button(action: {
+                        self.viewModel.selectedCategoryList = self.viewModel.categoryNames
+                    }) {
+                        Text("All")
+                    }
+                } else if self.viewModel.categoryNames.count == 2 { /// To show and select all categories in case of count  == 2
+                    Button(action: {
+                        self.viewModel.selectedCategoryList = self.viewModel.categoryNames
+                    }) {
+                        Text("Both")
+                    }
+                }
+                
+                Button(action: {
+                    self.isShowingCategorySheet = false
+                }) {
+                    Text("Cancel")
+                        .foregroundColor(.red)
+                }
+            }
         }
     }
     
@@ -286,19 +312,5 @@ public struct HomeView: View {
         .foregroundColor(Color(red: 52/255, green: 52/255, blue: 52/255))
         .frame(height: 120)
         .padding(.horizontal, 10)
-    }
-    
-    var categoryView: some View {
-        VStack {
-            Text("Selected Category: \(selectedCategory)")
-                .padding()
-            
-            Button(action: {
-                self.isShowingCategorySheet.toggle()
-            }) {
-                Text("Select Category")
-            }
-            .padding()
-        }
     }
 }

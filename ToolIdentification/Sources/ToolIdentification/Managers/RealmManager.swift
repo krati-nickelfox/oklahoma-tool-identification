@@ -41,6 +41,7 @@ struct RealmManager {
         }
     }
     
+    // To check the questions that are added in the study deck
     static func questionsAddedToStudyDeck() -> Results<Question>? {
         let studyDeskChapters = realm?.objects(Question.self).filter("isAddedToStudyDeck == true")
         return studyDeskChapters
@@ -52,6 +53,7 @@ struct RealmManager {
         return identifyCategories
     }
     
+    // Clearing study deck from menu options view on home
     static func clearStudyDeck() {
         guard let realm = realm else {
             return
@@ -72,6 +74,7 @@ struct RealmManager {
         }
     }
     
+    // Clearing reports from menu options view on home
     static func clearReports() {
         guard let realm = RealmManager.realm else {
             print("Realm is not initialized.")
@@ -90,6 +93,7 @@ struct RealmManager {
         }
     }
     
+    // FIXME: Fetching all subcategories for now, irrespective of categoryName
     static func fetchAllSubcategoryNames() -> [String]? {
         guard let realm = realm else {
             print("Realm is not initialized.")
@@ -101,5 +105,24 @@ struct RealmManager {
             subcategoryNames.append(subcategory.subcategoryName)
         }
         return subcategoryNames
+    }
+    
+    // To fetch categories
+    static func fetchCategories() -> [String]? {
+        guard let realm = realm else {
+            return nil
+        }
+        
+        var categorySet: Set<String> = Set()
+        let categories = realm.objects(Question.self).map { $0.categoryName }
+        
+        for category in categories {
+            if !categorySet.contains(category) {
+                categorySet.insert(category)
+            }
+        }
+        
+        let categoryNames = Array(categorySet)
+        return categoryNames
     }
 }

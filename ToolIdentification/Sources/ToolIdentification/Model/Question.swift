@@ -24,6 +24,7 @@ class Question: Object, Decodable, Identifiable {
     enum CodingKeys: String, CodingKey {
         case id
         case imageId
+        case categoryName
         case subcategoryName
         case descriptionText = "description"
         case imageCourtesy
@@ -38,6 +39,7 @@ class Question: Object, Decodable, Identifiable {
         self.init()
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(String.self, forKey: .id)
+        categoryName = try container.decode(String.self, forKey: .categoryName)
         subcategoryName = try container.decode(String.self, forKey: .subcategoryName)
         imageId = try container.decode(String.self, forKey: .imageId)
         descriptionText = try container.decode(String.self, forKey: .descriptionText)

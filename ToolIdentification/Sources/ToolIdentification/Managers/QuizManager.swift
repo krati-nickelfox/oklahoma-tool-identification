@@ -39,7 +39,11 @@ public class QuizManager: NSObject, XMLParserDelegate {
         if self.fileType == .XML {
             self.parseXML()
         } else {
-            self.parseJSON()
+            let jsonParsed = UserDefaults.standard.bool(forKey: "jsonParsed")
+            if !jsonParsed {
+                self.parseJSON()
+                UserDefaults.standard.set(true, forKey: "jsonParsed")
+            }
         }
     }
     
