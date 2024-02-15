@@ -128,25 +128,23 @@ public struct QuizView: View {
                             .padding(.bottom, 16)
                         
                         Button(action: {
-                            
+                            self.isAddedToStudyDeck.toggle()
                         }, label: {
                             Color.init(red: 0.96,
                                        green: 0.75,
                                        blue: 0.015)
                             .clipShape(.rect(cornerRadius: 4))
-                            .frame(width: UIScreen.main.bounds.width * 0.35)
+                            .frame(width: UIScreen.main.bounds.width * 0.4)
                             .frame(height: 28)
                             .overlay(
                                 HStack(spacing: 6) {
                                     Rectangle()
-                                        .fill(self.isAddedToStudyDeck
-                                              ? .white
-                                              : .clear)
+                                        .fill(.clear)
                                         .frame(width: 15, height: 15)
                                         .border(.white)
                                         .overlay {
                                             if self.isAddedToStudyDeck {
-                                                Image("TickMarkIcon", bundle: .module)
+                                                Image("BoxTickMarkIcon", bundle: .module)
                                                     .resizable()
                                                     .aspectRatio(contentMode: .fit)
                                                     .frame(width: 15, height: 15)
