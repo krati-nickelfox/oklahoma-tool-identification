@@ -98,11 +98,20 @@ struct RealmManager {
         guard let realm = realm else {
             return nil
         }
+
         var subcategoryNames: [String] = []
+        var subcategorySet: Set<String> = Set()
+
         let subcategories = realm.objects(Question.self).filter("categoryName IN %@", categories)
+
         for subcategory in subcategories {
-            subcategoryNames.append(subcategory.subcategoryName)
+            let subcategoryName = subcategory.subcategoryName
+            if !subcategorySet.contains(subcategoryName) {
+                subcategoryNames.append(subcategoryName)
+                subcategorySet.insert(subcategoryName)
+            }
         }
+
         return subcategoryNames
     }
     
