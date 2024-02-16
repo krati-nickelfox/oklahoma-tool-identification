@@ -10,7 +10,8 @@ import Foundation
 class QuizViewModel: ObservableObject {
     
     @Published var activeQuestionOptionList = [(Option, Optionstate)]()
-
+    @Published var isAddedToStudyDeck = false
+    
     private var activeQuestion: Question?
     private var questions = [Question]()
     private let manager: QuizManager
@@ -40,6 +41,7 @@ class QuizViewModel: ObservableObject {
     }
     
     func refreshActiveQuestion() {
+        self.isAddedToStudyDeck = false
         self.activeQuestion = self.questions[currentQuestionIndex]
         self.activeQuestionOptionList = self.activeQuestionOptions
             .map({ ($0, .none) })
@@ -78,6 +80,10 @@ class QuizViewModel: ObservableObject {
             if !isSelectedOptionCorrect {
                 self.activeQuestionOptionList[correctOptionIndex] = (correctOption.0,
                                                                      .correct)
+                //
+                self.manager.toggleStudyDeckForQuestion(activeQuestion.id,
+                                                        added: true)
+                self.isAddedToStudyDeck = true
             }
             
             //
@@ -85,6 +91,14 @@ class QuizViewModel: ObservableObject {
                                                 isAttempted: true,
                                                 isCorrect: isSelectedOptionCorrect,
                                                 isSkipped: false)
+        }
+    }
+    
+    func didTapStudyDeckButton() {
+        if let activeQuestion = self.activeQuestion {
+            self.manager.toggleStudyDeckForQuestion(activeQuestion.id,
+                                                    added: !activeQuestion.isAddedToStudyDeck)
+            self.isAddedToStudyDeck.toggle()
         }
     }
     
@@ -151,10 +165,6 @@ extension QuizViewModel {
             return false
         }
         return activeQuestion.isSkipped
-    }
-    
-    var isAddedToStudyDeck: Bool {
-        false
     }
     
     private var activeQuestionOptions: [Option] {

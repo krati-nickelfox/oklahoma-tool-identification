@@ -163,7 +163,7 @@ public struct QuizView: View {
     
     var addToStudyDeckButtonView: some View {
         Button(action: {
-            // self.isAddedToStudyDeck.toggle()
+            self.viewModel.didTapStudyDeckButton()
         }, label: {
             Color.init(red: 0.96,
                        green: 0.75,
