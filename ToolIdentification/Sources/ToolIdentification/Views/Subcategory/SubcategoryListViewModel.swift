@@ -13,8 +13,16 @@ public class SubcategoryListViewModel: ObservableObject {
     @Published var subcategoryNames: [String] = []
     @Published var selectedCategories: [String]
     
-    init(selectedCategories: [String]) {
+    ///
+    var navigation: NavigationType
+    private let manager: QuizManager?
+
+    init(manager: QuizManager?,
+         selectedCategories: [String],
+         navigation: NavigationType) {
         self.selectedCategories = selectedCategories
+        self.navigation = navigation
+        self.manager = manager
     }
     
     func toggleSelection(for subcategoryName: String) {
@@ -37,10 +45,20 @@ public class SubcategoryListViewModel: ObservableObject {
     
     // Fetching subcategories for the selected category on home
     func fetchAllSubcategories() {
-        if let subcategories = RealmManager.fetchSubcategoryNames(forCategories: self.selectedCategories) {
-            self.subcategoryNames = subcategories
+        if self.navigation == .studyDeck {
+            self.fetchAllSubcategoriesInStudyDeck()
+        } else {
+            if let subcategories = RealmManager.fetchSubcategoryNames(forCategories: self.selectedCategories) {
+                self.subcategoryNames = subcategories
+            }
         }
         print("Subcategories are: ", self.subcategoryNames)
+    }
+    
+    func fetchAllSubcategoriesInStudyDeck() {
+        if let subcategories = RealmManager.fetchSubategoriesInStudyDeck() {
+            self.subcategoryNames = subcategories
+        }
     }
     
     func didTapNextButton() {
