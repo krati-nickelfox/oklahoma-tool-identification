@@ -7,18 +7,30 @@
 
 import Foundation
 
+public enum NavigationType {
+    case quiz
+    case studyDeck
+    case reports
+}
+
 class QuizViewModel: ObservableObject {
     
     @Published var activeQuestionOptionList = [(Option, Optionstate)]()
     @Published var isAddedToStudyDeck = false
-    
+    @Published var reachedQuizEnd = false
+
     private var activeQuestion: Question?
     private var questions = [Question]()
     private let manager: QuizManager
     private var currentQuestionIndex = 0
-        
-    init(manager: QuizManager) {
+    private var prevAttemptResult = false
+    
+    var navigationType: NavigationType
+    
+    init(manager: QuizManager,
+         navigationType: NavigationType) {
         self.manager = manager
+        self.navigationType = navigationType
     }
     
     func fetchQuestions() {
@@ -60,10 +72,14 @@ class QuizViewModel: ObservableObject {
                                                     isSkipped: true)
             }
             self.refreshActiveQuestion()
+        } else {
+            self.reachedQuizEnd = true
         }
     }
     
     func didSelectOption(_ index: Int) {
+        let isFromStudyDeck = self.navigationType == .studyDeck
+
         if !self.isAttempted,
            let activeQuestion = self.activeQuestion,
            let correctOption = self.activeQuestionOptionList.filter({ $0.0.id == self.activeQuestionCorrectOptionId }).first,
@@ -89,7 +105,11 @@ class QuizViewModel: ObservableObject {
             //
             self.manager.writeAttemptedQuestion(activeQuestion, 
                                                 isAttempted: true,
-                                                isCorrect: isSelectedOptionCorrect,
+                                                isCorrect: isFromStudyDeck
+                                                ? (!isSelectedOptionCorrect
+                                                   ? activeQuestion.isCorrect
+                                                   : true)
+                                                : isSelectedOptionCorrect,
                                                 isSkipped: false)
         }
     }

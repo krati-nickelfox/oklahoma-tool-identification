@@ -32,7 +32,7 @@ public struct SubcategoryListView: View {
     // MARK: Body
     public var body: some View {
         NavigationLink(isActive: self.$presentQuizView) {
-            QuizView()
+            QuizView(navigation: self.viewModel.navigation)
         } label: {
             ZStack {
                 VStack(spacing: 20) {

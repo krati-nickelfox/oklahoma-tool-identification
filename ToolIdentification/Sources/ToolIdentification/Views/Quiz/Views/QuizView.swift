@@ -7,20 +7,21 @@
 
 import SwiftUI
 
-public struct QuizView: View {
+struct QuizView: View {
     
     @ObservedObject var viewModel: QuizViewModel
     /// Environment Variable
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
-    public init?() {
+    
+    init?(navigation: NavigationType) {
         guard let manager = ToolIdentification.quizManager else {
             return nil
         }
-        self.viewModel = QuizViewModel(manager: manager)
+        self.viewModel = QuizViewModel(manager: manager, 
+                                       navigationType: navigation)
     }
 
-    public var body: some View {
+    var body: some View {
         ZStack(alignment: self.viewModel.isQuizLoaded
                ? .bottom
                : .center) {
@@ -208,8 +209,4 @@ public struct QuizView: View {
             self.viewModel.didTapNext()
         }
     }
-}
-
-#Preview {
-    QuizView()
 }
