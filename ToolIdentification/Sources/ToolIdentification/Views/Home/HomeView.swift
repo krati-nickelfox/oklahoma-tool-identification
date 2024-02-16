@@ -63,7 +63,9 @@ public struct HomeView: View {
                 NavigationLink(
                     destination: SubcategoryListView(
                         viewModel: SubcategoryListViewModel(
-                            selectedCategories: self.viewModel.selectedCategoryList
+                            manager: ToolIdentification.quizManager, 
+                            selectedCategories: self.viewModel.selectedCategoryList,
+                            navigation: self.viewModel.navigation
                         )
                     )
                     .navigationBarBackButtonHidden(true),
@@ -75,8 +77,7 @@ public struct HomeView: View {
             }
             .background(.black)
             .onAppear {
-                self.viewModel.fetchCategories()
-                self.viewModel.selectedCategoryList = []
+                self.viewModel.selectedCategoryList.removeAll()
                 self.isNavigationActive = false
             }
             /// Show category alert on selection of Start Practice
@@ -98,7 +99,9 @@ public struct HomeView: View {
                             self.isShowingCategorySheet = false
                             self.isNavigationActive = true
                         }) {
-                            Text(self.viewModel.categoryNames.count > 2 ? "All" : "Both")
+                            Text(self.viewModel.categoryNames.count > 2 
+                                 ? "All"
+                                 : "Both")
                         }
                     }
                     // To toggle isShowingCategorySheet to false
@@ -187,6 +190,7 @@ public struct HomeView: View {
                 // Start Practice
                 /// Navigation being managed in the body using NavigationLink - Line no. 63
                 Button {
+                    self.viewModel.navigation = .quiz
                     self.isShowingCategorySheet = true
                 } label: {
                     ZStack {
@@ -223,7 +227,8 @@ public struct HomeView: View {
                     // Study Deck
                     Button {
                         if let studyDeckQuestions = RealmManager.questionsAddedToStudyDeck(), !studyDeckQuestions.isEmpty {
-                            print("Navigating to Study Deck View")
+                            self.viewModel.navigation = .studyDeck
+                            self.isShowingCategorySheet = true
                         } else {
                             print("No questions found in study deck")
                         }
@@ -258,6 +263,7 @@ public struct HomeView: View {
                     Button {
                         if let reportsAvailable = RealmManager.reportsAvailableForCategories(),
                            !reportsAvailable.isEmpty {
+                            self.viewModel.navigation = .reports
                             print("Reports Available!!")
                         } else {
                             print("Reports Not Available!!")
