@@ -153,10 +153,9 @@ public struct HomeView: View {
     var topAppLogoView: some View {
         ZStack {
             HStack {
-                Spacer()
                 Image(self.appLogoName, bundle: .module)
-                    .padding(.top, 30)
-                Spacer()
+                    .resizable()
+                    .frame(width: 230, height: 140)
             }
             
             HStack {
