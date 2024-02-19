@@ -154,24 +154,17 @@ struct RealmManager {
         return categoryNames
     }
     
-    static func fetchSubategoriesInStudyDeck() -> [String]? {
+    static func fetchSubategoriesInStudyDeckFor(_ categories: [String]) -> [String]? {
         guard let realm = realm else {
             return nil
         }
         
-        var categorySet: Set<String> = Set()
-        let categories = realm.objects(Question.self)
+        let subcategoryNames = realm.objects(Question.self)
+            .filter("categoryName IN %@", categories)
             .filter({ $0.isAddedToStudyDeck == true })
             .map { $0.subcategoryName }
-        
-        for category in categories {
-            if !categorySet.contains(category) {
-                categorySet.insert(category)
-            }
-        }
-        
-        let categoryNames = Array(categorySet)
-        return categoryNames
+
+        return Array(Set(subcategoryNames))
     }
 
 }

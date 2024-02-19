@@ -56,7 +56,8 @@ public class SubcategoryListViewModel: ObservableObject {
     }
     
     func fetchAllSubcategoriesInStudyDeck() {
-        if let subcategories = RealmManager.fetchSubategoriesInStudyDeck() {
+        let selectedCategoryList = self.selectedCategories
+        if let subcategories = RealmManager.fetchSubategoriesInStudyDeckFor(selectedCategoryList) {
             self.subcategoryNames = subcategories
         }
     }

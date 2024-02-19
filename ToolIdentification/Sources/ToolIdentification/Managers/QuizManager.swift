@@ -144,6 +144,25 @@ extension QuizManager {
         return questions
     }
     
+    func fetchQuestionsFor(subCategoryList: [String]) -> [Question] {
+        var questions = [Question]()
+        if let realm = RealmManager.realm {
+            questions = Array(realm.objects(Question.self)
+                .filter("subcategoryName IN %@", subCategoryList))
+        }
+        return questions
+    }
+    
+    func fetchQuestionsInStudyDeckFor(subCategoryList: [String]) -> [Question] {
+        var questions = [Question]()
+        if let realm = RealmManager.realm {
+            questions = realm.objects(Question.self)
+                .filter("subcategoryName IN %@", subCategoryList)
+                .filter({ $0.isAddedToStudyDeck == true })
+        }
+        return Array(questions)
+    }
+    
     func resetAttemptedQuizState() {
         if let realm = RealmManager.realm {
             let questions = Array(realm.objects(Question.self))

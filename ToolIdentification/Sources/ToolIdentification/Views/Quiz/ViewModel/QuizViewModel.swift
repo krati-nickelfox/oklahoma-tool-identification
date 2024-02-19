@@ -26,7 +26,10 @@ class QuizViewModel: ObservableObject {
     private var prevAttemptResult = false
     
     var navigationType: NavigationType
-    
+    var navigatedFromStudyDeck: Bool {
+        self.navigationType == .studyDeck
+    }
+
     init(manager: QuizManager,
          navigationType: NavigationType) {
         self.manager = manager
@@ -36,16 +39,12 @@ class QuizViewModel: ObservableObject {
     func fetchQuestions() {
         //
         self.manager.resetAttemptedQuizState()
-
-        let allQuestions = self.manager.fetchAllQuestions()
         
         if let selectedSubcategoryList = self.manager.selectedSubcategoryList {
-            selectedSubcategoryList.forEach { subcategory in
-                self.questions.append(contentsOf: allQuestions
-                    .filter({
-                        $0.subcategoryName.lowercased() == subcategory.lowercased()
-                    }).shuffled())
-            }
+            self.questions = (navigatedFromStudyDeck
+            ? self.manager.fetchQuestionsInStudyDeckFor(subCategoryList: selectedSubcategoryList)
+            : self.manager.fetchQuestionsFor(subCategoryList: selectedSubcategoryList)
+            ).shuffled()
         }
         if !self.questions.isEmpty {
             self.refreshActiveQuestion()
@@ -78,8 +77,6 @@ class QuizViewModel: ObservableObject {
     }
     
     func didSelectOption(_ index: Int) {
-        let isFromStudyDeck = self.navigationType == .studyDeck
-
         if !self.isAttempted,
            let activeQuestion = self.activeQuestion,
            let correctOption = self.activeQuestionOptionList.filter({ $0.0.id == self.activeQuestionCorrectOptionId }).first,
@@ -105,11 +102,7 @@ class QuizViewModel: ObservableObject {
             //
             self.manager.writeAttemptedQuestion(activeQuestion, 
                                                 isAttempted: true,
-                                                isCorrect: isFromStudyDeck
-                                                ? (!isSelectedOptionCorrect
-                                                   ? activeQuestion.isCorrect
-                                                   : true)
-                                                : isSelectedOptionCorrect,
+                                                isCorrect: isSelectedOptionCorrect,
                                                 isSkipped: false)
         }
     }
