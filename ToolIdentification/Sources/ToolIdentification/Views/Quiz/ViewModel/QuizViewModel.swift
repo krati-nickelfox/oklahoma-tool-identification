@@ -97,6 +97,11 @@ class QuizViewModel: ObservableObject {
                 self.manager.toggleStudyDeckForQuestion(activeQuestion.id,
                                                         added: true)
                 self.isAddedToStudyDeck = true
+            } else {
+//                if self.navigatedFromStudyDeck { // remove correctly answered question from study deck
+                    self.manager.toggleStudyDeckForQuestion(activeQuestion.id,
+                                                            added: false)
+//                }
             }
             
             //

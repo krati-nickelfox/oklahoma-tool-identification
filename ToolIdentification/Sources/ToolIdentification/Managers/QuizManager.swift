@@ -203,7 +203,7 @@ extension QuizManager {
            let question = realm.objects(Question.self).filter({ $0.id == questionId }).first {
             do {
                 try realm.write {
-                    question.isAddedToStudyDeck.toggle()
+                    question.isAddedToStudyDeck = added
                 }
             } catch {
                 
