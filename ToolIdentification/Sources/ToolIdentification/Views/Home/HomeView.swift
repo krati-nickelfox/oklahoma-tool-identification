@@ -267,36 +267,62 @@ public struct HomeView: View {
                     
                     // View Reports
                     Button {
-                        if let reportsAvailable = RealmManager.reportsAvailableForCategories(),
-                           !reportsAvailable.isEmpty {
+                        if let reportsAvailable = RealmManager.reportsAvailableForCategories(), !reportsAvailable.isEmpty {
                             self.viewModel.navigation = .reports
                             print("Reports Available!!")
                         } else {
                             print("Reports Not Available!!")
                         }
                     } label: {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 12)
-                                .stroke(
-                                    .gray,
-                                    lineWidth: 2
-                                )
-                                .background(.black.opacity(0.11))
-                                .frame(height: 120)
-                            
-                            VStack(spacing: 8, content: {
-                                Image(self.reportsIcon, bundle: .module)
-                                    .frame(
-                                        width: 24,
-                                        height: 24
+                        if let reportsAvailable = RealmManager.reportsAvailableForCategories(), !reportsAvailable.isEmpty {
+                            NavigationLink(destination: ReportsSelectCategoryView(placardImage: "", containerImage: "")
+                                .navigationBarBackButtonHidden(true)) {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(
+                                            Color.gray,
+                                            lineWidth: 2
+                                        )
+                                        .background(Color.black.opacity(0.11))
+                                        .frame(height: 120)
+                                    
+                                    VStack(spacing: 8) {
+                                        Image(self.reportsIcon, bundle: .module)
+                                            .frame(
+                                                width: 24,
+                                                height: 24
+                                            )
+                                        
+                                        Text("View Reports")
+                                            .font(.custom("Helvetica Neue Medium", size: 16))
+                                            .foregroundColor(.white)
+                                            .multilineTextAlignment(.center)
+                                    }
+                                }
+                            }
+                        } else {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(
+                                        Color.gray,
+                                        lineWidth: 2
                                     )
+                                    .background(Color.black.opacity(0.11))
+                                    .frame(height: 120)
                                 
-                                Text("View Reports")
-                                // FIXME: Font to be updated below with Lato
-                                    .font(.custom("Helvetica Neue Medium", size: 16))
-                                    .foregroundColor(.white)
-                                    .multilineTextAlignment(.center)
-                            })
+                                VStack(spacing: 8) {
+                                    Image(self.reportsIcon, bundle: .module)
+                                        .frame(
+                                            width: 24,
+                                            height: 24
+                                        )
+                                    
+                                    Text("View Reports")
+                                        .font(.custom("Helvetica Neue Medium", size: 16))
+                                        .foregroundColor(.white)
+                                        .multilineTextAlignment(.center)
+                                }
+                            }
                         }
                     }
                     .buttonStyle(PlainButtonStyle())
