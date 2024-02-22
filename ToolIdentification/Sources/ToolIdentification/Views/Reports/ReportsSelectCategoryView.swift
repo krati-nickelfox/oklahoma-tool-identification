@@ -31,7 +31,7 @@ public struct ReportsSelectCategoryView: View {
             VStack(spacing: 40) {
                 HeaderView(title: "View Reports", leftButtonAction: {
                     presentationMode.wrappedValue.dismiss()
-                }, rightButtonAction: nil, leftIconName: "", rightIconName: nil)
+                }, rightButtonAction: nil, leftIconName: "back-icon", rightIconName: nil)
                 selectCategoryTitleView
                 categoriesView
                 Spacer()
