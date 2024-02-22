@@ -49,7 +49,7 @@ struct RealmManager {
     
     static func reportsAvailableForCategories() -> Results<Question>? {
         guard let realm = RealmManager.realm else { return nil }
-        let identifyCategories = realm.objects(Question.self).filter("isAttempted == true")
+        let identifyCategories = realm.objects(Question.self).filter("score > 0")
         return identifyCategories
     }
     
@@ -181,4 +181,25 @@ struct RealmManager {
         }
     }
 
+    
+    static func fetchCategoriesWithScores() -> [String: Double]? {
+        guard let realm = realm else {
+            return nil
+        }
+        
+        var categoryScores: [String: Double] = [:]
+        
+        let categoriesWithScores = realm.objects(Question.self).filter("score > 0")
+        
+        for question in categoriesWithScores {
+            if let existingScore = categoryScores[question.categoryName] {
+                categoryScores[question.categoryName] = max(existingScore, question.score)
+            } else {
+                categoryScores[question.categoryName] = question.score
+            }
+        }
+        
+        return categoryScores
+    }
+    
 }

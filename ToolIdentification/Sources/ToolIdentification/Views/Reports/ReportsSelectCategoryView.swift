@@ -12,6 +12,8 @@ public struct ReportsSelectCategoryView: View {
     /// Environment Variable
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
+    @ObservedObject var viewModel = ReportsViewModel()
+    
     let placardImage: String
     let containerImage: String
     
@@ -36,6 +38,9 @@ public struct ReportsSelectCategoryView: View {
             }
         }
         .background(Color(red: 35/255, green: 31/255, blue: 32/255))
+        .onAppear {
+            self.viewModel.fetchCategoriesWithScores()
+        }
     }
     
     var selectCategoryTitleView: some View {
@@ -57,7 +62,9 @@ public struct ReportsSelectCategoryView: View {
     
     var categoriesView: some View {
         VStack(spacing: 20, content: {
-            ForEach(0..<2) { _ in
+            ForEach(0..<self.viewModel.categoriesWithScores.count, id: \.self) { index in
+                let categoryWithScore = self.viewModel.categoriesWithScores[index]
+                let progressTint = self.progressTintColor(for: categoryWithScore.score)
                 ZStack(alignment: .center) {
                     RoundedRectangle(cornerRadius: 8)
                     
@@ -67,7 +74,7 @@ public struct ReportsSelectCategoryView: View {
                             .resizable()
                             .frame(width: 48, height: 48)
                         
-                        Text("Placards")
+                        Text(categoryWithScore.categoryName)
                             .font(.subheadline)
                             .foregroundColor(.white)
                         
@@ -78,13 +85,13 @@ public struct ReportsSelectCategoryView: View {
                                 Text("Score: ")
                                     .foregroundColor(.gray)
                                 
-                                Text("0.5%")
-                                    .foregroundColor(.red)
+                                Text("\(categoryWithScore.score)%")
+                                    .foregroundColor(progressTint)
                             })
                             
                             ProgressView(value: 0.5)
                                 .progressViewStyle(LinearProgressViewStyle())
-                                .tint(.red)
+                                .tint(progressTint)
                                 .background(.black)
                                 .cornerRadius(3.0)
                         })
@@ -97,5 +104,16 @@ public struct ReportsSelectCategoryView: View {
             }
         })
         .padding(.horizontal, 18)
+    }
+    
+    func progressTintColor(for score: Double) -> Color {
+        switch score {
+        case 0..<50:
+            return .red
+        case 50..<70:
+            return .yellow
+        default:
+            return .green
+        }
     }
 }
