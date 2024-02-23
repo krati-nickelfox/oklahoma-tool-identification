@@ -59,4 +59,19 @@ public struct ReportsView: View {
             .padding(.horizontal, 12)
         })
     }
+    
+    // Progress bar tint color as per the percentage
+    /// 0 - 49.9% Red
+    /// 50 - 69.9% Yellow
+    /// 70 - 100% Green
+    func progressTintColor(for score: Double) -> Color {
+        switch score {
+        case 0..<50:
+            return .red
+        case 50..<70:
+            return .yellow
+        default:
+            return .green
+        }
+    }
 }
