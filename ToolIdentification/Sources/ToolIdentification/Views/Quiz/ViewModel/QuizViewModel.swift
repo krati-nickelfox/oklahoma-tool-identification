@@ -211,9 +211,9 @@ extension QuizViewModel {
         return activeQuestion.id
     }
     
-    var activeQuestionCorrectOptionId: String {
+    var activeQuestionCorrectOptionId: Int {
         guard let activeQuestion = self.activeQuestion else {
-            return ""
+            return 0
         }
         return activeQuestion.correctOption
     }

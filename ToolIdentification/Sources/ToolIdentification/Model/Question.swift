@@ -14,7 +14,7 @@ class Question: Object, Decodable, Identifiable {
     @Persisted var imageId: String
     @Persisted var descriptionText: String = ""
     @Persisted var imageCourtesy: String = "IFSTA"
-    @Persisted var correctOption: String = "0"
+    @Persisted var correctOption: Int = 0
     @Persisted var isCorrect: Bool
     @Persisted var isAttempted: Bool
     @Persisted var isSkipped: Bool
@@ -22,17 +22,17 @@ class Question: Object, Decodable, Identifiable {
     @Persisted var options: List<Option> = List<Option>()
     
     enum CodingKeys: String, CodingKey {
-        case id
-        case imageId
-        case categoryName
-        case subcategoryName
+        case id = "questionID"
+        case imageId = "imageID"
+        case categoryName = "category"
+        case subcategoryName = "subcategory"
         case descriptionText = "description"
         case imageCourtesy
-        case optionA
-        case optionB
-        case optionC
-        case optionD
-        case correctOption
+        case correctOption = "correctAnswer"
+        case optionA = "possibleAnswerA"
+        case optionB = "possibleAnswerB"
+        case optionC = "possibleAnswerC"
+        case optionD = "possibleAnswerD"
     }
     
     required convenience init(from decoder: Decoder) throws {
@@ -44,28 +44,27 @@ class Question: Object, Decodable, Identifiable {
         imageId = try container.decode(String.self, forKey: .imageId)
         descriptionText = try container.decode(String.self, forKey: .descriptionText)
         imageCourtesy = try container.decode(String.self, forKey: .imageCourtesy)
-        
+        correctOption = try container.decode(Int.self, forKey: .correctOption)
+
         let optionA = try container.decode(String.self, forKey: .optionA)
         let optionB = try container.decode(String.self, forKey: .optionB)
         let optionC = try container.decode(String.self, forKey: .optionC)
         let optionD = try container.decode(String.self, forKey: .optionD)
         
         options.append(objectsIn: [
-            Option(id: "0", title: optionA),
-            Option(id: "1", title: optionB),
-            Option(id: "2", title: optionC),
-            Option(id: "3", title: optionD)
+            Option(id: 0, title: optionA),
+            Option(id: 1, title: optionB),
+            Option(id: 2, title: optionC),
+            Option(id: 3, title: optionD)
         ])
-        
-        correctOption = try container.decode(String.self, forKey: .correctOption)
     }
 }
 
 class Option: Object, Codable {
-    @Persisted var id: String = "0"
+    @Persisted var id: Int = 0
     @Persisted var title: String = ""
 
-    convenience init(id: String,
+    convenience init(id: Int,
                      title: String) {
         self.init()
         self.id = id
