@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum QuizEndAlertType {
+    case scoreAndExit
+    case quizExitConfirmation
+    case none
+}
+
 public enum NavigationType {
     case quiz
     case studyDeck
@@ -16,8 +22,8 @@ public enum NavigationType {
 class QuizViewModel: ObservableObject {
     
     @Published var activeQuestionOptionList = [(Option, Optionstate)]()
-    @Published var isAddedToStudyDeck = false
-    @Published var reachedQuizEnd = false
+    @Published var isAddedToStudyDeck: Bool = false
+    @Published var quizEndAlertType: QuizEndAlertType = .none
 
     private var activeQuestion: Question?
     private var questions = [Question]()
@@ -25,6 +31,11 @@ class QuizViewModel: ObservableObject {
     private var currentQuestionIndex = 0
     private var prevAttemptResult = false
     
+    /// Result view related variables
+    var tempResultDataMdel: ResultDataModel?
+    private var attemptedOrSkippedQuestionList = [ResultQuestionDataModel]()
+    
+    /// Navigation related variables
     var navigationType: NavigationType
     var navigatedFromStudyDeck: Bool {
         self.navigationType == .studyDeck
@@ -60,20 +71,54 @@ class QuizViewModel: ObservableObject {
     }
     
     func didTapNext() {
-        self.currentQuestionIndex += 1
-        if self.currentQuestionIndex < self.questions.count {
-            if !self.isAttempted,
-               let activeQuestion = self.activeQuestion {
-                //
-                self.manager.writeAttemptedQuestion(activeQuestion,
-                                                    isAttempted: false,
-                                                    isCorrect: activeQuestion.isCorrect,
-                                                    isSkipped: true)
-            }
+        guard let activeQuestion = self.activeQuestion else { return }
+        // question is skipped
+        if !self.isAttempted {
+            self.manager.writeAttemptedQuestion(activeQuestion,
+                                                isAttempted: false,
+                                                isCorrect: activeQuestion.isCorrect,
+                                                isSkipped: true)
+            
+            // save attempted question to temporary result questions list
+            let questionResultDataModel = ResultQuestionDataModel(id: activeQuestionId,
+                                                                  imageId: activeQuestionImageId,
+                                                                  isCorrect: activeQuestion.isCorrect,
+                                                                  isSkipped: !self.isAttempted,
+                                                                  isAttempted: self.isAttempted,
+                                                                  isAddedToStudyDeck: activeQuestion.isAddedToStudyDeck,
+                                                                  correctAnswer: self.correctOptionDescription,
+                                                                  selectedAnswer: "")
+            self.attemptedOrSkippedQuestionList.append(questionResultDataModel)
+            #if DEBUG
+            print("------------Question Skip Registered------------")
+            print("questionId - \(questionResultDataModel.id)")
+            print("imageId - \(questionResultDataModel.imageId)")
+            print("isCorrect - \(questionResultDataModel.isCorrect)")
+            print("isSkipped - \(questionResultDataModel.isSkipped)")
+            print("isAttempted - \(questionResultDataModel.isAttempted)")
+            print("isAddedToStudyDeck - \(questionResultDataModel.isAddedToStudyDeck)")
+            print("correctAnswer - \(questionResultDataModel.correctAnswer)")
+            print("selectedAnswer - \(questionResultDataModel.selectedAnswer)")
+            #endif
+        }
+
+        // quiz end not reached
+        if self.currentQuestionIndex < (self.questions.count - 1) {
+            self.currentQuestionIndex += 1
             self.refreshActiveQuestion()
         } else {
-            self.reachedQuizEnd = true
+            if self.attemptedOrSkippedQuestionList.isEmpty {
+                // no question was attempted
+                // show are you sure you want to exit alert
+                self.quizEndAlertType = .quizExitConfirmation
+            } else {
+                // show score and exit alert
+                self.tempResultDataMdel = ResultDataModel(attemptedQuestions: self.attemptedOrSkippedQuestionList)
+                self.quizEndAlertType = .scoreAndExit
+            }
         }
+        
+
     }
     
     func didSelectOption(_ index: Int) {
@@ -109,6 +154,29 @@ class QuizViewModel: ObservableObject {
                                                 isAttempted: true,
                                                 isCorrect: isSelectedOptionCorrect,
                                                 isSkipped: false)
+            
+            // save attempted question to temporary result questions list
+            let questionResultDataModel = ResultQuestionDataModel(id: activeQuestionId,
+                                                                  imageId: activeQuestionImageId,
+                                                                  isCorrect: activeQuestion.isCorrect,
+                                                                  isSkipped: !self.isAttempted,
+                                                                  isAttempted: self.isAttempted,
+                                                                  isAddedToStudyDeck: activeQuestion.isAddedToStudyDeck,
+                                                                  correctAnswer: self.correctOptionDescription,
+                                                                  selectedAnswer: selectedOption.0.title)
+            self.attemptedOrSkippedQuestionList.append(questionResultDataModel)
+            
+            #if DEBUG
+            print("------------Question Attempt Registered------------")
+            print("questionId - \(questionResultDataModel.id)")
+            print("imageId - \(questionResultDataModel.imageId)")
+            print("isCorrect - \(questionResultDataModel.isCorrect)")
+            print("isSkipped - \(questionResultDataModel.isSkipped)")
+            print("isAttempted - \(questionResultDataModel.isAttempted)")
+            print("isAddedToStudyDeck - \(questionResultDataModel.isAddedToStudyDeck)")
+            print("correctAnswer - \(questionResultDataModel.correctAnswer)")
+            print("selectedAnswer - \(questionResultDataModel.selectedAnswer)")
+            #endif
         }
     }
     
@@ -190,6 +258,13 @@ extension QuizViewModel {
             return []
         }
         return Array(activeQuestion.options)
+    }
+
+    private var correctOptionDescription: String {
+        guard let activeQuestionCorrectAnswer = self.activeQuestionOptions.filter({ $0.id == self.activeQuestionCorrectOptionId }).first else {
+            return ""
+        }
+        return activeQuestionCorrectAnswer.title
     }
 
 }

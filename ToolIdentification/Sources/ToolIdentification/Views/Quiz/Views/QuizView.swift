@@ -7,11 +7,45 @@
 
 import SwiftUI
 
+enum quizViewType {
+    case quiz
+    case result
+    
+    var title: String {
+        switch self {
+        case .quiz:
+            "Tool Identification"
+        case .result:
+            "Result"
+        }
+    }
+    
+    var leftButtonIcon: String? {
+        switch self {
+        case .quiz:
+            "back-icon"
+        case .result:
+            nil
+        }
+    }
+
+    var rightButtonIcon: String? {
+        "ExitIcon"
+    }
+}
+
 struct QuizView: View {
     
     @ObservedObject var viewModel: QuizViewModel
     /// Environment Variable
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
+    ///
+    @State var viewType: quizViewType = .quiz
+    @State var exitQuiz: Bool = false
+    @State var showExitConfirmationAlert: Bool = false
+    @State var showScoreAndExitAlert: Bool = false
+
     
     init?(navigation: NavigationType) {
         guard let manager = ToolIdentification.quizManager else {
@@ -26,7 +60,7 @@ struct QuizView: View {
                ? .bottom
                : .center) {
             /// Background
-            Color(red: 0.15, green: 0.14, blue: 0.14)
+            Color(red: 0.137, green: 0.121, blue: 0.125)
                 .ignoresSafeArea()
 
             if self.viewModel.isQuizLoaded {
@@ -35,16 +69,22 @@ struct QuizView: View {
                     self.topHeaderView
                         .padding(.bottom, 24)
                     
-                    self.questionCountDetailView
-                    
-                    self.optionListView
-                        .padding(.horizontal, 20)
+                    if self.viewType == .quiz {
+                        self.questionCountDetailView
+                        
+                        self.optionListView
+                            .padding(.horizontal, 20)
+                    } else { // Reached quiz end, show result view
+                        ResultView(viewModel: self.viewModel)
+                    }
                 }
                 .padding(.bottom, 16)
                 .ignoresSafeArea(edges: .bottom)
-
-                /// Next Button
-                self.actionButton
+                
+                if self.viewType == .quiz {
+                    /// Next Button
+                    self.actionButton
+                }
             }
             
             if !self.viewModel.isQuizLoaded {
@@ -54,23 +94,62 @@ struct QuizView: View {
         }
         .navigationBarHidden(true)
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
                 self.viewModel.fetchQuestions()
+//            }
+        }
+        .onReceive(self.viewModel.$quizEndAlertType) { alertType in
+            self.showExitConfirmationAlert = alertType == .quizExitConfirmation
+            self.showScoreAndExitAlert = alertType == .scoreAndExit
+        }
+        .alert("Exit", isPresented: self.$showScoreAndExitAlert) {
+            VStack {
+                Button {
+                    self.viewType = .result
+                } label: {
+                    Text("Score and Exit")
+                }
+                
+                Button {
+                    presentationMode.wrappedValue.dismiss()
+                } label: {
+                    Text("Exit without Score")
+                        .foregroundColor(.red)
+                }
+                
+                Button {
+                    self.showScoreAndExitAlert = false
+                } label: {
+                    Text("Cancel")
+                }
             }
+        }
+        .alert(isPresented: self.$showExitConfirmationAlert) {
+            Alert(title: Text("Exit"),
+                  message: Text("Are you sure you want to exit?"),
+                  primaryButton: .default(
+                    Text("Cancel")),
+                  secondaryButton: .destructive(
+                    Text("Yes"),
+                    action: {
+                        self.dismiss()
+                    }
+                  )
+            )
         }
     }
     
     // MARK: Header View
     var topHeaderView: some View {
-        HeaderView(title: "Tool Identification",
+        HeaderView(title: self.viewType.title,
                    leftButtonAction: {
-            presentationMode.wrappedValue.dismiss()
+            self.dismiss()
         },
                    rightButtonAction: {
-            presentationMode.wrappedValue.dismiss()
+            self.dismiss()
         },
-                   leftIconName: "back-icon",
-                   rightIconName: "ExitIcon")
+                   leftIconName: self.viewType.leftButtonIcon,
+                   rightIconName: self.viewType.rightButtonIcon)
     }
     
     var questionCountDetailView: some View {
@@ -208,5 +287,9 @@ struct QuizView: View {
         return PrimaryGradientButton(title: buttonTitle) {
             self.viewModel.didTapNext()
         }
+    }
+    
+    func dismiss() {
+        presentationMode.wrappedValue.dismiss()
     }
 }
