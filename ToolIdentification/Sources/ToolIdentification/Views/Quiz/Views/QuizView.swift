@@ -172,13 +172,17 @@ struct QuizView: View {
         ScrollView(showsIndicators: false) {
             VStack {
                 /// Tool Image
-                self.toomImageView
+                self.toolImageView
                 
                 /// Tool Description
-                Text(self.viewModel.activeQuestionDescription)
-                    .multilineTextAlignment(.leading)
-                    .foregroundStyle(.white)
-                    .padding(.bottom, 16)
+                HStack {
+                    Text(self.viewModel.activeQuestionDescription)
+                        .multilineTextAlignment(.leading)
+                        .foregroundStyle(.white)
+                        .padding(.bottom, 16)
+                    
+                    Spacer()
+                }
                 
                 /// Add To Study Deck
                 self.addToStudyDeckButtonView
@@ -202,12 +206,19 @@ struct QuizView: View {
         }
     }
     
-    // MARK:
-    var toomImageView: some View {
+    // MARK: Tool Image View
+    var toolImageView: some View {
         ZStack {
-            Image(systemName: "photo.artframe")
-                .resizable()
-                .clipShape(.rect(cornerRadius: 12))
+            Group {
+                if let image = ImageManager.shared.getImageWithName(self.viewModel.activeQuestionImageId) {
+                    Image(uiImage: image)
+                        .resizable()
+                } else {
+                    Image(systemName: "photo.artframe")
+                        .resizable()
+                }
+            }
+            .clipShape(.rect(cornerRadius: 12))
             
             VStack {
                 Spacer()
