@@ -143,10 +143,16 @@ struct QuizView: View {
     var topHeaderView: some View {
         HeaderView(title: self.viewType.title,
                    leftButtonAction: {
+            // Back button action
             self.dismiss()
         },
                    rightButtonAction: {
-            self.dismiss()
+            // Exit button action
+            if self.viewType == .quiz {
+                self.viewModel.didTapExit()
+            } else {
+                self.dismiss()
+            }
         },
                    leftIconName: self.viewType.leftButtonIcon,
                    rightIconName: self.viewType.rightButtonIcon)
@@ -167,7 +173,7 @@ struct QuizView: View {
         .frame(height: 17)
     }
     
-    // MARK:
+    // MARK: Possible Answers list View
     var optionListView: some View {
         ScrollView(showsIndicators: false) {
             VStack {
@@ -252,6 +258,7 @@ struct QuizView: View {
         .shadow(color: .white.opacity(0.08), radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/, x: 0, y: 4)
     }
     
+    // MARK: Add to Study Deck View
     var addToStudyDeckButtonView: some View {
         Button(action: {
             self.viewModel.didTapStudyDeckButton()
@@ -289,7 +296,7 @@ struct QuizView: View {
         .padding(.bottom, 20)
     }
 
-    // MARK:
+    // MARK: Button View
     var actionButton: some View {
         let buttonTitle = self.viewModel.isAttempted
         ? "Next"

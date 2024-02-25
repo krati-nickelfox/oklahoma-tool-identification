@@ -47,6 +47,18 @@ class QuizViewModel: ObservableObject {
         self.navigationType = navigationType
     }
     
+    private func didReachQuizEnd() {
+        if self.attemptedOrSkippedQuestionList.isEmpty {
+            // no question was attempted
+            // show are you sure you want to exit alert
+            self.quizEndAlertType = .quizExitConfirmation
+        } else {
+            // show score and exit alert
+            self.tempResultDataMdel = ResultDataModel(attemptedQuestions: self.attemptedOrSkippedQuestionList)
+            self.quizEndAlertType = .scoreAndExit
+        }
+    }
+    
     func fetchQuestions() {
         //
         self.manager.resetAttemptedQuizState()
@@ -107,18 +119,9 @@ class QuizViewModel: ObservableObject {
             self.currentQuestionIndex += 1
             self.refreshActiveQuestion()
         } else {
-            if self.attemptedOrSkippedQuestionList.isEmpty {
-                // no question was attempted
-                // show are you sure you want to exit alert
-                self.quizEndAlertType = .quizExitConfirmation
-            } else {
-                // show score and exit alert
-                self.tempResultDataMdel = ResultDataModel(attemptedQuestions: self.attemptedOrSkippedQuestionList)
-                self.quizEndAlertType = .scoreAndExit
-            }
+            // reached quiz end
+            self.didReachQuizEnd()
         }
-        
-
     }
     
     func didSelectOption(_ index: Int) {
@@ -186,6 +189,10 @@ class QuizViewModel: ObservableObject {
                                                     added: !activeQuestion.isAddedToStudyDeck)
             self.isAddedToStudyDeck.toggle()
         }
+    }
+    
+    func didTapExit() {
+        self.didReachQuizEnd()
     }
     
 }
