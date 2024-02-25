@@ -52,10 +52,10 @@ class Question: Object, Decodable, Identifiable {
         let optionD = try container.decode(String.self, forKey: .optionD)
         
         options.append(objectsIn: [
-            Option(id: 0, title: optionA),
-            Option(id: 1, title: optionB),
-            Option(id: 2, title: optionC),
-            Option(id: 3, title: optionD)
+            Option(id: 1, title: optionA),
+            Option(id: 2, title: optionB),
+            Option(id: 3, title: optionC),
+            Option(id: 4, title: optionD)
         ])
     }
 }
