@@ -77,9 +77,9 @@ struct ResultView: View {
                             }
                             .overlay {
                                 PrimaryGrayBorderedView()
+                                    .shadow(color: .white.opacity(0.08), radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/, x: 0, y: 4)
                             }
                             .padding(.bottom, 4)
-                            .shadow(color: .white.opacity(0.08), radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/, x: 0, y: 4)
                     }
                     .padding(.horizontal, 12)
                 }
