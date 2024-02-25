@@ -12,17 +12,22 @@ public struct ReportsView: View {
     /// Environment Variable
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
+    @ObservedObject var viewModel = ReportsViewModel()
+    
     public init() { }
     
     // MARK: Body
     public var body: some View {
         ZStack {
             VStack {
-                HeaderView(title: "Placards Reports", leftButtonAction: {
+                HeaderView(title: "\(self.viewModel.selectedCategory) Reports", leftButtonAction: {
                     presentationMode.wrappedValue.dismiss()
                 }, rightButtonAction: {}, leftIconName: "back-icon", rightIconName: "ExitIcon")
                 subcategoriesProgressView
             }
+        }
+        .onAppear {
+            self.viewModel.fetchSubcategoriesWithScores()
         }
         .background(Color(red: 35/255, green: 31/255, blue: 32/255))
     }
@@ -30,25 +35,27 @@ public struct ReportsView: View {
     var subcategoriesProgressView: some View {
         ScrollView(showsIndicators: false, content: {
             VStack(spacing: 16, content: {
-                ForEach(0..<10) { num in
+                ForEach(0..<self.viewModel.subcategoriesWithScores.count, id: \.self) { index in
+                    let subcategoryWithScore = self.viewModel.subcategoriesWithScores[index]
+                    let progressTint = self.progressTintColor(for: subcategoryWithScore.score)
                     ZStack(alignment: .center) {
                         RoundedRectangle(cornerRadius: 5)
                             .stroke(Color.black, lineWidth: 1)
                         
                         HStack(spacing: 16) {
-                            Text("Subcategory\(num)")
+                            Text(subcategoryWithScore.subcategoryName)
                                 .font(.caption)
                                 .foregroundColor(.white)
                             
-                            Text("80.0%")
+                            Text("\(subcategoryWithScore.score)%")
                                 .font(.caption)
-                                .foregroundColor(.white)
+                                .foregroundColor(progressTint)
                             
-                            ProgressView(value: 0.5)
+                            ProgressView(value: subcategoryWithScore.score)
                                 .progressViewStyle(LinearProgressViewStyle())
                                 .frame(height: 10)
                                 .scaleEffect(x: 1, y: 2.5, anchor: .center)
-                                .tint(.red)
+                                .tint(progressTint)
                         }
                         .padding(.horizontal, 16)
                     }
