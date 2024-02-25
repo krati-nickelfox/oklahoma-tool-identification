@@ -11,7 +11,7 @@ struct ResultQuestionView: View {
     var dataModel: ResultQuestionDataModel
 
     var body: some View {
-        VStack {
+        VStack(spacing: 8) {
             HStack {
                 Text(dataModel.id)
                     .foregroundStyle(
@@ -22,12 +22,22 @@ struct ResultQuestionView: View {
                 
                 Spacer()
             }
+            .frame(height: 14)
             
-            HStack {
+            HStack(alignment: .top) {
                 /// Question image view
                 RoundedRectangle(cornerRadius: 5)
                     .overlay {
-                        
+                        Group {
+                            if let image = ImageManager.shared.getImageWithName(self.dataModel.imageId) {
+                                Image(uiImage: image)
+                                    .resizable()
+                            } else {
+                                Image(systemName: "photo.artframe")
+                                    .resizable()
+                            }
+                        }
+                        .clipShape(.rect(cornerRadius: 5))
                     }
                     .frame(width: 70, height: 46)
 
@@ -43,7 +53,7 @@ struct ResultQuestionView: View {
                 }
                 .multilineTextAlignment(.leading)
                 
-                Spacer()
+                Spacer(minLength: 0)
             }
             
             HStack {
