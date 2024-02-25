@@ -77,10 +77,14 @@ struct RealmManager {
     // Clearing reports from menu options view on home
     static func clearReports() {
         guard let realm = RealmManager.realm else {
-            print("Realm is not initialized.")
             return
         }
+        
         let attemptedQuestions = realm.objects(Question.self).filter("isAttempted == true")
+        if attemptedQuestions.isEmpty {
+            print("No reports found.")
+            return
+        }
         do {
             try realm.write {
                 for question in attemptedQuestions {
@@ -98,12 +102,12 @@ struct RealmManager {
         guard let realm = realm else {
             return nil
         }
-
+        
         var subcategoryNames: [String] = []
         var subcategorySet: Set<String> = Set()
-
+        
         let subcategories = realm.objects(Question.self).filter("categoryName IN %@", categories)
-
+        
         for subcategory in subcategories {
             let subcategoryName = subcategory.subcategoryName
             if !subcategorySet.contains(subcategoryName) {
@@ -111,7 +115,7 @@ struct RealmManager {
                 subcategorySet.insert(subcategoryName)
             }
         }
-
+        
         return subcategoryNames
     }
     
@@ -163,7 +167,7 @@ struct RealmManager {
             .filter("categoryName IN %@", categories)
             .filter({ $0.isAddedToStudyDeck == true })
             .map { $0.subcategoryName }
-
+        
         return Array(Set(subcategoryNames))
     }
 

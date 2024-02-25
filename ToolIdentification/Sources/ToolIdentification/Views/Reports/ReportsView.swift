@@ -65,12 +65,11 @@ public struct ReportsView: View {
     /// 50 - 69.9% Yellow
     /// 70 - 100% Green
     func progressTintColor(for score: Double) -> Color {
-        switch score {
-        case 0..<50:
+        if score > 0 && score < 50 {
             return .red
-        case 50..<70:
+        } else if score >= 50 && score < 70 {
             return .yellow
-        default:
+        } else {
             return .green
         }
     }
