@@ -49,7 +49,7 @@ public struct ReportsView: View {
                             
                             Text("\(subcategoryWithScore.score)%")
                                 .font(.caption)
-                                .foregroundColor(progressTint)
+                                .foregroundColor(.white)
                             
                             ProgressView(value: subcategoryWithScore.score)
                                 .progressViewStyle(LinearProgressViewStyle())
@@ -76,8 +76,10 @@ public struct ReportsView: View {
             return .red
         } else if score >= 50 && score < 70 {
             return .yellow
-        } else {
+        } else if score >= 70 && score <= 100 {
             return .green
+        } else {
+            return .white
         }
     }
 }

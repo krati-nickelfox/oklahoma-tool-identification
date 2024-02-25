@@ -124,8 +124,10 @@ public struct ReportsSelectCategoryView: View {
             return .red
         } else if score >= 50 && score < 70 {
             return .yellow
-        } else {
+        } else if score >= 70 && score <= 100 {
             return .green
+        } else {
+            return .white
         }
     }
 }
