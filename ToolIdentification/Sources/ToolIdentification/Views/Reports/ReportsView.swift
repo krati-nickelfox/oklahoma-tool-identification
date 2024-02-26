@@ -21,12 +21,13 @@ public struct ReportsView: View {
     // MARK: Body
     public var body: some View {
         ZStack {
-            VStack {
+            VStack(spacing: 20) {
                 HeaderView(title: "\(self.viewModel.selectedCategory) Reports", leftButtonAction: {
                     presentationMode.wrappedValue.dismiss()
                 }, rightButtonAction: {
                     self.presentCalculationsView = true
                 }, leftIconName: "back-icon", rightIconName: "info.circle.fill")
+                .padding(.top, 44)
                 subcategoriesProgressView
             }
         }
