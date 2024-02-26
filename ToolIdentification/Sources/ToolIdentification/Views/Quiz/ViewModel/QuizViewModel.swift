@@ -25,14 +25,20 @@ class QuizViewModel: ObservableObject {
     @Published var isAddedToStudyDeck: Bool = false
     @Published var quizEndAlertType: QuizEndAlertType = .none
 
-    private var activeQuestion: Question?
+    private var activeQuestion: Question? {
+        didSet {
+            self.isAttempted = false
+        }
+    }
     private var questions = [Question]()
     private let manager: QuizManager
     private var currentQuestionIndex = 0
     private var prevAttemptResult = false
-    
+        
     /// Result view related variables
     var tempResultDataMdel: ResultDataModel?
+    var isAttempted: Bool = false
+
     private var attemptedOrSkippedQuestionList = [ResultQuestionDataModel]()
     
     /// Navigation related variables
@@ -129,7 +135,8 @@ class QuizViewModel: ObservableObject {
            let activeQuestion = self.activeQuestion,
            let correctOption = self.activeQuestionOptionList.filter({ $0.0.id == self.activeQuestionCorrectOptionId }).first,
            let correctOptionIndex = self.activeQuestionOptionList.firstIndex(where: { $0.0.id == self.activeQuestionCorrectOptionId }) {
-            
+            self.isAttempted = true
+
             let selectedOption = self.activeQuestionOptionList[index]
             let isSelectedOptionCorrect = index == correctOptionIndex
             
@@ -245,13 +252,6 @@ extension QuizViewModel {
             return ""
         }
         return activeQuestion.imageCourtesy
-    }
-    
-    var isAttempted: Bool {
-        guard let activeQuestion = self.activeQuestion else {
-            return false
-        }
-        return activeQuestion.isAttempted
     }
     
     var isSkipped: Bool {

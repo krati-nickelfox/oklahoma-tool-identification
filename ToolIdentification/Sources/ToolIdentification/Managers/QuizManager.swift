@@ -170,7 +170,6 @@ extension QuizManager {
             do {
                 try realm.write {
                     questions.forEach { question in
-                        question.isAttempted = false
                         question.isSkipped = false
                     }
                 }
