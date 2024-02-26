@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ResultQuestionView: View {
-    var dataModel: ResultQuestionDataModel
+    @ObservedObject var dataModel: ResultQuestionDataModel
 
     var body: some View {
         VStack(spacing: 8) {
@@ -76,40 +76,42 @@ struct ResultQuestionView: View {
     
     //MARK: Add to study deck button view
     var addToStudyDeckButtonView: some View {
-        Button(action: {
-            self.dataModel.didTapStudyDeckButton()
-        }, label: {
-            Color.init(red: 0.8,
-                       green: 0.8,
-                       blue: 0.8)
-            .clipShape(.rect(cornerRadius: 4))
-            .frame(width: UIScreen.main.bounds.width * 0.4)
-            .frame(height: 28)
-            .overlay(
-                HStack(spacing: 6) {
-                    Rectangle()
-                        .fill(.clear)
-                        .frame(width: 15, height: 15)
-                        .border(!self.dataModel.isAddedToStudyDeck ? .white : .clear)
-                        .overlay {
-                            if self.dataModel.isAddedToStudyDeck {
-                                Image("BoxTickMarkIcon", bundle: .module)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 15, height: 15)
-                            }
-                        }
-                    Text(self.dataModel.isAddedToStudyDeck
-                         ? "Added to Study Deck"
-                         : "Add to Study Deck")
-                    .foregroundStyle(Color.init(red: 67/255,
-                                                green: 67/255,
-                                                blue: 66/255))
-                    .font(.caption)
+        Color.init(red: 0.8,
+                   green: 0.8,
+                   blue: 0.8)
+        .clipShape(.rect(cornerRadius: 4))
+        .frame(width: UIScreen.main.bounds.width * 0.4)
+        .frame(height: 28)
+        .overlay {
+            HStack(spacing: 6) {
+                Group {
+                    if self.dataModel.isAddedToStudyDeck {
+                        Image("checkmark-filled",
+                              bundle: .module)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 20, height: 20)
+                    } else {
+                        Rectangle()
+                            .fill(.clear)
+                            .border(.white)
+                            .frame(width: 15, height: 15)
+                    }
                 }
-                    .padding(.vertical, 7)
-                    .frame(minWidth: 133)
-            )
-        })
+                
+                Text(self.dataModel.isAddedToStudyDeck
+                     ? "Added to Study Deck"
+                     : "Add to Study Deck")
+                .foregroundStyle(Color.init(red: 67/255,
+                                            green: 67/255,
+                                            blue: 66/255))
+                .font(.caption)
+            }
+            .padding(.vertical, 7)
+            .frame(minWidth: 133)
+        }
+        .onTapGesture {
+            self.dataModel.toggleStudyDeck()
+        }
     }
 }

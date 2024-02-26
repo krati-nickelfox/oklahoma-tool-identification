@@ -7,17 +7,26 @@
 
 import Foundation
 
-class ResultQuestionDataModel: Identifiable {
+class ResultQuestionDataModel: Identifiable, ObservableObject {
+    
+    @Published var isAddedToStudyDeck: Bool
+
     let id: String
     let imageId: String
     let isCorrect: Bool
     let isSkipped: Bool
     let isAttempted: Bool
-    let isAddedToStudyDeck: Bool
     let correctAnswer: String
     let selectedAnswer: String
     
-    init(id: String, imageId: String, isCorrect: Bool, isSkipped: Bool, isAttempted: Bool, isAddedToStudyDeck: Bool, correctAnswer: String, selectedAnswer: String) {
+    init(id: String, 
+         imageId: String,
+         isCorrect: Bool,
+         isSkipped: Bool,
+         isAttempted: Bool,
+         isAddedToStudyDeck: Bool,
+         correctAnswer: String,
+         selectedAnswer: String) {
         self.id = id
         self.imageId = imageId
         self.isCorrect = isCorrect
@@ -28,8 +37,10 @@ class ResultQuestionDataModel: Identifiable {
         self.selectedAnswer = selectedAnswer
     }
     
-    func didTapStudyDeckButton() {
-        
+    func toggleStudyDeck() {
+        RealmManager.shared.toggleStudyDeckForQuestion(self.id,
+                                                       added: !self.isAddedToStudyDeck)
+        self.isAddedToStudyDeck.toggle()
     }
 }
 

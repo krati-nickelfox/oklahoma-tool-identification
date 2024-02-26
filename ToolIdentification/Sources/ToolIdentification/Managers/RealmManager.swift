@@ -167,4 +167,18 @@ struct RealmManager {
         return Array(Set(subcategoryNames))
     }
 
+    func toggleStudyDeckForQuestion(_ questionId: String,
+                                    added: Bool) {
+        if let realm = RealmManager.realm,
+           let question = realm.objects(Question.self).filter({ $0.id == questionId }).first {
+            do {
+                try realm.write {
+                    question.isAddedToStudyDeck = added
+                }
+            } catch {
+                
+            }
+        }
+    }
+
 }
