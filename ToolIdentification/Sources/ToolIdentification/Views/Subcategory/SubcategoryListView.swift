@@ -71,46 +71,6 @@ public struct SubcategoryListView: View {
         .navigationBarBackButtonHidden(true)
     }
     
-    /*
-    public var body: some View {
-        NavigationLink(isActive: self.$presentQuizView) {
-            if let manager = ToolIdentification.quizManager {
-                QuizView(viewModel: QuizViewModel(manager: manager,
-                                                  navigationType: self.viewModel.navigation))
-            }
-        } label: {
-            ZStack {
-                VStack(spacing: 20) {
-                    self.topHeaderView
-                    
-                    ScrollView(showsIndicators: false) {
-                        self.listHeaderView
-                        self.subcategoriesView
-                    }
-                }
-                
-                if self.viewModel.selectedSubcategories.count > 0 {
-                    VStack {
-                        Spacer()
-                        
-                        PrimaryGradientButton(title: "Next") {
-                            self.viewModel.didTapNextButton()
-                            self.presentQuizView = true
-                        }
-
-                    }
-                    .padding(.bottom, 60)
-                }
-            }
-            .ignoresSafeArea()
-            .background(Color(red: 35/255, green: 31/255, blue: 32/255))
-            .onAppear {
-                self.viewModel.fetchAllSubcategories()
-            }
-        }
-    }
-     */
-    
     // MARK: Header
     var topHeaderView: some View {
         HeaderView(title: self.viewModel.selectedCategories.joined(separator: "/ "),
@@ -125,18 +85,21 @@ public struct SubcategoryListView: View {
     
     // MARK: List Header
     var listHeaderView: some View {
-        HStack(spacing: 24) {
+        HStack {
             Text("\(self.viewModel.subcategoryNames.count) sub-categories")
                 .foregroundColor(.white)
                 .font(.caption)
+                .frame(maxWidth: .infinity, alignment: .leading)
             
             Text("\(self.viewModel.selectedSubcategories.count) Selected")
                 .foregroundColor(.white)
                 .bold()
+                .frame(maxWidth: .infinity, alignment: .center)
             
             Text(self.selectModuleText)
                 .foregroundColor(.yellow)
                 .font(.caption)
+                .frame(maxWidth: .infinity, alignment: .trailing)
                 .onTapGesture {
                     self.viewModel.toggleSelectAll()
                     self.isCheckmarkNotVisible = false
