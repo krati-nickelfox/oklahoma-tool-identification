@@ -20,9 +20,6 @@ struct SubcategoryScore {
 class ReportsViewModel: ObservableObject {
     
     @Published var categoriesWithScores: [CategoryScore] = []
-    @Published var subcategoriesWithScores: [SubcategoryScore] = []
-    
-    @Published var selectedCategory: String = ""
     
     init() { }
     
@@ -34,16 +31,6 @@ class ReportsViewModel: ObservableObject {
                     score: $0.value
                 )
             }
-        }
-    }
-    
-    func fetchSubcategoriesWithScores() {
-        guard let subcategoriesWithScores = RealmManager.fetchSubcategoriesWithScores(for: self.selectedCategory) else { return }
-        self.subcategoriesWithScores = subcategoriesWithScores.map {
-            SubcategoryScore(
-                subcategoryName: $0.key,
-                score: $0.value
-            )
         }
     }
     

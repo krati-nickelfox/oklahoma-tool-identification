@@ -12,9 +12,11 @@ public struct ReportsSelectCategoryView: View {
     /// Environment Variable
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    @ObservedObject var viewModel = ReportsViewModel()
+    @ObservedObject var viewModel: ReportsViewModel
     
-    public init() {}
+    init(viewModel: ReportsViewModel) {
+        self.viewModel = viewModel
+    }
     
     // MARK: Body
     public var body: some View {
@@ -59,11 +61,9 @@ public struct ReportsSelectCategoryView: View {
                 let formattedScore = String(format: "%.2f", categoryWithScore.score)
                 let categoryName = categoryWithScore.categoryName
                 let categoryImage = categoryName == "Placards" ? ImageResource.placardIcon : ImageResource.containersIcon
-                Button(action: {
-                    self.viewModel.selectedCategory = categoryWithScore.categoryName
-                }, label: {
+                Button(action: { }, label: {
                     NavigationLink {
-                        ReportsView()
+                        ReportsView(viewModel: SubcategoryReportsViewModel(selectedCategory: categoryName))
                             .navigationBarBackButtonHidden()
                     } label: {
                         ZStack(alignment: .center) {
