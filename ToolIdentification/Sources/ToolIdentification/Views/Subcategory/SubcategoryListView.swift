@@ -41,11 +41,14 @@ public struct SubcategoryListView: View {
                 
                 if viewModel.selectedSubcategories.count > 0 {
                     Spacer()
-                    NavigationLink(
-                        destination: QuizView(navigation: viewModel.navigation),
-                        isActive: self.$presentQuizView
-                    ) {
-                        EmptyView()
+                    if let manager = ToolIdentification.quizManager {
+                        
+                        NavigationLink(
+                            destination: QuizView(viewModel: QuizViewModel(manager: manager, navigationType: self.viewModel.navigation)),
+                            isActive: self.$presentQuizView
+                        ) {
+                            EmptyView()
+                        }
                     }
                 }
             }

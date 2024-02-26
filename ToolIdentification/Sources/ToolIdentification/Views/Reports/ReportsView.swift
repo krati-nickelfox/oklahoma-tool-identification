@@ -23,7 +23,9 @@ public struct ReportsView: View {
     // MARK: Body
     public var body: some View {
         NavigationLink(isActive: self.$isNavigationLinkActive) {
-            QuizView(navigation: .reports)
+            if let manager = ToolIdentification.quizManager {
+                QuizView(viewModel: QuizViewModel(manager: manager, navigationType: .reports))
+            }
         } label: {
             ZStack {
                 VStack {
