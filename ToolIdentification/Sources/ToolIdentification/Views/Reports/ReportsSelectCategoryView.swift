@@ -21,12 +21,17 @@ public struct ReportsSelectCategoryView: View {
     // MARK: Body
     public var body: some View {
         ZStack {
-            VStack(spacing: 40) {
+            VStack(spacing: 20) {
                 HeaderView(title: "View Reports", leftButtonAction: {
                     presentationMode.wrappedValue.dismiss()
                 }, rightButtonAction: nil, leftIconName: "back-icon", rightIconName: nil)
-                selectCategoryTitleView
-                categoriesView
+                .padding(.top, 44)
+                ScrollView {
+                    VStack(spacing: 40) {
+                        selectCategoryTitleView
+                        categoriesView
+                    }
+                }
                 Spacer()
             }
         }
