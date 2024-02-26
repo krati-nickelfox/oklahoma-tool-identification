@@ -227,7 +227,7 @@ public struct HomeView: View {
                                 .gray,
                                 lineWidth: 2
                             )
-                            .background(.black.opacity(0.11))
+                            .background(.black.opacity(0.2))
                             .frame(height: 120)
                             .padding(
                                 .horizontal,
@@ -267,7 +267,7 @@ public struct HomeView: View {
                                     .gray,
                                     lineWidth: 2
                                 )
-                                .background(.black.opacity(0.11))
+                                .background(.black.opacity(0.2))
                                 .frame(height: 120)
                             
                             VStack(spacing: 8, content: {
@@ -306,7 +306,7 @@ public struct HomeView: View {
                                             Color.gray,
                                             lineWidth: 2
                                         )
-                                        .background(Color.black.opacity(0.11))
+                                        .background(.black.opacity(0.2))
                                         .frame(height: 120)
                                     
                                     VStack(spacing: 8) {
@@ -330,7 +330,7 @@ public struct HomeView: View {
                                         Color.gray,
                                         lineWidth: 2
                                     )
-                                    .background(Color.black.opacity(0.11))
+                                    .background(Color.black.opacity(0.2))
                                     .frame(height: 120)
                                 
                                 VStack(spacing: 8) {
