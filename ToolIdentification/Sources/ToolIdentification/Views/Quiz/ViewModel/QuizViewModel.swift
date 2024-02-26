@@ -97,7 +97,7 @@ class QuizViewModel: ObservableObject {
                                                                   isCorrect: activeQuestion.isCorrect,
                                                                   isSkipped: !self.isAttempted,
                                                                   isAttempted: self.isAttempted,
-                                                                  isAddedToStudyDeck: activeQuestion.isAddedToStudyDeck,
+                                                                  isAddedToStudyDeck: self.isAddedToStudyDeck,
                                                                   correctAnswer: self.correctOptionDescription,
                                                                   selectedAnswer: "")
             self.attemptedOrSkippedQuestionList.append(questionResultDataModel)
@@ -164,7 +164,7 @@ class QuizViewModel: ObservableObject {
                                                                   isCorrect: activeQuestion.isCorrect,
                                                                   isSkipped: !self.isAttempted,
                                                                   isAttempted: self.isAttempted,
-                                                                  isAddedToStudyDeck: activeQuestion.isAddedToStudyDeck,
+                                                                  isAddedToStudyDeck: self.isAddedToStudyDeck,
                                                                   correctAnswer: self.correctOptionDescription,
                                                                   selectedAnswer: selectedOption.0.title)
             self.attemptedOrSkippedQuestionList.append(questionResultDataModel)
