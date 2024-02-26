@@ -275,7 +275,7 @@ public struct HomeView: View {
                         }
                     } label: {
                         if let reportsAvailable = RealmManager.reportsAvailableForCategories(), !reportsAvailable.isEmpty {
-                            NavigationLink(destination: ReportsSelectCategoryView(placardImage: "", containerImage: "")
+                            NavigationLink(destination: ReportsSelectCategoryView()
                                 .navigationBarBackButtonHidden(true)) {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 12)
