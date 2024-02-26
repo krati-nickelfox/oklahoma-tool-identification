@@ -16,13 +16,17 @@ public struct ReportsView: View {
     
     @State private var isNavigationLinkActive: Bool = false
     
+    @State private var presentCalculationsView: Bool = false
+    
     // MARK: Body
     public var body: some View {
         ZStack {
             VStack {
                 HeaderView(title: "\(self.viewModel.selectedCategory) Reports", leftButtonAction: {
                     presentationMode.wrappedValue.dismiss()
-                }, rightButtonAction: {}, leftIconName: "back-icon", rightIconName: "ExitIcon")
+                }, rightButtonAction: {
+                    self.presentCalculationsView = true
+                }, leftIconName: "back-icon", rightIconName: "info.circle.fill")
                 subcategoriesProgressView
             }
         }
@@ -38,6 +42,9 @@ public struct ReportsView: View {
                 EmptyView()
             }
         )
+        .sheet(isPresented: self.$presentCalculationsView) {
+            calculationsInfoView
+        }
     }
     
     var subcategoriesProgressView: some View {
@@ -109,5 +116,55 @@ public struct ReportsView: View {
         } else {
             EmptyView()
         }
+    }
+    
+    // MARK: - Calculations view(To be displayed on tap of info button)
+    var calculationsInfoView: some View {
+        VStack {
+            Spacer()
+            
+            VStack(alignment: .leading, spacing: 24) {
+                Text("How are results calculated?")
+                    .foregroundColor(.white)
+                
+                Text("This formula is used to calculate results:")
+                    .foregroundColor(.white)
+                
+                HStack(alignment: .center) {
+                    Text("Progress of a subcategory = ")
+                        .foregroundColor(.white)
+                    
+                    HStack(alignment: .center) {
+                        VStack {
+                            Text("Total number of correctly answered questions in the subcategory")
+                                .foregroundColor(.white)
+                            
+                            Rectangle()
+                                .frame(height: 3)
+                                .foregroundColor(.white)
+                            
+                            Text("Total number of questions in the subcategory")
+                                .foregroundColor(.white)
+                        }
+                        
+                        Text("X 100")
+                            .foregroundColor(.white)
+                    }
+                }
+                
+                Rectangle()
+                    .frame(height: 3)
+                    .foregroundColor(.gray)
+                
+                Text("Please note that your last attempt on a question determines it's value in the calculation.")
+                    .foregroundColor(.white)
+                
+                Text("For eg: If Subcategory 1 has 100 questions and you answer Q1, Q2, Q3 correctly, you will see 3% progress in View Reports section. However, if you take another attempt and this time you answer Q1 incorrectly, your progress for Subcategory 1 will be reduced to 2%")
+                    .foregroundColor(.white)
+            }
+            .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        }
+        .background(Color(red: 35/255, green: 31/255, blue: 32/255))
     }
 }
