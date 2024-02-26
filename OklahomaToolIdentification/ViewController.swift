@@ -27,7 +27,13 @@ class ViewController: UIViewController {
         ToolIdentification.quizManager?.initializeQuiz()
         
         // Add home view from the package
-        let swiftUIView = ReportsSelectCategoryView(placardImage: "", containerImage: "")
+        let swiftUIView = HomeView(
+            backgroundImageName: "identify-home",
+            appLogoName: "logo",
+            practiceExamIcon: "practice-exam",
+            studyDeckIcon: "reports",
+            reportsIcon: "study-deck"
+        )
         let vc = UIHostingController(rootView: swiftUIView)
         vc.view.frame = self.view.bounds
         vc.view.backgroundColor = UIColor.clear

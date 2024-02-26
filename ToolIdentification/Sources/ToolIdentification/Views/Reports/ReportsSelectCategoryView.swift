@@ -14,16 +14,7 @@ public struct ReportsSelectCategoryView: View {
     
     @ObservedObject var viewModel = ReportsViewModel()
     
-    let placardImage: String
-    let containerImage: String
-    
-    public init(
-        placardImage: String,
-        containerImage: String
-    ) {
-        self.placardImage = placardImage
-        self.containerImage = containerImage
-    }
+    public init() {}
     
     // MARK: Body
     public var body: some View {
@@ -65,22 +56,26 @@ public struct ReportsSelectCategoryView: View {
             ForEach(0..<self.viewModel.categoriesWithScores.count, id: \.self) { index in
                 let categoryWithScore = self.viewModel.categoriesWithScores[index]
                 let progressTint = self.progressTintColor(for: categoryWithScore.score)
+                let formattedScore = String(format: "%.2f", categoryWithScore.score)
+                let categoryName = categoryWithScore.categoryName
+                let categoryImage = categoryName == "Placards" ? ImageResource.placardIcon : ImageResource.containersIcon
                 Button(action: {
                     self.viewModel.selectedCategory = categoryWithScore.categoryName
                 }, label: {
                     NavigationLink {
                         ReportsView()
+                            .navigationBarBackButtonHidden()
                     } label: {
                         ZStack(alignment: .center) {
                             RoundedRectangle(cornerRadius: 8)
                             
                             HStack(alignment: .center, spacing: 16, content: {
                                 
-                                Image("Cooper Credit")
+                                Image(categoryImage)
                                     .resizable()
                                     .frame(width: 48, height: 48)
                                 
-                                Text(categoryWithScore.categoryName)
+                                Text(categoryName)
                                     .font(.subheadline)
                                     .foregroundColor(.white)
                                 
@@ -91,11 +86,11 @@ public struct ReportsSelectCategoryView: View {
                                         Text("Score: ")
                                             .foregroundColor(.gray)
                                         
-                                        Text("\(categoryWithScore.score)%")
+                                        Text("\(formattedScore)%")
                                             .foregroundColor(progressTint)
                                     })
                                     
-                                    ProgressView(value: categoryWithScore.score)
+                                    ProgressView(value: categoryWithScore.score / 100.0)
                                         .progressViewStyle(LinearProgressViewStyle())
                                         .tint(progressTint)
                                         .background(.black)
