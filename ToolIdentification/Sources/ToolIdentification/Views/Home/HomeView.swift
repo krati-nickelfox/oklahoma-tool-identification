@@ -54,11 +54,18 @@ public struct HomeView: View {
                     }
                 blackGradientView
                 /// To manage the content over the image
-                VStack(alignment: .center, spacing: 37) {
-                    topAppLogoView
-                    identifyTitleView
+                VStack {
                     Spacer()
-                    centerTileVew
+                    
+                    VStack(alignment: .center, spacing: 24) {
+                        VStack(spacing: 37) {
+                            topAppLogoView
+                            identifyTitleView
+                        }
+                        centerTileVew
+                    }
+                    .padding(.bottom, UIScreen.main.bounds.height * 0.2)
+                    
                     Spacer()
                 }
                 .disabled(showMenuView)
@@ -144,6 +151,7 @@ public struct HomeView: View {
             })
         }
         .navigationBarHidden(true)
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     // MARK: Background Image
@@ -178,7 +186,7 @@ public struct HomeView: View {
                 Image(self.appLogoName, bundle: .module)
                     .resizable()
                     .frame(width: 170, height: 84)
-                    .padding(.top, 40)
+                    .padding(.top, 20)
             }
             
             HStack {
@@ -216,6 +224,7 @@ public struct HomeView: View {
     var centerTileVew: some View {
         GeometryReader { geometry in
             VStack(spacing: 16) {
+                Spacer()
                 // Start Practice
                 /// Navigation being managed in the body using NavigationLink - Line no. 63
                 Button {
@@ -356,6 +365,7 @@ public struct HomeView: View {
                 }
                 .padding(.horizontal, 24)
                 .frame(maxWidth: geometry.size.width)
+                Spacer()
             }
             .frame(maxWidth: geometry.size.width)
         }
