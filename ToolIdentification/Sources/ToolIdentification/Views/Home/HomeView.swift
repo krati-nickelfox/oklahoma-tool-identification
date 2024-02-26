@@ -12,6 +12,9 @@ public struct HomeView: View {
     
     @ObservedObject var viewModel = HomeViewModel()
     
+    @State private var showEmptyStudyDeckAlert = false
+    @State private var showNoReportsAlert = false
+    
     let backgroundImageName: String
     let appLogoName: String
     let practiceExamIcon: String
@@ -20,6 +23,9 @@ public struct HomeView: View {
     
     @State private var isShowingCategorySheet = false
     @State private var isNavigationActive = false
+    
+    @State private var clearReports = false
+    @State private var clearStudyDeck = false
     
     public init(
         backgroundImageName: String,
@@ -119,6 +125,26 @@ public struct HomeView: View {
             }
             .onTapGesture {
                 self.showMenuView = false
+            }
+            .alert("Study Deck Empty", isPresented: self.$showEmptyStudyDeckAlert) {
+                Button("Okay") {
+                    self.showEmptyStudyDeckAlert = false
+                }
+            }
+            .alert("No Reports Available", isPresented: self.$showNoReportsAlert) {
+                Button("Okay") {
+                    self.showNoReportsAlert = false
+                }
+            }
+            .alert("Study deck questions have been cleared!", isPresented: self.$clearStudyDeck) {
+                Button("Okay") {
+                    self.clearStudyDeck = false
+                }
+            }
+            .alert("Reports have been cleared!", isPresented: self.$clearReports) {
+                Button("Okay") {
+                    self.clearReports = false
+                }
             }
         }
         .navigationBarHidden(true)
@@ -236,7 +262,7 @@ public struct HomeView: View {
                             self.viewModel.navigation = .studyDeck
                             self.isShowingCategorySheet = true
                         } else {
-                            print("No questions found in study deck")
+                            self.showEmptyStudyDeckAlert = true
                         }
                     } label: {
                         ZStack {
@@ -269,14 +295,15 @@ public struct HomeView: View {
                     Button {
                         if let reportsAvailable = RealmManager.reportsAvailableForCategories(), !reportsAvailable.isEmpty {
                             self.viewModel.navigation = .reports
-                            print("Reports Available!!")
                         } else {
-                            print("Reports Not Available!!")
+                            self.showNoReportsAlert = true
                         }
                     } label: {
                         if let reportsAvailable = RealmManager.reportsAvailableForCategories(), !reportsAvailable.isEmpty {
-                            NavigationLink(destination: ReportsSelectCategoryView()
-                                .navigationBarBackButtonHidden(true)) {
+                            NavigationLink(
+                                destination: ReportsSelectCategoryView(viewModel: ReportsViewModel())
+                                    .navigationBarBackButtonHidden(true)
+                            ) {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 12)
                                         .stroke(
@@ -345,6 +372,7 @@ public struct HomeView: View {
                     Button(action: {
                         RealmManager.clearStudyDeck()
                         self.showMenuView = false
+                        self.clearStudyDeck = true
                     }, label: {
                         Text("Clear Study Deck")
                             .foregroundColor(.white)
@@ -354,6 +382,7 @@ public struct HomeView: View {
                     Button(action: {
                         RealmManager.clearReports()
                         self.showMenuView = false
+                        self.clearReports = true
                     }, label: {
                         Text("Clear Test Results")
                             .foregroundColor(.white)
