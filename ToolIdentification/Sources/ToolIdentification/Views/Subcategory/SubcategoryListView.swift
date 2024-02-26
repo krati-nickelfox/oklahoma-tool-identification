@@ -31,6 +31,45 @@ public struct SubcategoryListView: View {
     
     // MARK: Body
     public var body: some View {
+        ZStack {
+            VStack(spacing: 20) {
+                topHeaderView
+                ScrollView(showsIndicators: false) {
+                    listHeaderView
+                    subcategoriesView
+                }
+                
+                if viewModel.selectedSubcategories.count > 0 {
+                    Spacer()
+                    NavigationLink(
+                        destination: QuizView(navigation: viewModel.navigation),
+                        isActive: self.$presentQuizView
+                    ) {
+                        EmptyView()
+                    }
+                }
+            }
+            if self.viewModel.selectedSubcategories.count > 0 {
+                VStack {
+                    Spacer()
+                    PrimaryGradientButton(title: "Next") {
+                        self.viewModel.didTapNextButton()
+                        self.presentQuizView = true
+                    }
+                    .padding(.bottom, 60)
+                }
+            }
+        }
+        .ignoresSafeArea()
+        .background(Color(red: 35/255, green: 31/255, blue: 32/255))
+        .onAppear {
+            self.viewModel.fetchAllSubcategories()
+        }
+        .navigationBarBackButtonHidden(true)
+    }
+    
+    /*
+    public var body: some View {
         NavigationLink(isActive: self.$presentQuizView) {
             if let manager = ToolIdentification.quizManager {
                 QuizView(viewModel: QuizViewModel(manager: manager,
@@ -60,13 +99,14 @@ public struct SubcategoryListView: View {
                     .padding(.bottom, 60)
                 }
             }
-            .background(Color(red: 35/255, green: 31/255, blue: 32/255))
             .ignoresSafeArea()
+            .background(Color(red: 35/255, green: 31/255, blue: 32/255))
             .onAppear {
                 self.viewModel.fetchAllSubcategories()
             }
         }
     }
+     */
     
     // MARK: Header
     var topHeaderView: some View {
@@ -130,17 +170,18 @@ public struct SubcategoryListView: View {
                                       bundle: .module)
                             }
                         }
-                        .onTapGesture {
-                            // Toggle the selection state of the chapter
-                            self.isCheckmarkNotVisible = false
-                            self.viewModel.toggleSelection(for: self.viewModel.subcategoryNames[index])
-                        }
                         
                         Rectangle()
                             .frame(height: 1)
                             .foregroundColor(Color(red: 82/255, green: 82/255, blue: 82/255))
                     }
                     .padding(.horizontal, 20)
+                }
+                .contentShape(Rectangle())
+                .buttonStyle(PlainButtonStyle())
+                .onTapGesture {
+                    self.isCheckmarkNotVisible = false
+                    self.viewModel.toggleSelection(for: self.viewModel.subcategoryNames[index])
                 }
             }
         }

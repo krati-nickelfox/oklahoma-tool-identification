@@ -31,7 +31,6 @@ public class SubcategoryListViewModel: ObservableObject {
         } else {
             self.selectedSubcategories.append(subcategoryName)
         }
-        print("Toggle on Selection:::", self.selectedSubcategories)
     }
     
     func toggleSelectAll() {
@@ -40,7 +39,6 @@ public class SubcategoryListViewModel: ObservableObject {
         } else {
             self.selectedSubcategories = self.subcategoryNames
         }
-        print("Toggle All:::", self.selectedSubcategories)
     }
     
     // Fetching subcategories for the selected category on home
