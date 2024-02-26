@@ -25,8 +25,15 @@ struct ResultView: View {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 24) {
                     HStack {
-                        VStack {}
-                            .frame(width: UIScreen.main.bounds.width * 0.3)
+                        VStack {
+                            ProgressViewWrapper(dataModel: self.dataModel)
+                                .frame(width: 112,
+                                       height: 112)
+                                .overlay {
+                                    Text("\(String(format: "%.1f", self.dataModel.correctPercentage))%")
+                                        .foregroundStyle(.white)
+                                }
+                        }
                         
                         Spacer(minLength: 71)
                         

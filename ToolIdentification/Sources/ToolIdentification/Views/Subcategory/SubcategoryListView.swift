@@ -32,7 +32,10 @@ public struct SubcategoryListView: View {
     // MARK: Body
     public var body: some View {
         NavigationLink(isActive: self.$presentQuizView) {
-            QuizView(navigation: self.viewModel.navigation)
+            if let manager = ToolIdentification.quizManager {
+                QuizView(viewModel: QuizViewModel(manager: manager,
+                                                  navigationType: self.viewModel.navigation))
+            }
         } label: {
             ZStack {
                 VStack(spacing: 20) {

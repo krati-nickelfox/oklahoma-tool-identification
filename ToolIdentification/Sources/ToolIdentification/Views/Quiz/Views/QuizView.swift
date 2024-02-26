@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum quizViewType {
+enum QuizViewType {
     case quiz
     case result
     
@@ -36,25 +36,17 @@ enum quizViewType {
 
 struct QuizView: View {
     
-    @ObservedObject var viewModel: QuizViewModel
+    @StateObject var viewModel: QuizViewModel
     /// Environment Variable
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     ///
-    @State var viewType: quizViewType = .quiz
+    @State var viewType: QuizViewType = .quiz
     @State var exitQuiz: Bool = false
     @State var showExitConfirmationAlert: Bool = false
     @State var showScoreAndExitAlert: Bool = false
 
     
-    init?(navigation: NavigationType) {
-        guard let manager = ToolIdentification.quizManager else {
-            return nil
-        }
-        self.viewModel = QuizViewModel(manager: manager, 
-                                       navigationType: navigation)
-    }
-
     var body: some View {
         ZStack(alignment: self.viewModel.isQuizLoaded
                ? .bottom

@@ -55,4 +55,17 @@ struct ResultDataModel {
     var skippedQuestions: Int {
         self.attemptedQuestions.filter({ $0.isSkipped }).count
     }
+    
+    var correctPercentage: Double {
+        (Double(self.correctQuestions) / Double(self.attemptedQuestions.count)) * 100
+    }
+    
+    var incorrectPercentage: Double {
+        (Double(self.incorrectQuestions) / Double(self.attemptedQuestions.count)) * 100
+    }
+    
+    var skippedPercentage: Double {
+        (Double(self.skippedQuestions) / Double(self.attemptedQuestions.count)) * 100
+    }
+
 }
