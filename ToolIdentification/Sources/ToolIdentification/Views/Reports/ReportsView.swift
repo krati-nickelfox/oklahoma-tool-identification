@@ -12,34 +12,32 @@ public struct ReportsView: View {
     /// Environment Variable
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    @ObservedObject var viewModel: SubcategoryReportsViewModel
+    @StateObject var viewModel: SubcategoryReportsViewModel
     
     @State private var isNavigationLinkActive: Bool = false
     
-    init(viewModel: SubcategoryReportsViewModel) {
-        self.viewModel = viewModel
-    }
-    
     // MARK: Body
     public var body: some View {
-        NavigationLink(isActive: self.$isNavigationLinkActive) {
-            if let manager = ToolIdentification.quizManager {
-                QuizView(viewModel: QuizViewModel(manager: manager, navigationType: .reports))
+        ZStack {
+            VStack {
+                HeaderView(title: "\(self.viewModel.selectedCategory) Reports", leftButtonAction: {
+                    presentationMode.wrappedValue.dismiss()
+                }, rightButtonAction: {}, leftIconName: "back-icon", rightIconName: "ExitIcon")
+                subcategoriesProgressView
             }
-        } label: {
-            ZStack {
-                VStack {
-                    HeaderView(title: "\(self.viewModel.selectedCategory) Reports", leftButtonAction: {
-                        presentationMode.wrappedValue.dismiss()
-                    }, rightButtonAction: {}, leftIconName: "back-icon", rightIconName: "ExitIcon")
-                    subcategoriesProgressView
-                }
-            }
-            .onAppear {
-                self.viewModel.fetchSubcategoriesWithScores()
-            }
-            .background(Color(red: 35/255, green: 31/255, blue: 32/255))
         }
+        .onAppear {
+            self.viewModel.fetchSubcategoriesWithScores()
+        }
+        .background(Color(red: 35/255, green: 31/255, blue: 32/255))
+        .background(
+            NavigationLink(
+                destination: destinationView(),
+                isActive: self.$isNavigationLinkActive
+            ) {
+                EmptyView()
+            }
+        )
     }
     
     var subcategoriesProgressView: some View {
@@ -101,6 +99,15 @@ public struct ReportsView: View {
             return .green
         } else {
             return .white
+        }
+    }
+    
+    @ViewBuilder
+    private func destinationView() -> some View {
+        if let manager = ToolIdentification.quizManager {
+            QuizView(viewModel: QuizViewModel(manager: manager, navigationType: .reports))
+        } else {
+            EmptyView()
         }
     }
 }

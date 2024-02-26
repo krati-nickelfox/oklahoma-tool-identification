@@ -177,7 +177,8 @@ public struct HomeView: View {
             HStack {
                 Image(self.appLogoName, bundle: .module)
                     .resizable()
-                    .frame(width: 230, height: 140)
+                    .frame(width: 170, height: 84)
+                    .padding(.top, 40)
             }
             
             HStack {
@@ -227,7 +228,7 @@ public struct HomeView: View {
                                 .gray,
                                 lineWidth: 2
                             )
-                            .background(.black.opacity(0.11))
+                            .background(.black.opacity(0.2))
                             .frame(height: 120)
                             .padding(
                                 .horizontal,
@@ -242,6 +243,7 @@ public struct HomeView: View {
                                 )
                             
                             Text("Start Practice")
+                                .padding(.horizontal, 14)
                             // FIXME: Font to be updated below with Lato
                                 .font(.custom("Helvetica Neue Medium", size: 16))
                                 .foregroundColor(.white)
@@ -267,7 +269,7 @@ public struct HomeView: View {
                                     .gray,
                                     lineWidth: 2
                                 )
-                                .background(.black.opacity(0.11))
+                                .background(.black.opacity(0.2))
                                 .frame(height: 120)
                             
                             VStack(spacing: 8, content: {
@@ -279,6 +281,7 @@ public struct HomeView: View {
                                 
                                 Text("Review My Study Deck")
                                     // FIXME: Font to be updated below with Lato
+                                    .padding(.horizontal, 14)
                                     .font(.custom("Helvetica Neue Medium", size: 16))
                                     .foregroundColor(.white)
                                     .multilineTextAlignment(.center)
@@ -306,7 +309,7 @@ public struct HomeView: View {
                                             Color.gray,
                                             lineWidth: 2
                                         )
-                                        .background(Color.black.opacity(0.11))
+                                        .background(.black.opacity(0.2))
                                         .frame(height: 120)
                                     
                                     VStack(spacing: 8) {
@@ -317,6 +320,7 @@ public struct HomeView: View {
                                             )
                                         
                                         Text("View Reports")
+                                            .padding(.horizontal, 14)
                                             .font(.custom("Helvetica Neue Medium", size: 16))
                                             .foregroundColor(.white)
                                             .multilineTextAlignment(.center)
@@ -330,7 +334,7 @@ public struct HomeView: View {
                                         Color.gray,
                                         lineWidth: 2
                                     )
-                                    .background(Color.black.opacity(0.11))
+                                    .background(Color.black.opacity(0.2))
                                     .frame(height: 120)
                                 
                                 VStack(spacing: 8) {
@@ -361,7 +365,6 @@ public struct HomeView: View {
     var menuOptionsView: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 8)
-            
             HStack {
                 VStack(spacing: 32) {
                     // Clear Study Deck
