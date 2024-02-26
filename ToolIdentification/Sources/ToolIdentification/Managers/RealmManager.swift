@@ -47,30 +47,38 @@ struct RealmManager {
         return studyDeskChapters
     }
     
-    static func reportsAvailableForCategories() -> Results<Question>? {
+    // See if reports are available in the database
+    static func reportsAvailableForCategories() -> [Question]? {
         guard let realm = RealmManager.realm else { return nil }
-        let identifyCategories = realm.objects(Question.self).filter("isAttempted == true")
-        return identifyCategories
+        let identifyCategories = realm.objects(Question.self).filter { question in
+            return question.isAttempted == true
+        }
+        let questionsArray = Array(identifyCategories)
+        return questionsArray
     }
     
     // Clearing study deck from menu options view on home
     static func clearStudyDeck() {
-        guard let realm = realm else {
+        guard let realm = RealmManager.realm else {
             return
         }
+        
         let studyDeckQuestions = realm.objects(Question.self).filter("isAddedToStudyDeck == true")
-        if !studyDeckQuestions.isEmpty {
-            for practiceQuestion in studyDeckQuestions {
-                do {
-                    try realm.write {
-                        practiceQuestion.isAddedToStudyDeck = false
-                    }
-                } catch {
-                    print("Realm Error while clearing study Deck")
+        
+        if studyDeckQuestions.isEmpty {
+            print("No questions found in the study deck.")
+            return
+        }
+        
+        do {
+            try realm.write {
+                for question in studyDeckQuestions {
+                    question.isAddedToStudyDeck = false
                 }
             }
-        } else {
-            print("No questions found in the study deck.")
+            print("Study deck cleared successfully.")
+        } catch {
+            print("Error clearing study deck: \(error.localizedDescription)")
         }
     }
     

@@ -126,26 +126,22 @@ public struct HomeView: View {
             .onTapGesture {
                 self.showMenuView = false
             }
-            .alert("Study Deck Empty", isPresented: self.$showEmptyStudyDeckAlert) {
-                Button("Okay") {
-                    self.showEmptyStudyDeckAlert = false
-                }
-            }
-            .alert("No Reports Available", isPresented: self.$showNoReportsAlert) {
-                Button("Okay") {
-                    self.showNoReportsAlert = false
-                }
-            }
-            .alert("Study deck questions have been cleared!", isPresented: self.$clearStudyDeck) {
-                Button("Okay") {
-                    self.clearStudyDeck = false
-                }
-            }
-            .alert("Reports have been cleared!", isPresented: self.$clearReports) {
-                Button("Okay") {
-                    self.clearReports = false
-                }
-            }
+            /// Show Empty Study Deck Alert
+            .alert("", isPresented: self.$showEmptyStudyDeckAlert, actions: {}, message: {
+                Text("No questions available in the Study Deck!")
+            })
+            /// Show No reports available alert
+            .alert("", isPresented: self.$showNoReportsAlert, actions: {}, message: {
+                Text("No Reports Available!")
+            })
+            /// Reports clearance alert
+            .alert("", isPresented: self.$clearReports, actions: {}, message: {
+                Text("Reports have been cleared!")
+            })
+            /// Study deck clearance alert
+            .alert("", isPresented: self.$clearStudyDeck, actions: {}, message: {
+                Text("Study deck questions have been cleared!")
+            })
         }
         .navigationBarHidden(true)
     }
