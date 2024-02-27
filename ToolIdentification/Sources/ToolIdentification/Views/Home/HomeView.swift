@@ -98,7 +98,11 @@ public struct HomeView: View {
             .onAppear {
                 self.viewModel.selectedCategoryList.removeAll()
                 self.isNavigationActive = false
+                self.showMenuView = false
             }
+            .onDisappear(perform: {
+                self.showMenuView = false
+            })
             /// Show category alert on selection of Start Practice
             .alert("Select Category", isPresented: self.$isShowingCategorySheet) {
                 VStack {
@@ -243,7 +247,7 @@ public struct HomeView: View {
                                 .gray,
                                 lineWidth: 2
                             )
-                            .background(.black.opacity(0.2))
+                            .background(.black.opacity(0.4))
                             .frame(height: 120)
                             .padding(
                                 .horizontal,
@@ -284,7 +288,7 @@ public struct HomeView: View {
                                     .gray,
                                     lineWidth: 2
                                 )
-                                .background(.black.opacity(0.2))
+                                .background(.black.opacity(0.4))
                                 .frame(height: 120)
                             
                             VStack(spacing: 8, content: {
@@ -324,7 +328,7 @@ public struct HomeView: View {
                                             Color.gray,
                                             lineWidth: 2
                                         )
-                                        .background(.black.opacity(0.2))
+                                        .background(.black.opacity(0.4))
                                         .frame(height: 120)
                                     
                                     VStack(spacing: 8) {
@@ -349,7 +353,7 @@ public struct HomeView: View {
                                         Color.gray,
                                         lineWidth: 2
                                     )
-                                    .background(Color.black.opacity(0.2))
+                                    .background(Color.black.opacity(0.4))
                                     .frame(height: 120)
                                 
                                 VStack(spacing: 8) {
