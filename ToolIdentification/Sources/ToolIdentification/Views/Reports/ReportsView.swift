@@ -22,18 +22,16 @@ public struct ReportsView: View {
     public var body: some View {
         ZStack {
             VStack(spacing: 20) {
-                HeaderView(title: "\(self.viewModel.selectedCategory) Reports", leftButtonAction: {
-                    presentationMode.wrappedValue.dismiss()
-                }, rightButtonAction: {
-                    self.presentCalculationsView = true
-                }, leftIconName: "back-icon", rightIconName: "info.circle.fill")
-                .padding(.top, 44)
-                subcategoriesProgressView
+                headerView
+                ScrollView(showsIndicators: false) {
+                    subcategoriesProgressView
+                }
             }
         }
         .onAppear {
             self.viewModel.fetchSubcategoriesWithScores()
         }
+        .ignoresSafeArea()
         .background(Color(red: 35/255, green: 31/255, blue: 32/255))
         .background(
             NavigationLink(
@@ -48,8 +46,16 @@ public struct ReportsView: View {
         }
     }
     
+    var headerView: some View {
+        HeaderView(title: "\(self.viewModel.selectedCategory) Reports", leftButtonAction: {
+            presentationMode.wrappedValue.dismiss()
+        }, rightButtonAction: {
+            self.presentCalculationsView = true
+        }, leftIconName: "back-icon", rightIconName: "info.circle.fill")
+        .padding(.top, 44)
+    }
+    
     var subcategoriesProgressView: some View {
-        ScrollView(showsIndicators: false, content: {
             VStack(spacing: 16, content: {
                 ForEach(0..<self.viewModel.subcategoriesWithScores.count, id: \.self) { index in
                     let subcategoryWithScore = self.viewModel.subcategoriesWithScores[index]
@@ -91,7 +97,6 @@ public struct ReportsView: View {
                 }
             })
             .padding(.horizontal, 12)
-        })
     }
     
     // Progress bar tint color as per the percentage

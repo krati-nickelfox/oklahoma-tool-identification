@@ -35,6 +35,7 @@ public struct ReportsSelectCategoryView: View {
                 Spacer()
             }
         }
+        .ignoresSafeArea()
         .background(Color(red: 35/255, green: 31/255, blue: 32/255))
         .onAppear {
             self.viewModel.fetchCategoriesWithScores()
