@@ -38,6 +38,6 @@ class HomeViewModel: ObservableObject {
     }
 
     func selectAllCategories() {
-        self.selectedCategoryList = self.categoryNames
+        self.selectedCategoryList = self.categoryNames.sorted(by: { $0 > $1 })
     }
 }

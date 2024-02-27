@@ -40,29 +40,27 @@ struct ResultView: View {
                         VStack(alignment: .leading) {
                             HStack {
                                 Text(String(self.dataModel.correctQuestions))
-                                    .foregroundStyle(.white)
-                                Text("Correct")
                                     .foregroundStyle(Optionstate.correct.color)
+                                Text("Correct")
+                                    .foregroundStyle(.white)
                             }
                             GradientDividerView()
                             
                             HStack {
                                 Text(String(self.dataModel.incorrectQuestions))
-                                    .foregroundStyle(.white)
-                                Text("Incorrect")
                                     .foregroundStyle(Optionstate.incorrect.color)
+                                Text("Incorrect")
+                                    .foregroundStyle(.white)
                             }
                             GradientDividerView()
                             
                             HStack {
                                 Text(String(self.dataModel.skippedQuestions))
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(Color.init(red: 0.96,
+                                                                green: 0.75,
+                                                                blue: 0.015))
                                 Text("Skipped")
-                                    .foregroundStyle(
-                                        Color.init(red: 0.96,
-                                                   green: 0.75,
-                                                   blue: 0.015)
-                                    )
+                                    .foregroundStyle(.white)
                             }
                         }
                     }

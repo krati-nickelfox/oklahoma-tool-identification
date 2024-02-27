@@ -106,7 +106,7 @@ struct QuizView: View {
                     presentationMode.wrappedValue.dismiss()
                 } label: {
                     Text("Exit without Score")
-                        .foregroundColor(.red)
+                        .foregroundColor(Color.red)
                 }
                 
                 Button {

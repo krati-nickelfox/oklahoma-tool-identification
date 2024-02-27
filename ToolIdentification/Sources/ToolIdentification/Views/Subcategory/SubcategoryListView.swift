@@ -91,10 +91,14 @@ public struct SubcategoryListView: View {
                 .font(.caption)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
-            Text("\(self.viewModel.selectedSubcategories.count) Selected")
+            if self.viewModel.selectedSubcategories.count != 0 {
+                Text(self.viewModel.selectedSubcategories.count == self.viewModel.subcategoryNames.count
+                     ? "All Selected"
+                     : "\(self.viewModel.selectedSubcategories.count) Selected")
                 .foregroundColor(.white)
                 .bold()
                 .frame(maxWidth: .infinity, alignment: .center)
+            }
             
             Text(self.selectModuleText)
                 .foregroundColor(.yellow)

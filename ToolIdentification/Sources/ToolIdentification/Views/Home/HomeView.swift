@@ -106,7 +106,8 @@ public struct HomeView: View {
             /// Show category alert on selection of Start Practice
             .alert("Select Category", isPresented: self.$isShowingCategorySheet) {
                 VStack {
-                    ForEach(self.viewModel.categoryNames, id: \.self) { category in
+                    let sortedCategories = self.viewModel.categoryNames.sorted(by: { $0 > $1 })
+                    ForEach(sortedCategories, id: \.self) { category in
                         Button(action: {
                             self.viewModel.selectedCategoryList = [category]
                             self.isShowingCategorySheet = false
@@ -141,19 +142,19 @@ public struct HomeView: View {
             }
             /// Show Empty Study Deck Alert
             .alert("", isPresented: self.$showEmptyStudyDeckAlert, actions: {}, message: {
-                Text("No questions available in the Study Deck!")
+                Text("No questions are in the Study Deck.")
             })
             /// Show No reports available alert
             .alert("", isPresented: self.$showNoReportsAlert, actions: {}, message: {
-                Text("No Reports Available!")
+                Text("No Reports Available.")
             })
             /// Reports clearance alert
             .alert("", isPresented: self.$clearReports, actions: {}, message: {
-                Text("Reports have been cleared!")
+                Text("Reports cleared for all chapters.")
             })
             /// Study deck clearance alert
             .alert("", isPresented: self.$clearStudyDeck, actions: {}, message: {
-                Text("Study deck questions have been cleared!")
+                Text("Removed all chapters from study deck.")
             })
         }
         .id(navigationId)
