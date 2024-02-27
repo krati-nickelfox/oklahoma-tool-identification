@@ -222,11 +222,12 @@ struct RealmManager {
         return categoryScores
     }
     
-    static func fetchSubcategoriesWithScores(for categoryName: String) -> [String: Double]? {
+    static func fetchSubcategoriesWithScores(for categoryName: String) -> [(String, Double)]? {
         guard let realm = realm else {
             return nil
         }
-        var subcategoryScores: [String: Double] = [:]
+        
+        var subcategoryScores: [(String, Double)] = []
         
         let subcategoryNames = Set(realm.objects(Question.self)
                                         .filter("categoryName == %@", categoryName)
@@ -242,8 +243,10 @@ struct RealmManager {
             
             let score: Double = (correctAnswers / totalQuestions) * 100.0
             
-            subcategoryScores[subcategoryName] = score
+            subcategoryScores.append((subcategoryName, score))
         }
+        
+        subcategoryScores.sort { $0.0 < $1.0 }
         
         return subcategoryScores
     }

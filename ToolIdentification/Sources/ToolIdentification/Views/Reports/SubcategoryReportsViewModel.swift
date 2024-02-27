@@ -26,8 +26,8 @@ class SubcategoryReportsViewModel: ObservableObject {
         guard let subcategoriesWithScores = RealmManager.fetchSubcategoriesWithScores(for: self.selectedCategory) else { return }
         self.subcategoriesWithScores = subcategoriesWithScores.map {
             SubcategoryScore(
-                subcategoryName: $0.key,
-                score: $0.value
+                subcategoryName: $0.0,
+                score: $0.1
             )
         }
     }
