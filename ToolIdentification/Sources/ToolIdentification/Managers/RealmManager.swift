@@ -164,17 +164,24 @@ struct RealmManager {
         return categoryNames
     }
     
-    static func fetchSubategoriesInStudyDeckFor(_ categories: [String]) -> [String]? {
+    static func fetchSubcategoriesInStudyDeckFor(_ categories: [String]) -> [String]? {
         guard let realm = realm else {
             return nil
         }
-        
-        let subcategoryNames = realm.objects(Question.self)
+        let subcategoryResults = realm.objects(Question.self)
             .filter("categoryName IN %@", categories)
             .filter({ $0.isAddedToStudyDeck == true })
-            .map { $0.subcategoryName }
         
-        return Array(Set(subcategoryNames))
+        var uniqueSubcategoryNames: [String] = []
+        
+        for result in subcategoryResults {
+            let subcategoryName = result.subcategoryName
+            if !uniqueSubcategoryNames.contains(subcategoryName) {
+                uniqueSubcategoryNames.append(subcategoryName)
+            }
+        }
+        
+        return uniqueSubcategoryNames
     }
 
     func toggleStudyDeckForQuestion(_ questionId: String,
