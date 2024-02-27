@@ -130,6 +130,10 @@ class QuizViewModel: ObservableObject {
         }
     }
     
+    var isLastQuestion: Bool {
+      return self.currentQuestionIndex >= (self.questions.count - 1)
+    }
+    
     func didSelectOption(_ index: Int) {
         if !self.isAttempted,
            let activeQuestion = self.activeQuestion,

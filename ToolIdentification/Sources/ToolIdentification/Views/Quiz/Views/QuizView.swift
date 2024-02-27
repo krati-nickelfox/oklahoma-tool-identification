@@ -291,7 +291,7 @@ struct QuizView: View {
     // MARK: Button View
     var actionButton: some View {
         let buttonTitle = self.viewModel.isAttempted
-        ? "Next"
+        ? (self.viewModel.isLastQuestion ? "Check Results" : "Next")
         : "Skip"
         
         return PrimaryGradientButton(title: buttonTitle) {
