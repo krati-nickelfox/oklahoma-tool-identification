@@ -176,8 +176,10 @@ struct QuizView: View {
                     Spacer()
                 }
                 
-                /// Add To Study Deck
-                self.addToStudyDeckButtonView
+                if self.viewModel.isAttempted {
+                    /// Add To Study Deck
+                    self.addToStudyDeckButtonView
+                }
                 
                 /// Options list
                 VStack(spacing: 20) {
