@@ -48,13 +48,10 @@ struct RealmManager {
     }
     
     // See if reports are available in the database
-    static func reportsAvailableForCategories() -> [Question]? {
+    static func reportsAvailableForCategories() -> Results<Question>? {
         guard let realm = RealmManager.realm else { return nil }
-        let identifyCategories = realm.objects(Question.self).filter { question in
-            return question.isAttempted == true
-        }
-        let questionsArray = Array(identifyCategories)
-        return questionsArray
+        let identifyCategories = realm.objects(Question.self).filter("isAttempted == true AND isCorrect == true")
+        return identifyCategories
     }
     
     // Clearing study deck from menu options view on home
@@ -88,7 +85,7 @@ struct RealmManager {
             return
         }
         
-        let attemptedQuestions = realm.objects(Question.self).filter("isAttempted == true")
+        let attemptedQuestions = realm.objects(Question.self).filter("isAttempted == true AND isCorrect == true")
         if attemptedQuestions.isEmpty {
             print("No reports found.")
             return
@@ -97,6 +94,7 @@ struct RealmManager {
             try realm.write {
                 for question in attemptedQuestions {
                     question.isAttempted = false
+                    question.isCorrect = false
                 }
             }
             print("Reports cleared successfully.")
