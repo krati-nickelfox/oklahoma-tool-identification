@@ -8,6 +8,8 @@ import SwiftUI
 
 public struct HomeView: View {
     
+    @State private var navigationId = UUID()
+    
     @State var showMenuView: Bool = false
     
     @ObservedObject var viewModel = HomeViewModel()
@@ -80,7 +82,7 @@ public struct HomeView: View {
                 NavigationLink(
                     destination: SubcategoryListView(
                         viewModel: SubcategoryListViewModel(
-                            manager: ToolIdentification.quizManager, 
+                            manager: ToolIdentification.quizManager,
                             selectedCategories: self.viewModel.selectedCategoryList,
                             navigation: self.viewModel.navigation
                         )
@@ -116,7 +118,7 @@ public struct HomeView: View {
                             self.isShowingCategorySheet = false
                             self.isNavigationActive = true
                         }) {
-                            Text(self.viewModel.categoryNames.count > 2 
+                            Text(self.viewModel.categoryNames.count > 2
                                  ? "All"
                                  : "Both")
                         }
@@ -150,8 +152,12 @@ public struct HomeView: View {
                 Text("Study deck questions have been cleared!")
             })
         }
+        .id(navigationId)
         .navigationBarHidden(true)
         .navigationViewStyle(StackNavigationViewStyle())
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name("popToRootView"))) { output in
+            navigationId = UUID()
+        }
     }
     
     // MARK: Background Image

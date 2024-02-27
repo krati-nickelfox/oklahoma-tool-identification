@@ -124,7 +124,7 @@ struct QuizView: View {
                   secondaryButton: .destructive(
                     Text("Yes"),
                     action: {
-                        self.dismiss()
+                        NotificationCenter.default.post(name: Notification.Name("popToRootView"), object: nil)
                     }
                   )
             )
