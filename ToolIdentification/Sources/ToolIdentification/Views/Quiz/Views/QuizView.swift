@@ -102,17 +102,11 @@ struct QuizView: View {
                     Text("Score and Exit")
                 }
                 
-                Button {
+                Button(role: .destructive) {
                     presentationMode.wrappedValue.dismiss()
                 } label: {
                     Text("Exit without Score")
-                        .foregroundColor(Color.red)
-                }
-                
-                Button {
-                    self.showScoreAndExitAlert = false
-                } label: {
-                    Text("Cancel")
+                        .tint(Color.red)
                 }
             }
         }
