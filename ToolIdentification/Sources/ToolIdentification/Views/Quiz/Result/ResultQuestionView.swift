@@ -68,8 +68,10 @@ struct ResultQuestionView: View {
                 }
                 Spacer()
                 
-                /// Add to study deck button view
-                self.addToStudyDeckButtonView
+                if !dataModel.isCorrect {
+                    /// Add to study deck button view
+                    self.addToStudyDeckButtonView
+                }
             }
         }
     }
