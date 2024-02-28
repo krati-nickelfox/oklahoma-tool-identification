@@ -18,6 +18,12 @@ public struct ReportsView: View {
     
     @State private var presentCalculationsView: Bool = false
     
+    var isIPad: Bool {
+        return UIDevice.current.userInterfaceIdiom == .pad
+    }
+    
+    @State private var orientation = UIDeviceOrientation.unknown
+    
     // MARK: Body
     public var body: some View {
         ZStack {
@@ -35,6 +41,7 @@ public struct ReportsView: View {
         }
         .onAppear {
             self.viewModel.fetchSubcategoriesWithScores()
+            self.orientation = UIDevice.current.orientation
         }
         .ignoresSafeArea()
         .background(Color(red: 35/255, green: 31/255, blue: 32/255))
@@ -76,18 +83,18 @@ public struct ReportsView: View {
                             
                             HStack(alignment: .center, spacing: 16) {
                                 Text(subcategoryWithScore.subcategoryName)
-                                    .font(.caption)
+                                    .font(.system(size: 14, weight: .semibold))
                                     .foregroundColor(.white)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                                 
                                 Text("\(formattedScore)%")
-                                    .font(.caption)
+                                    .font(.system(size: 14, weight: .regular))
                                     .foregroundColor(.white)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                                 
                                 ProgressView(value: subcategoryWithScore.score / 100.0)
                                     .progressViewStyle(LinearProgressViewStyle())
-                                    .frame(width: 161, height: 10)
+                                    .frame(width: self.isIPad ? (self.orientation.isLandscape ? 800 : 500) : 161, height: 10)
                                     .scaleEffect(x: 1, y: 2.5, anchor: .center)
                                     .tint(progressTint)
                             }
