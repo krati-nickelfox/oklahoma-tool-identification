@@ -35,6 +35,8 @@ public struct HomeView: View {
         return UIDevice.current.userInterfaceIdiom == .pad
     }
     
+    @State private var orientation = UIDeviceOrientation.unknown
+    
     public init(
         backgroundImageName: String,
         appLogoName: String,
@@ -105,6 +107,7 @@ public struct HomeView: View {
                 self.viewModel.selectedCategoryList.removeAll()
                 self.isNavigationActive = false
                 self.showMenuView = false
+                self.orientation = UIDevice.current.orientation
             }
             .onDisappear(perform: {
                 self.showMenuView = false
@@ -289,7 +292,7 @@ public struct HomeView: View {
                                 .foregroundColor(.white)
                         })
                     }
-                    .frame(width: isIPad ? 630 : nil)
+                    .frame(width: isIPad ? (UIDevice.current.orientation.isLandscape ? 600 : 400) : nil)
 
                 }
                 .buttonStyle(PlainButtonStyle())
@@ -330,7 +333,7 @@ public struct HomeView: View {
                         }
                     }
                     .buttonStyle(PlainButtonStyle())
-                    .frame(width: isIPad ? 290 : nil)
+                    .frame(width: isIPad ? (UIDevice.current.orientation.isLandscape ? 270 : 170) : nil)
                     
                     // View Reports
                     Button {
@@ -395,7 +398,7 @@ public struct HomeView: View {
                         }
                     }
                     .buttonStyle(PlainButtonStyle())
-                    .frame(width: isIPad ? 290 : nil)
+                    .frame(width: isIPad ? (UIDevice.current.orientation.isLandscape ? 270 : 170) : nil)
                 }
                 .padding(.horizontal, 24)
                 .frame(maxWidth: geometry.size.width)
