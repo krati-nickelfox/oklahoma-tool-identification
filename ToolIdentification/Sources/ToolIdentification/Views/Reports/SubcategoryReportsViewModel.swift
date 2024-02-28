@@ -23,12 +23,12 @@ class SubcategoryReportsViewModel: ObservableObject {
     }
     
     func fetchSubcategoriesWithScores() {
-        guard let subcategoriesWithScores = RealmManager.fetchSubcategoriesWithScores(for: self.selectedCategory) else { return }
-        self.subcategoriesWithScores = subcategoriesWithScores.map {
-            SubcategoryScore(
-                subcategoryName: $0.0,
-                score: $0.1
-            )
+        if let subcategoriesWithScores = RealmManager.fetchSubcategoriesWithScores(for: self.selectedCategory) {
+            let sortedSubCategoriesWithScores = subcategoriesWithScores
+                .map { SubcategoryScore(subcategoryName: $0.0, score: $0.1) }
+                .sorted { $0.subcategoryName < $1.subcategoryName }
+            
+            self.subcategoriesWithScores = sortedSubCategoriesWithScores
         }
     }
     
