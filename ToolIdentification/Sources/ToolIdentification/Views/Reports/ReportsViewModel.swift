@@ -25,12 +25,11 @@ class ReportsViewModel: ObservableObject {
     
     func fetchCategoriesWithScores() {
         if let categoriesWithScores = RealmManager.fetchCategoriesWithScores() {
-            self.categoriesWithScores = categoriesWithScores.map {
-                CategoryScore(
-                    categoryName: $0.key,
-                    score: $0.value
-                )
-            }
+            let sortedCategoriesWithScores = categoriesWithScores
+                .map { CategoryScore(categoryName: $0.key, score: $0.value) }
+                .sorted { $0.categoryName > $1.categoryName }
+            
+            self.categoriesWithScores = sortedCategoriesWithScores
         }
     }
     
