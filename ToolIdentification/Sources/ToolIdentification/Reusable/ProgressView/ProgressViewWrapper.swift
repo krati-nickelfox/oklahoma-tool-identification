@@ -15,9 +15,14 @@ struct ProgressViewWrapper: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> CustomProgressViewController {
         let vc = CustomProgressViewController.newInstance
         vc.dataModel = self.dataModel
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            vc.superViewWidth = 300
+        } else {
+            vc.superViewWidth = 112
+        }
         return vc
     }
-
+    
     func updateUIViewController(_ uiViewController: CustomProgressViewController, context: Context) {
         
     }

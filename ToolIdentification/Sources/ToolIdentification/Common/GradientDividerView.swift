@@ -15,7 +15,7 @@ struct GradientDividerView: View {
             startPoint: .leading,
             endPoint: .trailing
         )
-        .frame(height: 1)
+        .frame(height: 2)
     }
 }
 

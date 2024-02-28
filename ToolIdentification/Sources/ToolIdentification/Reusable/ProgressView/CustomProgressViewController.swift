@@ -15,6 +15,8 @@ class CustomProgressViewController: UIViewController {
     
     var dataModel: ResultDataModel?
     
+    var superViewWidth: CGFloat?
+    
     static var newInstance: CustomProgressViewController {
         return CustomProgressViewController(nibName: "CustomProgressViewController",
                                             bundle: .module)
@@ -36,7 +38,8 @@ class CustomProgressViewController: UIViewController {
     }
     
     private func setupProgressViews(with model: ResultDataModel) {
-        let superViewWidth: CGFloat = 112
+        guard let width = self.superViewWidth else { return }
+        let superViewWidth: CGFloat = width
         
         let skippedCircularProgress = KDCircularProgress()
         skippedCircularProgress.frame = CGRect(x: 0, y: 0, 

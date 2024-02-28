@@ -14,6 +14,10 @@ struct ResultView: View {
     /// Responsible to load quiz result information
     let dataModel: ResultDataModel
     
+    var isIPad: Bool {
+        return UIDevice.current.userInterfaceIdiom == .pad
+    }
+    
     init?(viewModel: QuizViewModel) {
         guard let resultDataMdel = viewModel.tempResultDataMdel else { return nil }
         self.viewModel = viewModel
@@ -24,11 +28,11 @@ struct ResultView: View {
         ZStack {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 24) {
-                    HStack {
+                    HStack(spacing: self.isIPad ? -20 : nil) {
                         VStack {
                             ProgressViewWrapper(dataModel: self.dataModel)
-                                .frame(width: 112,
-                                       height: 112)
+                                .frame(width: self.isIPad ? 300 : 112,
+                                       height: self.isIPad ? 300 : 112)
                                 .overlay {
                                     Text("\(String(format: "%.1f", self.dataModel.correctPercentage))%")
                                         .foregroundStyle(.white)
