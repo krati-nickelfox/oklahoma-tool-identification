@@ -219,7 +219,7 @@ public struct HomeView: View {
             HStack {
                 Image(self.appLogoName, bundle: .module)
                     .resizable()
-                    .frame(width: 170, height: 84)
+                    .frame(width: 200, height: 100)
                     .padding(.top, 20)
             }
             
@@ -241,8 +241,8 @@ public struct HomeView: View {
     var identifyTitleView: some View {
         VStack(spacing: 12) {
             Text("Identify")
-                .font(.custom("Helvetica Neue Medium", size: 36))
                 .foregroundColor(.white)
+                .font(.system(size: 36, weight: .semibold))
             
             RoundedRectangle(cornerRadius: 4)
                 .frame(
