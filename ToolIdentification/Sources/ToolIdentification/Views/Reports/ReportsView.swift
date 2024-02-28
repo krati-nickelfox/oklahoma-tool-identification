@@ -131,47 +131,61 @@ public struct ReportsView: View {
     // MARK: - Calculations view(To be displayed on tap of info button)
     var calculationsInfoView: some View {
         ScrollView(showsIndicators: false) {
-            VStack {
+            VStack(spacing: 24) {
+                Rectangle()
+                    .foregroundColor(.white)
+                    .frame(width: 20, height: 2)
+                
                 VStack(alignment: .leading, spacing: 24) {
                     Text("How are results calculated?")
                         .foregroundColor(.white)
+                        .font(.system(size: 22, weight: .bold))
                     
                     Text("This formula is used to calculate results:")
                         .foregroundColor(.white)
+                        .font(.system(size: 18, weight: .bold))
                     
                     HStack(alignment: .center) {
                         Text("Progress of a subcategory = ")
-                            .padding(.top, 24)
+                            .padding(.top, 16)
                             .foregroundColor(.white)
+                            .font(.system(size: 10, weight: .bold))
                         
                         HStack(alignment: .center) {
                             VStack {
                                 Text("Total number of correctly answered questions in the subcategory")
                                     .foregroundColor(.white)
+                                    .font(.system(size: 12, weight: .bold))
+                                    .multilineTextAlignment(.center)
                                 
                                 Rectangle()
-                                    .frame(height: 3)
+                                    .frame(height: 2)
                                     .foregroundColor(.white)
                                 
                                 Text("Total number of questions in the subcategory")
                                     .foregroundColor(.white)
+                                    .font(.system(size: 12, weight: .bold))
+                                    .multilineTextAlignment(.center)
                             }
                             
                             Text("X 100")
                                 .foregroundColor(.white)
-                                .padding(.top, 24)
+                                .font(.system(size: 14, weight: .bold))
+                                .padding(.top, 16)
                         }
                     }
                     
                     Rectangle()
-                        .frame(height: 3)
+                        .frame(height: 2)
                         .foregroundColor(.gray)
                     
                     Text("Please note that your last attempt on a question determines it's value in the calculation.")
                         .foregroundColor(.white)
+                        .italic()
                     
                     Text("For eg: If Subcategory 1 has 100 questions and you answer Q1, Q2, Q3 correctly, you will see 3% progress in View Reports section. However, if you take another attempt and this time you answer Q1 incorrectly, your progress for Subcategory 1 will be reduced to 2%")
                         .foregroundColor(.white)
+                        .italic()
                 }
             }
         }
