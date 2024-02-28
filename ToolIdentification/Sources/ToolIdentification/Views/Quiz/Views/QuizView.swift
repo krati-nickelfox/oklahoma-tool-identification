@@ -138,7 +138,7 @@ struct QuizView: View {
             if self.viewType == .quiz {
                 self.viewModel.didTapExit()
             } else {
-                self.dismiss()
+                self.navigateToHome()
             }
         },
                    leftIconName: nil,
