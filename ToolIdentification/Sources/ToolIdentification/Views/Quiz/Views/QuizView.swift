@@ -128,10 +128,7 @@ struct QuizView: View {
     // MARK: Header View
     var topHeaderView: some View {
         HeaderView(title: self.viewType.title,
-                   leftButtonAction: {
-            // Back button action
-            self.dismiss()
-        },
+                   leftButtonAction: nil,
                    rightButtonAction: {
             // Exit button action
             if self.viewType == .quiz {
@@ -140,7 +137,7 @@ struct QuizView: View {
                 self.dismiss()
             }
         },
-                   leftIconName: self.viewType.leftButtonIcon,
+                   leftIconName: nil,
                    rightIconName: self.viewType.rightButtonIcon)
     }
     
@@ -255,7 +252,7 @@ struct QuizView: View {
                        green: 0.75,
                        blue: 0.015)
             .clipShape(.rect(cornerRadius: 4))
-            .frame(width: UIScreen.main.bounds.width * 0.4)
+            .frame(width: 170)
             .frame(height: 28)
             .overlay(
                 HStack(spacing: 6) {

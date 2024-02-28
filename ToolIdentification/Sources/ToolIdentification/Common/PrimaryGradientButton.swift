@@ -18,10 +18,7 @@ struct PrimaryGradientButton: View {
             self.action()
         }, label: {
             LinearGradient(
-                gradient: Gradient(colors: [Color.init(red: 1,
-                                                       green: 0.854,
-                                                       blue: 0.36),
-                                            Color.init(red: 0.96,
+                gradient: Gradient(colors: [Color.init(red: 0.96,
                                                        green: 0.75,
                                                        blue: 0.015)
                 ]),
@@ -29,7 +26,7 @@ struct PrimaryGradientButton: View {
                 endPoint: .bottom
             )
             .clipShape(.rect(cornerRadius: 12))
-            .frame(width: UIScreen.main.bounds.width * 0.4,
+            .frame(width: 148,
                    height: 48)
             .overlay(
                 Text(self.title)

@@ -122,7 +122,7 @@ struct RealmManager {
             }
         }
         
-        return subcategoryNames
+        return subcategoryNames.sorted()
     }
     
     // To fetch categories
@@ -141,7 +141,7 @@ struct RealmManager {
         }
         
         let categoryNames = Array(categorySet)
-        return categoryNames
+        return categoryNames.sorted()
     }
     
     static func fetchCategoriesInStudyDeck() -> [String]? {
