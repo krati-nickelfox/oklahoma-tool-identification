@@ -80,7 +80,7 @@ struct ResultQuestionView: View {
                    green: 0.8,
                    blue: 0.8)
         .clipShape(.rect(cornerRadius: 4))
-        .frame(width: UIScreen.main.bounds.width * 0.4)
+        .frame(width: UIDevice.current.userInterfaceIdiom == .pad ? 200 : UIScreen.main.bounds.width * 0.4)
         .frame(height: 28)
         .overlay {
             HStack(spacing: 6) {
@@ -105,7 +105,7 @@ struct ResultQuestionView: View {
                 .foregroundStyle(Color.init(red: 67/255,
                                             green: 67/255,
                                             blue: 66/255))
-                .font(.caption)
+                .font(.system(size: 10, weight: .bold))
             }
             .padding(.vertical, 7)
             .frame(minWidth: 133)
