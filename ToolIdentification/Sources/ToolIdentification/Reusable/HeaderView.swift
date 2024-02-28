@@ -45,6 +45,7 @@ struct HeaderView: View {
                 .font(.title)
                 .foregroundColor(.white)
                 .bold()
+                .lineLimit(1)
 
             Spacer()
 
