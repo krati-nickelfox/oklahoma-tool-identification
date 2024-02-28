@@ -88,7 +88,7 @@ public struct SubcategoryListView: View {
         HStack {
             Text("\(self.viewModel.subcategoryNames.count) sub-categories")
                 .foregroundColor(.white)
-                .font(.caption)
+                .font(.system(size: 14, weight: .bold))
                 .frame(maxWidth: .infinity, alignment: .leading)
             
             if self.viewModel.selectedSubcategories.count != 0 {
@@ -96,13 +96,13 @@ public struct SubcategoryListView: View {
                      ? "All Selected"
                      : "\(self.viewModel.selectedSubcategories.count) Selected")
                 .foregroundColor(.white)
-                .bold()
+                .font(.system(size: 14, weight: .regular))
                 .frame(maxWidth: .infinity, alignment: .center)
             }
             
             Text(self.selectModuleText)
                 .foregroundColor(.yellow)
-                .font(.caption)
+                .font(.system(size: 14, weight: .regular))
                 .frame(maxWidth: .infinity, alignment: .trailing)
                 .onTapGesture {
                     self.viewModel.toggleSelectAll()
