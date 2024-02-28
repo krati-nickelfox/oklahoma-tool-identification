@@ -39,7 +39,7 @@ struct ResultView: View {
                         
                         VStack(alignment: .leading) {
                             HStack {
-                                Text(String(self.dataModel.correctQuestions))
+                                Text(String(self.dataModel.formattedCorrectQuestions))
                                     .foregroundStyle(Optionstate.correct.color)
                                 Text("Correct")
                                     .foregroundStyle(.white)
@@ -47,7 +47,7 @@ struct ResultView: View {
                             GradientDividerView()
                             
                             HStack {
-                                Text(String(self.dataModel.incorrectQuestions))
+                                Text(String(self.dataModel.formattedIncorrectQuestions))
                                     .foregroundStyle(Optionstate.incorrect.color)
                                 Text("Incorrect")
                                     .foregroundStyle(.white)
@@ -55,7 +55,7 @@ struct ResultView: View {
                             GradientDividerView()
                             
                             HStack {
-                                Text(String(self.dataModel.skippedQuestions))
+                                Text(String(self.dataModel.formattedSkippedQuestions))
                                     .foregroundStyle(Color.init(red: 0.96,
                                                                 green: 0.75,
                                                                 blue: 0.015))

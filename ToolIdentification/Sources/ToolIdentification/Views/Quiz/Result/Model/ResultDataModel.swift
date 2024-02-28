@@ -66,6 +66,19 @@ struct ResultDataModel {
     var skippedQuestions: Int {
         self.attemptedQuestions.filter({ $0.isSkipped }).count
     }
+
+    // MARK: Computed properties to return formatted integers with leading zero if necessary
+    var formattedCorrectQuestions: String {
+        return String(format: "%02d", correctQuestions)
+    }
+
+    var formattedIncorrectQuestions: String {
+        return String(format: "%02d", incorrectQuestions)
+    }
+
+    var formattedSkippedQuestions: String {
+        return String(format: "%02d", skippedQuestions)
+    }
     
     var correctPercentage: Double {
         (Double(self.correctQuestions) / Double(self.attemptedQuestions.count)) * 100
