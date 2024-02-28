@@ -31,6 +31,10 @@ public struct HomeView: View {
     @State private var reportsConfirmationAlertVisible = false
     @State private var studyDeckConfirmationAlertVisible = false
     
+    var isIPad: Bool {
+        return UIDevice.current.userInterfaceIdiom == .pad
+    }
+    
     public init(
         backgroundImageName: String,
         appLogoName: String,
@@ -285,6 +289,7 @@ public struct HomeView: View {
                                 .foregroundColor(.white)
                         })
                     }
+                    .frame(width: isIPad ? 350 : nil)
 
                 }
                 .buttonStyle(PlainButtonStyle())
@@ -325,6 +330,7 @@ public struct HomeView: View {
                         }
                     }
                     .buttonStyle(PlainButtonStyle())
+                    .frame(width: isIPad ? 145 : nil)
                     
                     // View Reports
                     Button {
@@ -389,6 +395,7 @@ public struct HomeView: View {
                         }
                     }
                     .buttonStyle(PlainButtonStyle())
+                    .frame(width: isIPad ? 145 : nil)
                 }
                 .padding(.horizontal, 24)
                 .frame(maxWidth: geometry.size.width)
