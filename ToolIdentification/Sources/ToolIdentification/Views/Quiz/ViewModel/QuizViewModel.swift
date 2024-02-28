@@ -53,7 +53,7 @@ class QuizViewModel: ObservableObject {
         self.navigationType = navigationType
     }
     
-    private func didReachQuizEnd() {
+    private func didReachQuizEnd(fromHeader: Bool = false) {
         if self.attemptedOrSkippedQuestionList.isEmpty {
             // no question was attempted
             // show are you sure you want to exit alert
@@ -61,8 +61,13 @@ class QuizViewModel: ObservableObject {
         } else {
             // show score and exit alert
             if self.isLastQuestion {
-                self.tempResultDataMdel = ResultDataModel(attemptedQuestions: self.attemptedOrSkippedQuestionList)
-                self.quizEndAlertType = .quizExitConfirmation
+                if fromHeader {
+                    self.tempResultDataMdel = ResultDataModel(attemptedQuestions: self.attemptedOrSkippedQuestionList)
+                    self.quizEndAlertType = .scoreAndExit
+                } else {
+                    self.tempResultDataMdel = ResultDataModel(attemptedQuestions: self.attemptedOrSkippedQuestionList)
+                    self.quizEndAlertType = .quizExitConfirmation
+                }
             } else {
                 self.tempResultDataMdel = ResultDataModel(attemptedQuestions: self.attemptedOrSkippedQuestionList)
                 self.quizEndAlertType = .scoreAndExit
@@ -216,7 +221,7 @@ class QuizViewModel: ObservableObject {
     }
     
     func didTapExit() {
-        self.didReachQuizEnd()
+        self.didReachQuizEnd(fromHeader: true)
     }
     
 }
