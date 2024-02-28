@@ -205,7 +205,7 @@ extension QuizManager {
                     question.isAddedToStudyDeck = added
                 }
             } catch {
-                
+                print("Error : ", error.localizedDescription)
             }
         }
     }
