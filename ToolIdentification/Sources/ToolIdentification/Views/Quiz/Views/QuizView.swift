@@ -28,7 +28,7 @@ enum QuizViewType {
             nil
         }
     }
-
+    
     var rightButtonIcon: String? {
         "ExitIcon"
     }
@@ -45,7 +45,7 @@ struct QuizView: View {
     @State var exitQuiz: Bool = false
     @State var showExitConfirmationAlert: Bool = false
     @State var showScoreAndExitAlert: Bool = false
-
+    @State var isExitingAfterLastQuestion: Bool = false
     
     var body: some View {
         ZStack(alignment: self.viewModel.isQuizLoaded
@@ -54,7 +54,7 @@ struct QuizView: View {
             /// Background
             Color(red: 0.137, green: 0.121, blue: 0.125)
                 .ignoresSafeArea()
-
+            
             if self.viewModel.isQuizLoaded {
                 VStack {
                     /// Header View
@@ -84,45 +84,49 @@ struct QuizView: View {
                     .tint(.white)
             }
         }
-        .navigationBarHidden(true)
-        .onAppear {
-//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                self.viewModel.fetchQuestions()
-//            }
-        }
-        .onReceive(self.viewModel.$quizEndAlertType) { alertType in
-            self.showExitConfirmationAlert = alertType == .quizExitConfirmation
-            self.showScoreAndExitAlert = alertType == .scoreAndExit
-        }
-        .alert("Exit", isPresented: self.$showScoreAndExitAlert) {
-            VStack {
-                Button {
-                    self.viewType = .result
-                } label: {
-                    Text("Score and Exit")
-                }
-                
-                Button(role: .destructive) {
-                    self.navigateToHome()
-                } label: {
-                    Text("Exit without Score")
-                        .tint(Color.red)
-                }
-            }
-        }
-        .alert(isPresented: self.$showExitConfirmationAlert) {
-            Alert(title: Text("Exit"),
-                  message: Text("Are you sure you want to exit?"),
-                  primaryButton: .default(
-                    Text("Cancel")),
-                  secondaryButton: .destructive(
-                    Text("Yes"),
-                    action: {
-                        self.navigateToHome()
-                    }
-                  )
-            )
-        }
+               .navigationBarHidden(true)
+               .onAppear {
+                   //            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+                   self.viewModel.fetchQuestions()
+                   //            }
+               }
+               .onReceive(self.viewModel.$quizEndAlertType) { alertType in
+                   self.showExitConfirmationAlert = alertType == .quizExitConfirmation
+                   self.showScoreAndExitAlert = alertType == .scoreAndExit
+               }
+               .alert("Exit", isPresented: self.$showScoreAndExitAlert) {
+                   VStack {
+                       Button {
+                           self.viewType = .result
+                       } label: {
+                           Text("Score and Exit")
+                       }
+                       
+                       Button(role: .destructive) {
+                           self.navigateToHome()
+                       } label: {
+                           Text("Exit without Score")
+                               .tint(Color.red)
+                       }
+                   }
+               }
+               .alert(isPresented: self.$showExitConfirmationAlert) {
+                   Alert(title: Text("Exit"),
+                         message: Text("Are you sure you want to exit?"),
+                         primaryButton: .default(
+                            Text("Cancel")),
+                         secondaryButton: .destructive(
+                            Text("Yes"),
+                            action: {
+                                if !self.isExitingAfterLastQuestion {
+                                    self.navigateToHome()
+                                } else {
+                                    self.viewType = .result
+                                }
+                            }
+                         )
+                   )
+               }
     }
     
     // MARK: Header View
@@ -186,12 +190,12 @@ struct QuizView: View {
                         
                         OptionView(option: option,
                                    optionState: optionState)
-                            .onTapGesture {
-                                self.viewModel.didSelectOption(index)
-                            }
+                        .onTapGesture {
+                            self.viewModel.didSelectOption(index)
+                        }
                     }
                 }
-
+                
             }
             Spacer(minLength: 48)
         }
@@ -280,7 +284,7 @@ struct QuizView: View {
         })
         .padding(.bottom, 20)
     }
-
+    
     // MARK: Button View
     var actionButton: some View {
         let buttonTitle = self.viewModel.isAttempted
@@ -288,7 +292,12 @@ struct QuizView: View {
         : "Skip"
         
         return PrimaryGradientButton(title: buttonTitle) {
-            self.viewModel.didTapNext()
+            if self.viewModel.isLastQuestion {
+                self.isExitingAfterLastQuestion = true
+                self.viewModel.didTapNext()
+            } else {
+                self.viewModel.didTapNext()
+            }
         }
     }
     

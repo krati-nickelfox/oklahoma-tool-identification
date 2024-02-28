@@ -60,8 +60,13 @@ class QuizViewModel: ObservableObject {
             self.quizEndAlertType = .quizExitConfirmation
         } else {
             // show score and exit alert
-            self.tempResultDataMdel = ResultDataModel(attemptedQuestions: self.attemptedOrSkippedQuestionList)
-            self.quizEndAlertType = .scoreAndExit
+            if self.isLastQuestion {
+                self.tempResultDataMdel = ResultDataModel(attemptedQuestions: self.attemptedOrSkippedQuestionList)
+                self.quizEndAlertType = .quizExitConfirmation
+            } else {
+                self.tempResultDataMdel = ResultDataModel(attemptedQuestions: self.attemptedOrSkippedQuestionList)
+                self.quizEndAlertType = .scoreAndExit
+            }
         }
     }
     
