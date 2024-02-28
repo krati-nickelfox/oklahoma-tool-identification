@@ -28,6 +28,8 @@ public struct HomeView: View {
     
     @State private var clearReports = false
     @State private var clearStudyDeck = false
+    @State private var reportsConfirmationAlertVisible = false
+    @State private var studyDeckConfirmationAlertVisible = false
     
     public init(
         backgroundImageName: String,
@@ -141,11 +143,25 @@ public struct HomeView: View {
                 self.showMenuView = false
             }
             /// Show Empty Study Deck Alert
-            .alert("", isPresented: self.$showEmptyStudyDeckAlert, actions: {}, message: {
+            .alert("", isPresented: self.$showEmptyStudyDeckAlert, actions: {
+                Button {
+                    self.showMenuView = false
+                } label: {
+                    Text("OK")
+                }
+
+            }, message: {
                 Text("No questions are in the Study Deck.")
             })
             /// Show No reports available alert
-            .alert("", isPresented: self.$showNoReportsAlert, actions: {}, message: {
+            .alert("", isPresented: self.$showNoReportsAlert, actions: {
+                Button {
+                    self.showMenuView = false
+                } label: {
+                    Text("OK")
+                }
+
+            }, message: {
                 Text("No Reports Available.")
             })
             /// Reports clearance alert
@@ -390,24 +406,54 @@ public struct HomeView: View {
                 VStack(spacing: 32) {
                     // Clear Study Deck
                     Button(action: {
-                        RealmManager.clearStudyDeck()
-                        self.showMenuView = false
-                        self.clearStudyDeck = true
+                        if let studyDeckQuestions = RealmManager.questionsAddedToStudyDeck(), !studyDeckQuestions.isEmpty {
+                            self.studyDeckConfirmationAlertVisible = true
+                        } else {
+                            self.showEmptyStudyDeckAlert = true
+                        }
                     }, label: {
                         Text("Clear Study Deck")
                             .foregroundColor(.white)
                             .font(.custom("Lato-Bold", size: 16))
                     })
+                    .alert(isPresented: self.$studyDeckConfirmationAlertVisible) {
+                        Alert(title: Text("Reset"),
+                              message: Text("Clear all study deck questions?"),
+                              primaryButton: .cancel(Text("No"), action: {
+                            self.showMenuView = false
+                        }),
+                              secondaryButton: .default(Text("Yes"),
+                                                        action: {
+                            RealmManager.clearStudyDeck()
+                            self.clearStudyDeck = true
+                            self.showMenuView = false
+                        }))
+                    }
                     // Clear Reports
                     Button(action: {
-                        RealmManager.clearReports()
-                        self.showMenuView = false
-                        self.clearReports = true
+                        if let reportsAvailable = RealmManager.reportsAvailableForCategories(), !reportsAvailable.isEmpty {
+                            self.reportsConfirmationAlertVisible = true
+                        } else {
+                            self.showNoReportsAlert = true
+                        }
                     }, label: {
                         Text("Clear Test Results")
                             .foregroundColor(.white)
                             .font(.custom("Lato-Bold", size: 16))
                     })
+                    .alert(isPresented: self.$reportsConfirmationAlertVisible) {
+                        Alert(title: Text("Reset"),
+                              message: Text("Clear all test results?"),
+                              primaryButton: .cancel(Text("No"), action: {
+                            self.showMenuView = false
+                        }),
+                              secondaryButton: .default(Text("Yes"),
+                                                        action: {
+                            RealmManager.clearReports()
+                            self.clearReports = true
+                            self.showMenuView = false
+                        }))
+                    }
                 }
                 
                 Spacer()
