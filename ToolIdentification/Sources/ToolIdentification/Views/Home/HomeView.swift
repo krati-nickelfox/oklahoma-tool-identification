@@ -289,7 +289,7 @@ public struct HomeView: View {
                                 .foregroundColor(.white)
                         })
                     }
-                    .frame(width: isIPad ? 350 : nil)
+                    .frame(width: isIPad ? 630 : nil)
 
                 }
                 .buttonStyle(PlainButtonStyle())
@@ -330,7 +330,7 @@ public struct HomeView: View {
                         }
                     }
                     .buttonStyle(PlainButtonStyle())
-                    .frame(width: isIPad ? 145 : nil)
+                    .frame(width: isIPad ? 290 : nil)
                     
                     // View Reports
                     Button {
@@ -395,7 +395,7 @@ public struct HomeView: View {
                         }
                     }
                     .buttonStyle(PlainButtonStyle())
-                    .frame(width: isIPad ? 145 : nil)
+                    .frame(width: isIPad ? 290 : nil)
                 }
                 .padding(.horizontal, 24)
                 .frame(maxWidth: geometry.size.width)
