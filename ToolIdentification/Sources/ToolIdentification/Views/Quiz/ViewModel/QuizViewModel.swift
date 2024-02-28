@@ -174,6 +174,10 @@ class QuizViewModel: ObservableObject {
                                                 isAttempted: true,
                                                 isCorrect: isSelectedOptionCorrect,
                                                 isSkipped: false)
+            // check if data is already added, if added remove it and add new attempted data
+            if let index = attemptedOrSkippedQuestionList.firstIndex(where: { $0.id == activeQuestionId }) {
+                attemptedOrSkippedQuestionList.remove(at: index) // Remove existing data
+            }
             
             // save attempted question to temporary result questions list
             let questionResultDataModel = ResultQuestionDataModel(id: activeQuestionId,
@@ -184,6 +188,7 @@ class QuizViewModel: ObservableObject {
                                                                   isAddedToStudyDeck: activeQuestion.isAddedToStudyDeck,
                                                                   correctAnswer: self.correctOptionDescription,
                                                                   selectedAnswer: selectedOption.0.title)
+          
             self.attemptedOrSkippedQuestionList.append(questionResultDataModel)
             
             #if DEBUG
