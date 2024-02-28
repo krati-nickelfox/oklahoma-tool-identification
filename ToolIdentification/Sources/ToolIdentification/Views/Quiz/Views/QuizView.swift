@@ -103,7 +103,7 @@ struct QuizView: View {
                 }
                 
                 Button(role: .destructive) {
-                    presentationMode.wrappedValue.dismiss()
+                    self.navigateToHome()
                 } label: {
                     Text("Exit without Score")
                         .tint(Color.red)
@@ -118,7 +118,7 @@ struct QuizView: View {
                   secondaryButton: .destructive(
                     Text("Yes"),
                     action: {
-                        NotificationCenter.default.post(name: Notification.Name("popToRootView"), object: nil)
+                        self.navigateToHome()
                     }
                   )
             )
@@ -292,7 +292,13 @@ struct QuizView: View {
         }
     }
     
+    // MARK: Navigate To Previous Screen
     func dismiss() {
         presentationMode.wrappedValue.dismiss()
+    }
+    
+    // MARK: Navigate To Home
+    func navigateToHome() {
+        NotificationCenter.default.post(name: Notification.Name("popToRootView"), object: nil)
     }
 }
