@@ -63,7 +63,14 @@ public class SubcategoryListViewModel: ObservableObject {
     
     func fetchAllSubcategoriesInStudyDeck() {
         let selectedCategoryList = self.selectedCategories
-        if let subcategories = RealmManager.fetchSubcategoriesInStudyDeckFor(selectedCategoryList) {
+        if var subcategories = RealmManager.fetchSubcategoriesInStudyDeckFor(selectedCategoryList) {
+            subcategories.sort { (str1, str2) in
+                guard let index1 = SubcategorySequenceType.sortOrderBoth.firstIndex(of: SubcategorySequenceType(rawValue: str1) ?? .railCars ),
+                      let index2 = SubcategorySequenceType.sortOrderBoth.firstIndex(of: SubcategorySequenceType(rawValue: str2) ?? .railCars ) else {
+                    return false // Return false if one of the elements is not found in the sortOrder
+                }
+                return index1 < index2
+            }
             self.subcategoryNames = subcategories
         }
     }
