@@ -15,6 +15,10 @@ struct CustomBottomSheet<Content: View>: View {
     @ViewBuilder let content: () -> Content
     let leadingTrailingPadding: CGFloat?
     
+    var isiPad: Bool {
+           UIDevice.current.userInterfaceIdiom == .pad
+       }
+    
     init(isSheetVisible: Binding<Bool>, @ViewBuilder content: @escaping () -> Content, leadingTrailingPadding: CGFloat? = 20) {
         self._isSheetVisible = isSheetVisible
         self.content = content
@@ -54,7 +58,7 @@ struct CustomBottomSheet<Content: View>: View {
             }
             .padding(.top, 24)
             .padding(.bottom, 12)
-            .frame(height: UIScreen.main.bounds.size.height/2 + 80)
+            .frame(width: isiPad ? UIScreen.main.bounds.width/2 : UIScreen.main.bounds.width, height: UIScreen.main.bounds.size.height/2 + 80)
             .background(Color(red: 35/255, green: 31/255, blue: 32/255))
             .cornerRadius(24, corners: [.topLeft, .topRight])
 

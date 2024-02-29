@@ -15,6 +15,14 @@ struct CategoryScore {
 struct SubcategoryScore {
     let subcategoryName: String
     let score: Double
+    
+    // Map subcategory string to enum raw value
+     func subcategoryEnumValue() -> subcategorySequenceType {
+        if let subcategory = subcategorySequenceType(rawValue: subcategoryName) {
+            return subcategory
+        }
+        return .railCars
+    }
 }
 
 class ReportsViewModel: ObservableObject {
