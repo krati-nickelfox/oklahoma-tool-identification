@@ -17,8 +17,8 @@ struct SubcategoryScore {
     let score: Double
     
     // Map subcategory string to enum raw value
-     func subcategoryEnumValue() -> subcategorySequenceType {
-        if let subcategory = subcategorySequenceType(rawValue: subcategoryName) {
+     func subcategoryEnumValue() -> SubcategorySequenceType {
+        if let subcategory = SubcategorySequenceType(rawValue: subcategoryName) {
             return subcategory
         }
         return .railCars

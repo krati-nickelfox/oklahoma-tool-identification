@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum subcategorySequenceType: String {
+enum SubcategorySequenceType: String {
     case railCars = "Rail Cars"
     case tankTrucks = "Tank Trucks"
     case fixedFacility = "Fixed Facility"
@@ -24,9 +24,9 @@ enum subcategorySequenceType: String {
     case npfa704 = "NFPA 704"
     
     // Define order for sorting
-    static let sortOrderContainer: [subcategorySequenceType] = [.railCars, .tankTrucks, .fixedFacility, .nonbulk]
-    static let sortOrderPlacard: [subcategorySequenceType] = [.class1, .class2, .class3, .class4, .class5, .class6, .class7, .class8, .class9, .npfa704]
-    static let sortOrderBoth: [subcategorySequenceType] = sortOrderContainer + sortOrderPlacard
+    static let sortOrderContainer: [SubcategorySequenceType] = [.railCars, .tankTrucks, .fixedFacility, .nonbulk]
+    static let sortOrderPlacard: [SubcategorySequenceType] = [.class1, .class2, .class3, .class4, .class5, .class6, .class7, .class8, .class9, .npfa704]
+    static let sortOrderBoth: [SubcategorySequenceType] = sortOrderContainer + sortOrderPlacard
 }
 
 
@@ -54,7 +54,7 @@ class SubcategoryReportsViewModel: ObservableObject {
                     
                 // Sort the filtered array based on the enum raw value
                 let sortedSubCategoriesWithScores = filteredSubCategoriesWithScores.sorted {
-                    subcategorySequenceType.sortOrderContainer.firstIndex(of: $0.subcategoryEnumValue() )! < subcategorySequenceType.sortOrderContainer.firstIndex(of: $1.subcategoryEnumValue())!
+                    SubcategorySequenceType.sortOrderContainer.firstIndex(of: $0.subcategoryEnumValue() )! < SubcategorySequenceType.sortOrderContainer.firstIndex(of: $1.subcategoryEnumValue())!
                 }
                 self.subcategoriesWithScores = sortedSubCategoriesWithScores
             } else {
