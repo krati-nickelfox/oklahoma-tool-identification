@@ -103,6 +103,7 @@ struct QuizView: View {
                        }
                        
                        Button(role: .destructive) {
+                           self.viewModel.didTapExitWithoutScore()
                            self.navigateToHome()
                        } label: {
                            Text("Exit without Score")

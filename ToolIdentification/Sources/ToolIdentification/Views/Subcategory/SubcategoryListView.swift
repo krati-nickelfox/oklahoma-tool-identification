@@ -69,6 +69,7 @@ public struct SubcategoryListView: View {
             self.viewModel.fetchAllSubcategories()
         }
         .navigationBarBackButtonHidden(true)
+        .navigationBarHidden(true)
     }
     
     // MARK: Header
@@ -105,8 +106,12 @@ public struct SubcategoryListView: View {
                 .font(.system(size: 14, weight: .regular))
                 .frame(maxWidth: .infinity, alignment: .trailing)
                 .onTapGesture {
-                    self.viewModel.toggleSelectAll()
-                    self.isCheckmarkNotVisible = false
+                    if self.selectModuleText == "Select Module(s)" {
+                        self.isCheckmarkNotVisible = false
+                    } else {
+                        self.viewModel.toggleSelectAll()
+                        self.isCheckmarkNotVisible = false
+                    }
                 }
         }
         .padding(.horizontal, 20)

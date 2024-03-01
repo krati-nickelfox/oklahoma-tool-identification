@@ -90,11 +90,10 @@ struct ResultView: View {
                             }
                             .padding(.bottom, 4)
                     }
-                    .padding(.horizontal, 12)
+                    .padding(.horizontal, 8)
                 }
             }
         }
-        .padding(.horizontal, 12)
     }
     
     // MARK: Header View

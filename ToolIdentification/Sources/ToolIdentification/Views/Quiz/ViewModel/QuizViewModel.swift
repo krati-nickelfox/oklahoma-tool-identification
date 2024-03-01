@@ -224,6 +224,13 @@ class QuizViewModel: ObservableObject {
         self.didReachQuizEnd(fromHeader: true)
     }
     
+    func didTapExitWithoutScore() {
+        if let reportsAvailable = RealmManager.reportsAvailableForCategories(),
+           !reportsAvailable.isEmpty {
+            RealmManager.clearReports()
+        }
+    }
+    
 }
 
 // MARK: Active Question details

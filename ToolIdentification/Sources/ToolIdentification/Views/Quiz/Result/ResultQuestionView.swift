@@ -80,7 +80,7 @@ struct ResultQuestionView: View {
                    green: 0.8,
                    blue: 0.8)
         .clipShape(.rect(cornerRadius: 4))
-        .frame(width: UIDevice.current.userInterfaceIdiom == .pad ? 200 : UIScreen.main.bounds.width * 0.4)
+        .frame(width: UIDevice.current.userInterfaceIdiom == .pad ? 150 : UIScreen.main.bounds.width * 0.4)
         .frame(height: 28)
         .overlay {
             HStack(spacing: 6) {

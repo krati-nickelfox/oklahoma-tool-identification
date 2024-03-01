@@ -86,6 +86,7 @@ public struct ReportsView: View {
                                     .font(.system(size: 14, weight: .semibold))
                                     .foregroundColor(.white)
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                    .lineLimit(2)
                                 
                                 Text("\(formattedScore)%")
                                     .font(.system(size: 14, weight: .regular))
@@ -101,7 +102,7 @@ public struct ReportsView: View {
                             .padding(.horizontal, 16)
                         }
                         .background(LinearGradient(colors: [Color(red: 27/255, green: 24/255, blue: 25/255), Color(red: 35/255, green: 31/255, blue: 32/255)], startPoint: .leading, endPoint: .trailing))
-                        .frame(height: 31)
+                        .frame(height: 50)
                     }
                     
                     
