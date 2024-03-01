@@ -97,6 +97,7 @@ struct RealmManager {
                     question.isCorrect = false
                 }
             }
+            DataModel.shared.areReportsEmpty = true
             print("Reports cleared successfully.")
         } catch {
             print("Error clearing reports: \(error.localizedDescription)")

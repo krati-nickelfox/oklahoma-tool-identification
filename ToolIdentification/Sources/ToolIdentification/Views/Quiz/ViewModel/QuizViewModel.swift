@@ -225,12 +225,12 @@ class QuizViewModel: ObservableObject {
     }
     
     func didTapExitWithoutScore() {
-        if let reportsAvailable = RealmManager.reportsAvailableForCategories(),
-           !reportsAvailable.isEmpty {
+         let areReportsEmpty = DataModel.shared.areReportsEmpty
+        if areReportsEmpty {
             RealmManager.clearReports()
         }
+        
     }
-    
 }
 
 // MARK: Active Question details

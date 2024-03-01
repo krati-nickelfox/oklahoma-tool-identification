@@ -97,6 +97,10 @@ struct QuizView: View {
                .alert("Exit", isPresented: self.$showScoreAndExitAlert) {
                    VStack {
                        Button {
+                           if let reportsAvailable = RealmManager.reportsAvailableForCategories(),
+                              !reportsAvailable.isEmpty {
+                               DataModel.shared.areReportsEmpty = false
+                           }
                            self.viewType = .result
                        } label: {
                            Text("Score and Exit")

@@ -338,6 +338,7 @@ public struct HomeView: View {
                     // View Reports
                     Button {
                         if let reportsAvailable = RealmManager.reportsAvailableForCategories(), !reportsAvailable.isEmpty {
+                            DataModel.shared.areReportsEmpty = false
                             self.viewModel.navigation = .reports
                         } else {
                             self.showNoReportsAlert = true
